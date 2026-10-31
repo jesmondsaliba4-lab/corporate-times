@@ -42,7 +42,8 @@ const SECTIONS = [['malta', 'Malta Observer', 6], ['europe', 'Europe', 6], ['com
 
 // The feed mixes plain stories with country/institution wrappers ({name, iso, story}); unwrap both.
 const unwrap = x => x && x.story ? Object.assign({}, x.story, { _name: x.name, _iso: x.iso }) : x;
-const isEurope = s => /^(EU|Europe)/i.test(s.region || '');
+const EUROPE_ISO = new Set('al ad at be ba bg by ch cy cz de dk ee es fi fr gb gr hr hu ie is it li lt lu lv mc md me mk mt nl no pl pt ro rs se si sk sm ua va xk'.split(' '));
+const isEurope = s => /\b(EU|Europe|European)\b/i.test(s.region || '') || (/^(UA|Ukraine|Balkans|Eastern Europe)$/i.test(s.region || '')) || (s.region !== 'UK' && EUROPE_ISO.has(((s.flags || [])[0] || '').toLowerCase()));
 
 function mapDispatch(wd) {
   const L = wd && wd.latest; if (!L) return null;
