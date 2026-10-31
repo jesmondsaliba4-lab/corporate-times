@@ -602,7 +602,7 @@ function kicker(a){
 function metaLine(a, opts={}){
   const bits = [];
   if (a.by) bits.push(esc(a.by.replace(/,.*$/,'')));
-  bits.push(edLabel(a.issue)+' edition');
+  bits.push(a.desk ? 'Online · '+deskDate(a.date) : edLabel(a.issue)+' edition');
   if (!opts.short) bits.push(mins(a)+' min read');
   return bits.join(' · ');
 }
@@ -611,8 +611,10 @@ function commentaryLine(a){
   return sents.find(s=>s.length>=38 && s.length<=120 && !/^(But|And|So|This|That|It|He|She|They)\b/.test(s) && !/^[a-z]/.test(s)) || cut(sents[0]||'',110);
 }
 function titleOf(a){ return a.sec==='commentary' ? commentaryLine(a) : a.h; }
-const byIssue = k => A.filter(a=>a.issue===k).sort((x,y)=>(x.page??99)-(y.page??99));
-const sorted = list => list.slice().sort((x,y)=> y.issue.localeCompare(x.issue) || (x.page??99)-(y.page??99));
+const deskDate = iso => { const t = new Date(iso); return isNaN(t) ? '' : t.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Malta'}); };
+const pord = x => x.desk ? x.ord-100 : (x.page??99);
+const byIssue = (k, withDesk) => A.filter(a=>a.issue===k && (withDesk || !a.desk)).sort((x,y)=>pord(x)-pord(y));
+const sorted = list => list.slice().sort((x,y)=> y.issue.localeCompare(x.issue) || pord(x)-pord(y));
 function find(str){ return A.find(a=>a.h.includes(str)); }
 
 function imgTag(im, cls='', alt=''){
@@ -632,7 +634,7 @@ function adFig(k){ const x=ADS[k]; return `<figure><p class="adlabel">Advertisem
 
 /* ---------- views ---------- */
 function viewHome(){
-  const ed = byIssue(LATEST);
+  const ed = byIssue(LATEST, true);
   const top4 = ed.filter(a=>a.news).slice(0,4);
   if (viewHome.rot === undefined){
     let r0 = 0;
@@ -816,6 +818,7 @@ function viewArticle(id){
   }
   while (imgs[next]) body += fig(imgs[next++]);
   if (a.bio) body += `<p class="bio">${esc(a.bio)}</p>`;
+  if (a.link) body += `<p class="bio"><a href="${esc(a.link)}" target="_blank" rel="noopener">Read the full story →</a></p>`;
   if (a.sec==='europe') body += `<div class="disclaimer"><img src="img/ads/ep-disclaimer.jpg" alt="European Parliament funding disclaimer" loading="lazy"></div>`;
   const sameEd = byIssue(a.issue).filter(x=>x!==a).slice(0,7);
   const sameSec = sorted(A.filter(x=>x.sec===a.sec && x!==a && x.issue!==a.issue)).slice(0,5);
@@ -827,7 +830,7 @@ function viewArticle(id){
       ${kicker(a)}
       <h1>${esc(h1)}</h1>
       ${standfirst}
-      <div class="byline">${a.by?`<span>By <strong>${esc(a.by)}</strong></span>`:`<span><strong>The Corporate Times</strong></span>`}<span>${esc(ISSUE[a.issue].date)}</span><span><a href="#e-${a.issue}">${esc(edLabel(a.issue))} edition</a>${a.page?` · print page ${a.page}`:''}</span><span>${mins(a)} min read</span></div>
+      <div class="byline">${a.by?`<span>By <strong>${esc(a.by)}</strong></span>`:`<span><strong>The Corporate Times</strong></span>`}<span>${esc(a.desk ? deskDate(a.date) : ISSUE[a.issue].date)}</span>${a.desk ? '<span>Online</span>' : `<span><a href="#e-${a.issue}">${esc(edLabel(a.issue))} edition</a>${a.page?` · print page ${a.page}`:''}</span>`}<span>${mins(a)} min read</span></div>
     </div>
     <div class="cols">
       <div class="prose">${body}
@@ -986,6 +989,23 @@ initTicker();
 /* Live updates: on corporate-times.com the page asks /api/live (refreshed every 15 minutes at the edge)
    (refreshed every minute at the edge) for the latest World News Dispatch, Observer figures and Thinking pieces. Elsewhere it keeps the built-in copy. */
 const GMAP={growth:/^Real GDP growth/,prices:/^Prices, Retail/,housing:/^Housing costs/,occupancy:/^Hotel occupancy/,jobs:/^People in work/,debt:/^Government debt/,population:/^Population/,fertility:/^Total fertility/};
+/* Stories released on publish.tpnintel.com (the Sites desk) arrive with the live feed: they join the current edition
+   as online stories, newest first, ahead of the print pages, so a release reaches the front page. A withdrawn story
+   simply stops arriving and is removed. */
+const DSEC = {thinking:'opinion'};
+function mergeDesk(list){
+  for (let i = A.length-1; i >= 0; i--) if (A[i].desk) { delete BY[A[i].id]; A.splice(i,1); }
+  list.slice(0,24).forEach((s,i)=>{
+    if (!s || !s.id || !s.headline) return;
+    const sec = SEC[s.section] ? s.section : (DSEC[s.section] || 'business');
+    const body = (s.body||[]).filter(b=>Array.isArray(b) && (b[0]==='h'||b[0]==='p'));
+    const a = { id:'d-'+String(s.id).replace(/[^a-z0-9_]/gi,''), issue:LATEST, sec, news:s.kind==='article', iv:false, page:null, ord:i,
+      h:s.headline, d:s.dek||'', by:String(s.author||'').replace(/^by\s+/i,''), bio:'', body: body.length ? body : [['p', s.dek||'']],
+      img: s.image && /^https:\/\//.test(s.image.url) ? [{f:s.image.url, w:s.image.width||1600, h:s.image.height||1000, c:[s.image.alt, s.image.credit].filter(Boolean).join(' · ')}] : [],
+      w: body.reduce((n,b)=>n+String(b[1]).split(/\s+/).length,0), desk:true, date:s.released_at, link: /^https:\/\//.test(s.link||'') ? s.link : '' };
+    A.push(a); BY[a.id] = a;
+  });
+}
 async function goLive(){
   if (!/(^|\.)corporate-times\.com$|\.vercel\.app$/.test(location.hostname)) return;
   try {
@@ -999,6 +1019,7 @@ async function goLive(){
       if (T.articles && T.articles.length) THINK.articles = T.articles.map((a,i)=>Object.assign({}, a, {img: a.img || `img/art/think-${(i%8)+1}.jpg`}));
       changed = true;
     }
+    if (Array.isArray(j.desk)) { mergeDesk(j.desk); changed = true; }
     if (j.glance && j.glance.items){
       for (const [k,g] of Object.entries(j.glance.items)){ const re = GMAP[k]; if (!re) continue;
         for (const p of OBS.panels) for (const f of p.f) if (re.test(f[1])){ f[0]=g.display; f[1]=g.label; f[2]=[g.source,g.detail].filter(Boolean).join(' · '); } }

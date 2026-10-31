@@ -139,16 +139,35 @@ function mapThinking(tpnHtml, l50Html) {
   return res;
 }
 
+// Stories released to the Corporate Times on publish.tpnintel.com (the Sites desk), from the TPN public feed
+// (observer-feed /v1/publisher.json). Its address is set in the project as TPN_PUBLISHER_FEED. Only the fields the
+// page uses pass through; only https links and photographs. null (not []) when unreachable, so the page keeps
+// what it has rather than dropping released stories during an outage.
+const PUB = /^https:\/\/[a-z0-9.-]+\/v1\/publisher\.json$/i.test(process.env.TPN_PUBLISHER_FEED || '') ? process.env.TPN_PUBLISHER_FEED : '';
+const https = u => (/^https:\/\/[^\s"'<>]+$/i.test(String(u || '')) ? String(u) : null);
+function mapDesk(j) {
+  if (!j || j.contract !== 'tpn-publisher/1' || !Array.isArray(j.stories)) return null;
+  return j.stories.slice(0, 24).map(s => ({
+    id: String(s.id || '').replace(/[^a-z0-9_]/gi, ''), kind: s.kind, section: s.section, headline: String(s.headline || ''),
+    dek: s.dek || '', author: s.author || '', link: https(s.link),
+    body: (s.body || []).filter(b => Array.isArray(b) && (b[0] === 'h' || b[0] === 'p')).map(b => [b[0], String(b[1])]),
+    image: s.image && https(s.image.url) ? { url: s.image.url, alt: s.image.alt || '', credit: s.image.credit || '', width: s.image.width || null, height: s.image.height || null } : null,
+    released_at: s.released_at, updated_at: s.updated_at
+  })).filter(s => s.id && s.headline);
+}
+
 export default async function handler(req, res) {
-  const [wd, gl, tp, l5] = await Promise.allSettled([
-    get(MO + '/api/world-dispatch'), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text')]);
+  const [wd, gl, tp, l5, dk] = await Promise.allSettled([
+    get(MO + '/api/world-dispatch'), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text'),
+    PUB ? get(PUB + '?site=corporate-times') : Promise.resolve(null)]);
   const val = p => p.status === 'fulfilled' ? p.value : null;
   const body = {
     fetched_at: new Date().toISOString(),
     dispatch: (() => { try { return mapDispatch(val(wd)); } catch { return null; } })(),
     glance: (() => { try { return mapGlance(val(gl)); } catch { return null; } })(),
     thinking: (() => { try { return mapThinking(val(tp), val(l5)); } catch { return null; } })(),
-    errors: [wd, gl, tp, l5].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
+    desk: (() => { try { return mapDesk(val(dk)); } catch { return null; } })(),
+    errors: [wd, gl, tp, l5, dk].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50', 'desk'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
   };
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   // 60 s at the edge: an edition approved on the Observer reaches the site within about a minute.
@@ -156,4 +175,4 @@ export default async function handler(req, res) {
   res.status(200).send(JSON.stringify(body));
 }
 
-export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking };
+export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking, mapDesk };
