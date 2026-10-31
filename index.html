@@ -803,7 +803,10 @@ function runSearch(){
   res.innerHTML = hits.slice(0,60).map(listItem).join('');
 }
 function viewArticle(id){
-  const a = BY[id]; if(!a) return viewNotFound();
+  const a = BY[id];
+  // A desk story (released on publish.tpnintel.com) arrives with the live feed a moment after the page opens.
+  if (!a && /^d-/.test(id) && !mergeDesk.done && /(^|\.)corporate-times\.com$|\.vercel\.app$/.test(location.hostname)) return `<section class="wrap" style="padding:60px 0"><p class="meta">Loading the story…</p></section>`;
+  if(!a) return viewNotFound();
   const imgs = a.img.slice();
   const fig = (im, first) => {
     const por = im.h > im.w*1.05; const logo = isLogo(im);
@@ -994,6 +997,7 @@ const GMAP={growth:/^Real GDP growth/,prices:/^Prices, Retail/,housing:/^Housing
    simply stops arriving and is removed. */
 const DSEC = {thinking:'opinion'};
 function mergeDesk(list){
+  mergeDesk.done = true;
   for (let i = A.length-1; i >= 0; i--) if (A[i].desk) { delete BY[A[i].id]; A.splice(i,1); }
   list.slice(0,24).forEach((s,i)=>{
     if (!s || !s.id || !s.headline) return;
@@ -1028,6 +1032,7 @@ async function goLive(){
     }
     if (changed){ const y = window.scrollY; route.keep = true; route(); route.keep = false; window.scrollTo(0,y); }
   } catch(e) { /* keep the built-in copy */ }
+  if (!mergeDesk.done && /^#a-d-/.test(location.hash)) { mergeDesk.done = true; route.keep = true; route(); route.keep = false; }
 }
 window.addEventListener('hashchange', route);
 route();
