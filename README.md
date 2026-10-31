@@ -13,3 +13,15 @@ Malta’s corporate observatory, within the wider work of Corporate ID Group, de
 
 ## Adding a new print edition
 Send the edition folder (Word files + photos); the build script turns it into the embedded data and images.
+
+## Sharing headlines with other sites (e.g. the Malta Observer)
+- `feed.json` — the latest edition's stories (title, dek, section, image, link), open to any site (CORS `*`).
+- `embed.js` — drop-in widget. On the other site:
+
+```html
+<div data-ct-headlines data-limit="6"></div>
+<script src="https://corporate-times.com/embed.js" defer></script>
+```
+Options: `data-layout="list"`, `data-images="off"`, `data-title="…"`. The widget inherits the host page's fonts and text colour (works in light and dark themes).
+
+Menu link: `<a href="https://corporate-times.com/" target="_blank" rel="noopener">Corporate Times</a>`

@@ -1,0 +1,192 @@
+{
+ "publication": "The Corporate Times",
+ "tagline": "Business · Finance · Law · People",
+ "home": "https://corporate-times.com/",
+ "logo": "https://corporate-times.com/img/ct-logo.png",
+ "icon": "https://corporate-times.com/apple-touch-icon.png",
+ "edition": {
+  "key": "2026-10",
+  "label": "October 2026 edition",
+  "date": "Sunday 25 October 2026",
+  "url": "https://corporate-times.com/#e-2026-10"
+ },
+ "stories": [
+  {
+   "id": "2026-10-salaries-rise-4-4-as-employers",
+   "title": "Salaries Rise 4.4% As Employers Struggle To Find Skilled Workers",
+   "dek": "Basic salaries in Malta have increased by an average of 4.4% over the past year, but employers continue to struggle to recruit and retain workers with the skills their businesses need according to…",
+   "section": "People & Work",
+   "kind": "news",
+   "byline": "",
+   "page": 1,
+   "url": "https://corporate-times.com/#a-2026-10-salaries-rise-4-4-as-employers",
+   "image": "https://corporate-times.com/img/ct-card.jpg"
+  },
+  {
+   "id": "2026-10-smes-see-ai-as-route-to",
+   "title": "SMEs See AI as Route to Greater Productivity – Malta Employers Survey",
+   "dek": "Maltese SMEs view artificial intelligence primarily as a tool to improve productivity and efficiency rather than reduce costs or cut jobs, according to a survey by Malta Employers.",
+   "section": "Technology & AI",
+   "kind": "news",
+   "byline": "",
+   "page": 1,
+   "url": "https://corporate-times.com/#a-2026-10-smes-see-ai-as-route-to",
+   "image": "https://corporate-times.com/img/2026-10-016-0.jpg"
+  },
+  {
+   "id": "2026-10-shipowners-association-appoints-emanuele-grimaldi-as",
+   "title": "Shipowners’ Association Appoints Emanuele Grimaldi As New President",
+   "dek": "The Malta International Shipowners Association (MISA) is calling for closer coordination across government to strengthen Malta’s maritime business environment and make fuller use of the country’s…",
+   "section": "Maritime & Logistics",
+   "kind": "news",
+   "byline": "",
+   "page": 2,
+   "url": "https://corporate-times.com/#a-2026-10-shipowners-association-appoints-emanuele-grimaldi-as",
+   "image": "https://corporate-times.com/img/2026-10-020-0.jpg"
+  },
+  {
+   "id": "2026-10-commentary",
+   "title": "Now, there are encouraging signs that this perception may finally be shifting.",
+   "dek": "For years, Malta’s ambition to strengthen its position as an international financial services centre has been accompanied by a persistent challenge: convincing international investors that the…",
+   "section": "Corporate Commentary",
+   "kind": "commentary",
+   "byline": "",
+   "page": 2,
+   "url": "https://corporate-times.com/#a-2026-10-commentary",
+   "image": "https://corporate-times.com/img/art/commentary-2026-10.jpg"
+  },
+  {
+   "id": "2026-10-the-new-challenges-for-corporate-insurance",
+   "title": "The New Challenges for Corporate Insurance",
+   "dek": "Corporate insurance in Malta is shifting from a traditional cost and risk-transfer exercise towards a strategic tool for managing increasingly complex business risks. “Risks associated with…",
+   "section": "Finance & Insurance",
+   "kind": "interview",
+   "byline": "",
+   "page": 3,
+   "url": "https://corporate-times.com/#a-2026-10-the-new-challenges-for-corporate-insurance",
+   "image": "https://corporate-times.com/img/2026-10-021-0.jpg"
+  },
+  {
+   "id": "2026-10-one-jurisdiction-one-direction",
+   "title": "One Jurisdiction, One Direction",
+   "dek": "The leaders from MFSAC, the MFSA, the FIAU, the Malta Tax and Customs Administration and the Malta Business Registry outline the priorities for turning regulatory progress into investment, efficiency…",
+   "section": "Finance & Insurance",
+   "kind": "feature",
+   "byline": "",
+   "page": 4,
+   "url": "https://corporate-times.com/#a-2026-10-one-jurisdiction-one-direction",
+   "image": "https://corporate-times.com/img/2026-10-022-0.jpg"
+  },
+  {
+   "id": "2026-10-mmf-calls-for-cargo-service-linking",
+   "title": "MMF Calls for Cargo Service Linking Malta Freeport, Grand Harbour and Mġarr Harbour",
+   "dek": "The Malta Maritime Forum (MMF) is calling for a Roll-On/Roll-Off (Ro-Ro) cargo service linking Malta Freeport with the Grand Harbour and Mġarr Harbour in Gozo, arguing that shifting freight from…",
+   "section": "Maritime & Logistics",
+   "kind": "feature",
+   "byline": "",
+   "page": 5,
+   "url": "https://corporate-times.com/#a-2026-10-mmf-calls-for-cargo-service-linking",
+   "image": "https://corporate-times.com/img/2026-10-023-0.jpg"
+  },
+  {
+   "id": "2026-10-maltas-public-sector-turns-to-microsofts",
+   "title": "Malta’s Public Sector Turns To Microsoft’s Copilot AI Platform To Ease Government Services",
+   "dek": "For governments facing rising demands on public services and constrained resources, artificial intelligence is moving from technological promise to practical tool.",
+   "section": "Technology & AI",
+   "kind": "feature",
+   "byline": "",
+   "page": 6,
+   "url": "https://corporate-times.com/#a-2026-10-maltas-public-sector-turns-to-microsofts",
+   "image": "https://corporate-times.com/img/2026-10-024-0.jpg"
+  },
+  {
+   "id": "2026-10-maltas-salary-growth-masks-deeper-battle",
+   "title": "Malta’s Salary Growth Masks Deeper Battle For Talent",
+   "dek": "Employers are increasing pay to compete for scarce skills, but sustainable remuneration policies and greater pay transparency are becoming essential as the labour market evolves.",
+   "section": "People & Work",
+   "kind": "feature",
+   "byline": "",
+   "page": 6,
+   "url": "https://corporate-times.com/#a-2026-10-maltas-salary-growth-masks-deeper-battle",
+   "image": "https://corporate-times.com/img/ct-card.jpg"
+  },
+  {
+   "id": "2026-10-the-eu-ai-act-its-not",
+   "title": "The EU AI Act: It’s Not Whether to Use AI, but How!",
+   "dek": "Regulation (EU) 2024/1689, commonly referred to as the EU Artificial Intelligence Act is designed to establish a harmonised framework governing the development, placing on the market and use of…",
+   "section": "Technology & AI",
+   "kind": "feature",
+   "byline": "Dr Ivan Vella",
+   "page": 7,
+   "url": "https://corporate-times.com/#a-2026-10-the-eu-ai-act-its-not",
+   "image": "https://corporate-times.com/img/2026-10-026-0.jpg"
+  },
+  {
+   "id": "2026-10-financemaltas-debut-at-singapore-fintech-festival",
+   "title": "FinanceMalta’s Debut at Singapore FinTech Festival",
+   "dek": "“Malta Can Potentially Be An Effective European Landing Point For Asian Fintechs.” – Dr Ian Gauci",
+   "section": "Finance & Insurance",
+   "kind": "feature",
+   "byline": "",
+   "page": 8,
+   "url": "https://corporate-times.com/#a-2026-10-financemaltas-debut-at-singapore-fintech-festival",
+   "image": "https://corporate-times.com/img/2026-10-027-0.jpg"
+  },
+  {
+   "id": "2026-10-go-becomes-maltas-only-amazon-web",
+   "title": "GO Becomes Malta’s Only Amazon Web Services Direct Connect Partner",
+   "dek": "GO plc has become an Amazon Web Services (AWS) Direct Connect Partner, making it the only Maltese entity confirmed to hold the designation and giving local businesses a private, resilient route to…",
+   "section": "Technology & AI",
+   "kind": "feature",
+   "byline": "",
+   "page": 9,
+   "url": "https://corporate-times.com/#a-2026-10-go-becomes-maltas-only-amazon-web",
+   "image": "https://corporate-times.com/img/2026-10-028-0.jpg"
+  },
+  {
+   "id": "2026-10-challenging-the-boardroom-some-reflections-on",
+   "title": "Challenging the Boardroom: Some Reflections on Zampa Partners’ Second Edition of the NED Forum",
+   "dek": "The second edition of the NED Forum, organised by Zampa Partners, offered a valuable opportunity to reflect on the increasing responsibilities of non-executive directors and the challenges facing…",
+   "section": "Finance & Insurance",
+   "kind": "feature",
+   "byline": "James Vella Clark",
+   "page": 9,
+   "url": "https://corporate-times.com/#a-2026-10-challenging-the-boardroom-some-reflections-on",
+   "image": "https://corporate-times.com/img/2026-10-029-0.jpg"
+  },
+  {
+   "id": "2026-10-ep-president-italian-medicines-agency-head",
+   "title": "EP President, Italian Medicines Agency Head to Headline Malta’s First HekaTech Health Conference",
+   "dek": "Malta will host a high-level gathering of European healthcare leaders on 26 November, as the inaugural HekaTech Health 2026 conference brings together policymakers, regulators, industry experts and…",
+   "section": "Technology & AI",
+   "kind": "news",
+   "byline": "",
+   "page": 11,
+   "url": "https://corporate-times.com/#a-2026-10-ep-president-italian-medicines-agency-head",
+   "image": "https://corporate-times.com/img/2026-10-017-0.jpg"
+  },
+  {
+   "id": "2026-10-malta-needs-growth-that-improves-peoples",
+   "title": "“Malta Needs Growth That Improves People’s Lives, Not Just the Economy”",
+   "dek": "Malta must confront a fundamental choice: either continue expanding an economy sustained by imported labour and population growth or begin building one based on productivity, skills and higher-value…",
+   "section": "Business & Economy",
+   "kind": "interview",
+   "byline": "",
+   "page": 12,
+   "url": "https://corporate-times.com/#a-2026-10-malta-needs-growth-that-improves-peoples",
+   "image": "https://corporate-times.com/img/2026-10-018-0.jpg"
+  },
+  {
+   "id": "2026-10-when-business-gets-personal-resolving-family",
+   "title": "When Business Gets Personal: Resolving Family Business Conflict",
+   "dek": "Ganado Advocates and Zampa Partners will be hosting the annual Family Business Forum on the 4th of November 2026 at Villa Arrigo in Naxxar. In this article, MARK WIRTH, Partner at Zampa Partners…",
+   "section": "Finance & Insurance",
+   "kind": "feature",
+   "byline": "",
+   "page": null,
+   "url": "https://corporate-times.com/#a-2026-10-when-business-gets-personal-resolving-family",
+   "image": "https://corporate-times.com/img/2026-10-014-0.jpg"
+  }
+ ],
+ "generated_at": "2026-10-31T17:13:52Z"
+}
