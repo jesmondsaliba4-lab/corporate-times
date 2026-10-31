@@ -984,12 +984,12 @@ initTicker();
   b.addEventListener('click',()=>{ const p=!tk.classList.contains('paused'); tk.classList.toggle('paused',p); b.setAttribute('aria-pressed',p); b.setAttribute('aria-label',p?'Play headlines':'Pause headlines'); b.textContent=p?'▶':'❚❚'; });
 })();
 /* Live updates: on corporate-times.com the page asks /api/live (refreshed every 15 minutes at the edge)
-   for the latest World News Dispatch, Observer figures and Thinking pieces. Elsewhere it keeps the built-in copy. */
+   (refreshed every minute at the edge) for the latest World News Dispatch, Observer figures and Thinking pieces. Elsewhere it keeps the built-in copy. */
 const GMAP={growth:/^Real GDP growth/,prices:/^Prices, Retail/,housing:/^Housing costs/,occupancy:/^Hotel occupancy/,jobs:/^People in work/,debt:/^Government debt/,population:/^Population/,fertility:/^Total fertility/};
 async function goLive(){
   if (!/(^|\.)corporate-times\.com$|\.vercel\.app$/.test(location.hostname)) return;
   try {
-    const r = await fetch('/api/live'); if (!r.ok) return;
+    const r = await fetch('/api/live', {cache:'no-store'}); if (!r.ok) return;
     const j = await r.json(); let changed = false;
     if (j.dispatch && j.dispatch.items && j.dispatch.items.length){ WND = j.dispatch; initTicker(); changed = true; }
     if (j.thinking){
@@ -1011,7 +1011,8 @@ async function goLive(){
 window.addEventListener('hashchange', route);
 route();
 goLive();
-setInterval(goLive, 15*60*1000);
+setInterval(goLive, 2*60*1000);
+document.addEventListener('visibilitychange', ()=>{ if (document.visibilityState==='visible') goLive(); });
 })();
 </script>
 

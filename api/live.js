@@ -1,7 +1,7 @@
 // The Corporate Times · live feed
 // Gathers the Malta Observer's World News Dispatch and headline figures, and the
 // ThinkPeople Nexus / Leonardo 2050 Thinking listings, into one JSON document.
-// Cached at Vercel's edge for 15 minutes; each source fails independently.
+// Cached at Vercel's edge for 60 seconds; each source fails independently.
 
 const MO = 'https://www.maltaobserver.com';
 const TPN = 'https://thinkpeoplenexus.com';
@@ -151,7 +151,8 @@ export default async function handler(req, res) {
     errors: [wd, gl, tp, l5].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
   };
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
-  res.setHeader('Cache-Control', 'public, s-maxage=900, stale-while-revalidate=86400');
+  // 60 s at the edge: an edition approved on the Observer reaches the site within about a minute.
+  res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=60, stale-while-revalidate=600');
   res.status(200).send(JSON.stringify(body));
 }
 

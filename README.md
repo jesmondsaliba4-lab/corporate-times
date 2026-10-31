@@ -5,7 +5,7 @@ Malta’s corporate observatory, within the wider work of Corporate ID Group, de
 ## What is here
 - `index.html` — the whole portal (single page, hash-routed). Articles from the January–October 2026 print editions are embedded as data.
 - `img/` — article photos, adverts, illustrations, Thinking images and the v3 horizontal logo.
-- `api/live.js` — Vercel function that gathers, every 15 minutes (edge cache):
+- `api/live.js` — Vercel function that gathers, every minute (edge cache; open pages re-check every 2 minutes and when the tab is reopened):
   - Malta Observer World News Dispatch: `maltaobserver.com/api/world-dispatch`
   - Malta Observer headline figures: `maltaobserver.com/api/glance`
   - Thinking listings: `thinkpeoplenexus.com/thinking/` and `leonardo2050.com/thinking.html`
