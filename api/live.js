@@ -37,21 +37,36 @@ const decode = s => String(s || '')
 const titleCase = s => s.toLowerCase().replace(/(^|[\s·-])([a-zà-ž])/g, (m, a, b) => a + b.toUpperCase());
 
 /* ---------- World News Dispatch ---------- */
-const SECTIONS = [['malta', 'Malta Observer', ['malta'], 6], ['europe', 'Europe', ['eu'], 3], ['comuniq', 'Comuniq.EU', ['comuniq'], 6],
-  ['ai', 'SHaiPING Vision', ['ai'], 6], ['world', 'World', ['world'], 12], ['sport', 'Sport', ['sport_malta', 'sport'], 9]];
+const SECTIONS = [['malta', 'Malta Observer', 6], ['europe', 'Europe', 6], ['comuniq', 'Comuniq.EU', 6],
+  ['ai', 'SHaiPING Vision', 6], ['world', 'World', 12], ['sport', 'Sport', 9]];
+
+// The feed mixes plain stories with country/institution wrappers ({name, iso, story}); unwrap both.
+const unwrap = x => x && x.story ? Object.assign({}, x.story, { _name: x.name, _iso: x.iso }) : x;
+const isEurope = s => /^(EU|Europe)/i.test(s.region || '');
 
 function mapDispatch(wd) {
   const L = wd && wd.latest; if (!L) return null;
+  const arr = k => (Array.isArray(L[k]) ? L[k] : []).map(unwrap).filter(x => x && x.headline);
+  const top = arr('stories');
+  const lists = {
+    malta: arr('malta'),
+    europe: top.filter(isEurope).concat(arr('eu')),
+    comuniq: arr('comuniq'),
+    ai: arr('ai'),
+    world: top.filter(s => !isEurope(s)).concat(arr('world_stories'), arr('world')),
+    sport: arr('sport_malta').concat(arr('sport'))
+  };
   const items = [];
-  for (const [key, , fields, max] of SECTIONS) {
-    let list = fields.flatMap(f => Array.isArray(L[f]) ? L[f] : []);
-    const seen = new Set(); list = list.filter(x => x && x.headline && !seen.has(x.id) && seen.add(x.id));
+  for (const [key, , max] of SECTIONS) {
+    const seen = new Set();
+    let list = lists[key].filter(x => !seen.has(x.id) && seen.add(x.id));
     const lead = list.find(x => x.lead) || list[0];
     list = lead ? [lead, ...list.filter(x => x !== lead)] : list;
     list.slice(0, max).forEach((x, i) => {
       const src = (x.sources || [])[0] || {};
-      const cc = (x.flags || [])[0] || '';
-      items.push([key, cc.toUpperCase(), x.region && cc ? x.region : '', i === 0 ? 1 : 0, decode(x.headline), src.url || '', src.publisher || '', stamp(x.latest_at || src.published_at), i === 0 ? decode(x.summary || '') : '']);
+      const cc = (x.flags || [])[0] || x._iso || '';
+      const country = x._name || (cc && x.region && !/^(EU|Europe|World|Americas|UK)$/i.test(x.region) ? x.region : '') || '';
+      items.push([key, cc.toUpperCase(), country, i === 0 ? 1 : 0, decode(x.headline), src.url || '', src.publisher || '', stamp(x.latest_at || src.published_at), i === 0 ? decode(x.summary || '') : '']);
     });
   }
   if (!items.length) return null;
@@ -93,19 +108,19 @@ function parseTPN(html) {
 }
 
 function parseL50(html) {
-  const s = html.indexOf('thinking-collection--essays'); if (s < 0) return [];
-  const block = html.slice(s, html.indexOf('</section>', s));
   const out = []; const re = /<article class="thinking-card[^"]*">([\s\S]*?)<\/article>/g; let m;
-  while ((m = re.exec(block))) {
+  while ((m = re.exec(html))) {
     const b = m[1];
     const meta = decode(pick(/<p class="thinking-meta">([\s\S]*?)<\/p>/, b));
+    if (!/Essay/i.test(meta)) continue;
     const parts = meta.split('·').map(x => x.trim());
     const small = decode(pick(/<small>([\s\S]*?)<\/small>/, b));
     const [date, by] = small.split('·').map(x => x && x.trim());
-    out.push({ no: parts[1] || '', k: parts[0] || '', t: decode(pick(/<h2>([\s\S]*?)<\/h2>/, b)), d: decode(pick(/<\/h2>\s*<p>([\s\S]*?)<\/p>/, b)),
+    out.push({ no: parts.find(p => /Essay/i.test(p)) || '', k: parts.find(p => !/Essay/i.test(p)) || '', t: decode(pick(/<h2>([\s\S]*?)<\/h2>/, b)), d: decode(pick(/<\/h2>\s*<p>([\s\S]*?)<\/p>/, b)),
       date: date || '', by: by || '', u: abs(L50 + '/thinking.html', pick(/<a href="([^"]+)"/, b)), img: abs(L50 + '/thinking.html', pick(/<img[^>]*\ssrc="([^"]+)"/, b)) });
   }
-  return out.filter(e => e.t);
+  const seen = new Set();
+  return out.filter(e => e.t && !seen.has(e.u) && seen.add(e.u));
 }
 
 function mapThinking(tpnHtml, l50Html) {
