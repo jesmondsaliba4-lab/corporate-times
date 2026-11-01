@@ -419,10 +419,12 @@ a.art:hover img{transform:scale(1.03)}
 .ed-side{flex:1 1 320px;min-width:0}
 .ed-side .wnd{margin-top:0;padding-top:12px}
 .side-wnd .wnd{margin-top:0;border-top:0;padding-top:0}
+.side-wnd .wnd-fill{display:none}
 @media (min-width:1080px){
+  .side-wnd .wnd-fill{display:block}
   .side-wnd{position:relative;min-height:560px}
   .side-wnd .wnd{position:absolute;top:14px;left:0;right:0;bottom:0;display:flex;flex-direction:column}
-  .side-wnd .wnd-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;padding-right:6px;border-bottom:1px solid var(--rule-soft)}
+  .side-wnd .wnd-scroll{-webkit-mask-image:linear-gradient(#000 calc(100% - 36px),transparent);mask-image:linear-gradient(#000 calc(100% - 36px),transparent);flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;padding-right:6px;border-bottom:1px solid var(--rule-soft)}
   .side-wnd .wnd-scroll:focus-visible{outline:2px solid var(--gold-text);outline-offset:2px}
   .side-wnd .more{margin-top:12px}
 }
@@ -919,6 +921,8 @@ function tickerHtml(){
 function wndSide(){
   const maltaAll = WND.items.filter(x=>x[0]==='malta');
   const malta = maltaAll.slice(0,2), maltaMore = maltaAll.slice(2);
+  const restBy = ['europe','comuniq','ai','world'].map(k=>WND.items.filter(x=>x[0]===k && !x[3]));
+  const moreHl = []; for (let i=0; moreHl.length<8 && restBy.some(l=>l[i]); i++) restBy.forEach(l=>{ if(l[i] && moreHl.length<8) moreHl.push(l[i]); });
   const leads = WND.items.filter(x=>x[3] && x[0]!=='malta' && x[0]!=='sport');
   return `<section class="wnd" aria-labelledby="h-wnd"><p class="kicker">Malta Observer</p><h2 id="h-wnd"><a href="#dispatch">News Dispatch</a></h2>
     <p class="wnd-ed">${esc(WND.edition)}</p>
@@ -926,8 +930,12 @@ function wndSide(){
     <ol>${malta.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
     <p class="grp2">Lead stories</p>
     <ol>${leads.map(x=>`<li><span class="tk-sec" style="color:var(--gold-text)">${esc(wndSec(x[0]))}</span><br>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
+    <div class="wnd-fill">
     ${maltaMore.length?`<p class="grp2">More from Malta</p>
     <ol>${maltaMore.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>`:''}
+    ${moreHl.length?`<p class="grp2">More headlines</p>
+    <ol>${moreHl.map(x=>`<li><span class="tk-sec" style="color:var(--gold-text)">${esc(wndSec(x[0]))}</span><br>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>`:''}
+    </div>
     </div>
     <div class="more"><a href="#dispatch">The full dispatch →</a>${ext(WNDU,'maltaobserver.com ↗')}</div></section>`;
 }
