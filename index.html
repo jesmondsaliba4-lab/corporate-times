@@ -274,6 +274,8 @@ h1,h2,h3,h4{text-wrap:balance}
 .clients details .chips{margin-top:10px}
 .client-h{margin:26px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(24px,2.2vw,30px)}
 .client-h span{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted);margin-left:8px}
+.ddgrid.g3{grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+@media (min-width:900px){.ddgrid.g3{grid-template-columns:repeat(3,1fr)}}
 .ddpanel .ddsub{margin:16px 0 6px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
 .cde-src{margin-top:28px;font-size:13px;color:var(--muted)}
 .list li.cde-hits{display:block;padding:0;border:0}
@@ -552,7 +554,8 @@ const SEC = {
   commentary:{l:'Corporate Commentary', n:'The editorial view of The Corporate Times, every month.'},
   culture:{l:'Culture', n:'Arts and culture.'}
 };
-const NAV = [['home','Front page'],['news','News'],['s-commentary','Commentary'],['interviews','Interviews'],['s-finance','Finance'],['s-law','Law'],['s-work','People & Work'],['s-tech','Technology'],['s-maritime','Maritime'],['s-business','Economy'],['@europe','Europe'],['s-opinion','Opinion'],['thinking','Thinking'],['x-pr-link','Corporate Identities'],['@observer','Malta Observer'],['editions','Editions']];
+const NAV = [['home','Front page'],['news','News'],['@sections','Sections'],['interviews','Interviews'],['@opinion','Opinion'],['@europe','Europe'],['x-pr-link','Corporate Identities'],['@observer','Malta Observer'],['editions','Editions']];
+const DDCUR = { sections:['s-finance','s-law','s-work','s-tech','s-maritime','s-business','s-culture'], opinion:['s-commentary','s-opinion','thinking'], europe:['s-europe'] };
 const MO = 'https://maltaobserver.com/';
 const OBS = {
   asof: '31 October 2026',
@@ -1100,10 +1103,15 @@ function viewNotFound(){
 const main = document.getElementById('main');
 function navHtml(cur){
   return NAV.map(([h,l])=> h[0]==='@'
-    ? `<button type="button" class="dd${cur===h.slice(1)||(h==='@europe'&&cur==='s-europe')?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
+    ? `<button type="button" class="dd${cur===h.slice(1)||(DDCUR[h.slice(1)]||[]).includes(cur)?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
     : `<a href="#${h}"${cur===h?' aria-current="page"':''}>${esc(l)}</a>`).join('');
 }
 function ddPanel(which){
+  const cell = (hr, b, sp) => `<li><a href="#${hr}"><b>${esc(b)}</b><span>${esc(sp)}</span></a></li>`;
+  if (which==='sections') return `<div class="wrap"><div class="ddhead"><p>The Corporate Times by subject, across every edition.</p><span><a href="#news">All the news →</a></span></div>
+  <ul class="ddgrid g3">${['finance','law','work','tech','maritime','business'].map(k=>cell('s-'+k, SEC[k].l, SEC[k].n)).join('')}</ul></div>`;
+  if (which==='opinion') return `<div class="wrap"><div class="ddhead"><p>Comment, analysis and ideas.</p></div>
+  <ul class="ddgrid">${cell('s-commentary','Corporate Commentary',SEC.commentary.n)}${cell('s-opinion','Opinion',SEC.opinion.n)}${cell('thinking','Thinking','Essays and research from ThinkPeople Nexus and Leonardo 2050.')}</ul></div>`;
   if (which==='europe') return `<div class="wrap"><div class="ddhead"><p>Europe · what Brussels and Strasbourg decide, and what it means for Malta.</p></div>
   <ul class="ddgrid"><li><a href="#s-europe"><b>Europe</b><span>Inti fl-Ewropa, in The Corporate Times editions</span></a></li></ul>
   <p class="ddsub">Comuniq.eu</p>
