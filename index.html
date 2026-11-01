@@ -1000,8 +1000,9 @@ function cdeGet(path, store, key){
   const pk = path; if (CDEP[pk]) return CDEP[pk];
   return CDEP[pk] = fetch(path).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(j=>{ store[key]=j; return j; }).finally(()=>{ delete CDEP[pk]; });
 }
-const cdeList = k => cdeGet('cde/'+k+'.json', CDEL, k);
-const cdeArt = id => cdeGet('cde/a/'+id+'.json', CDEA, id);
+const CDEV = '20261101c'; // bump when the cde.news files are rebuilt, so browsers don't keep an old copy
+const cdeList = k => cdeGet('cde/'+k+'.json?v='+CDEV, CDEL, k);
+const cdeArt = id => cdeGet('cde/a/'+id+'.json?v='+CDEV, CDEA, id);
 const cdeHref = it => it.ct && BY[it.ct] ? '#a-'+it.ct : '#c-'+it.id;
 const cdeDate = d => { const t=new Date(d.slice(0,10)+'T12:00:00'); return isNaN(t)?'':t.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); };
 const cdeMonth = d => new Date(d.slice(0,7)+'-15T12:00:00').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
