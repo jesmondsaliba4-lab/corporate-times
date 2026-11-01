@@ -36,7 +36,6 @@
   color-scheme:light;
 }
 
-
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5}
@@ -320,7 +319,6 @@ h1,h2,h3,h4{text-wrap:balance}
 .plate-small{font-size:12px;letter-spacing:.04em;color:var(--on-navy-3);line-height:1.7}
 .sel{user-select:all;color:var(--on-navy-2)}
 
-
 /* nav dropdown */
 .sections button.dd{font:inherit;font-weight:600;letter-spacing:.04em;background:none;border:0;border-bottom:2px solid transparent;padding:12px 0;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .sections button.dd:hover,.sections button.dd[aria-expanded="true"]{color:var(--gold-text)}
@@ -406,7 +404,6 @@ h1,h2,h3,h4{text-wrap:balance}
 .lnav a{display:inline-block;font-size:13px;font-weight:600;padding:6px 12px;border:1px solid var(--rule);background:var(--card)}
 .lnav a:hover{border-color:var(--gold-deep)}
 
-
 /* generated artwork */
 .ideas .photo{flex:1 1 340px;min-width:0;max-width:560px;display:block}
 .ideas .photo img{width:100%;height:auto;border:1px solid var(--navy-line)}
@@ -423,7 +420,6 @@ a.art:hover img{transform:scale(1.03)}
 .banner img{width:100%;aspect-ratio:1800/640;object-fit:cover}
 .banner figcaption{margin-top:8px;font-size:12px;color:var(--muted)}
 .artnote{font-size:12px;color:var(--muted)}
-
 
 /* world news dispatch ticker */
 .ticker{background:var(--navy);color:var(--on-navy);border-bottom:1px solid var(--navy-line)}
@@ -726,8 +722,16 @@ function viewHome(){
       <ul class="more-front">${fronts.map(a=>{const im=pic(a);return `<li><div><a class="h" href="${href(a)}">${esc(a.h)}</a><p>${esc(excerpt(a,150))}</p></div>${im&&!isLogo(im)?`<a href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`}).join('')}</ul>
     </div>
     <aside class="side side-wnd" aria-label="News Dispatch">${wndSide()}</aside>
-  </div>
-  <div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
+  </div></div>
+
+  <section class="sec wrap" aria-labelledby="h-think">
+    <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
+    <div class="tlead"><div class="t1">${artLink(THINK.lead.u,THINK.lead.img,THINK.lead.t)}<p class="kicker">Current perspective · ${esc(THINK.lead.k)}</p><h2>${ext(THINK.lead.u, esc(THINK.lead.t))}</h2><p class="standfirst">${esc(THINK.lead.d)}</p><p class="meta" style="margin-top:12px">${esc(THINK.lead.date)} · ${esc(THINK.lead.by)}</p></div>
+    <div class="t2"><p class="kicker">Thinking from the Nexus</p><ol style="margin:6px 0 0;padding:0;list-style:none">${THINK.articles.slice(0,4).map(x=>`<li style="padding:10px 0;border-top:1px solid var(--rule-soft)">${ext(x.u, `<b style="font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25">${esc(x.t)}</b>`)}<p class="meta" style="margin-top:3px;font-size:12px">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol><a href="#thinking">All Thinking →</a></div></div>
+    <div style="margin-top:28px">${essaysBand()}</div>
+  </section>
+
+  <div class="wrap"><div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
   </div>
 
   <section class="sec wrap" aria-labelledby="h-ed">
@@ -759,13 +763,6 @@ function viewHome(){
     <figure class="photo" style="margin:0"><a href="${href(comm)}" tabindex="-1" aria-hidden="true"><img src="${pic(comm).f}" width="1600" height="900" alt="Engraved quotation mark, the Corporate Commentary illustration" loading="lazy"></a><figcaption>Corporate Commentary · ${esc(edLabel(comm.issue))}</figcaption></figure>
     <div class="past"><p class="label">EARLIER COMMENTARIES</p><ul class="more-ideas">${pastComm.map(a=>`<li><a href="${href(a)}"><span class="kicker">${esc(edLabel(a.issue))}</span><b>${esc(commentaryLine(a))}</b></a></li>`).join('')}</ul><a class="more" href="#s-commentary">All commentaries →</a></div>
   </div></section>`:''}
-
-  <section class="sec wrap" aria-labelledby="h-think">
-    <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
-    <div class="tlead"><div class="t1">${artLink(THINK.lead.u,THINK.lead.img,THINK.lead.t)}<p class="kicker">Current perspective · ${esc(THINK.lead.k)}</p><h2>${ext(THINK.lead.u, esc(THINK.lead.t))}</h2><p class="standfirst">${esc(THINK.lead.d)}</p><p class="meta" style="margin-top:12px">${esc(THINK.lead.date)} · ${esc(THINK.lead.by)}</p></div>
-    <div class="t2"><p class="kicker">Thinking from the Nexus</p><ol style="margin:6px 0 0;padding:0;list-style:none">${THINK.articles.slice(0,4).map(x=>`<li style="padding:10px 0;border-top:1px solid var(--rule-soft)">${ext(x.u, `<b style="font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25">${esc(x.t)}</b>`)}<p class="meta" style="margin-top:3px;font-size:12px">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol><a href="#thinking">All Thinking →</a></div></div>
-    <div style="margin-top:28px">${essaysBand()}</div>
-  </section>
 
   <section class="sec wrap" aria-labelledby="h-mo">
     <div class="sec-head"><h2 id="h-mo">Malta Observer</h2><a class="all" href="#observer">Malta’s intelligence picture →</a></div>
