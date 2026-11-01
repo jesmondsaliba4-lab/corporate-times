@@ -726,9 +726,7 @@ function viewHome(){
 
   <section class="sec wrap" aria-labelledby="h-think">
     <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
-    <div class="tlead"><div class="t1">${artLink(THINK.lead.u,THINK.lead.img,THINK.lead.t)}<p class="kicker">Current perspective · ${esc(THINK.lead.k)}</p><h2>${ext(THINK.lead.u, esc(THINK.lead.t))}</h2><p class="standfirst">${esc(THINK.lead.d)}</p><p class="meta" style="margin-top:12px">${esc(THINK.lead.date)} · ${esc(THINK.lead.by)}</p></div>
-    <div class="t2"><p class="kicker">Thinking from the Nexus</p><ol style="margin:6px 0 0;padding:0;list-style:none">${THINK.articles.slice(0,4).map(x=>`<li style="padding:10px 0;border-top:1px solid var(--rule-soft)">${ext(x.u, `<b style="font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25">${esc(x.t)}</b>`)}<p class="meta" style="margin-top:3px;font-size:12px">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol><a href="#thinking">All Thinking →</a></div></div>
-    <div style="margin-top:28px">${essaysBand()}</div>
+    ${thinkBlock()}
   </section>
 
   <div class="wrap"><div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
@@ -932,6 +930,25 @@ function viewObserver(){
 function tcard(x){
   return `<article class="tcard">${x.img?artLink(x.u,x.img,x.t):''}<p class="kicker">${esc(x.k)}</p><h3>${ext(x.u, esc(x.t))}</h3><p>${esc(x.d)}</p><p class="meta">${esc(x.date)}${x.by?' · '+esc(x.by):''} · ThinkPeople Nexus</p></article>`;
 }
+/* All Thinking pieces (the current perspective, the Leonardo 2050 essays and the Nexus articles) as one collection, newest first. */
+const MONTHS = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+function tDate(d){ const m = String(d||'').toLowerCase().match(/(\d{1,2})\s+([a-z]+)\s+(\d{4})/); if(!m) return 0; const mi = MONTHS.indexOf(m[2]); return mi<0 ? 0 : Date.UTC(+m[3], mi, +m[1]); }
+function thinkPool(){
+  const seen = new Set(), out = [];
+  for (const x of [THINK.lead, ...THINK.essays, ...THINK.articles]){ if(!x || !x.t) continue; const k = x.t.toLowerCase().replace(/[^a-z0-9]/g,''); if(seen.has(k)) continue; seen.add(k); out.push(x); }
+  return out.map((x,i)=>[x,i]).sort((a,b)=> tDate(b[0].date)-tDate(a[0].date) || a[1]-b[1]).map(a=>a[0]);
+}
+function thinkBlock(){
+  const pool = thinkPool(); if(!pool.length) return '';
+  if (thinkBlock.rot === undefined){
+    let r = 0; try { r = (parseInt(localStorage.getItem('ct-think')||'-1',10)+1); localStorage.setItem('ct-think', String(r % 1000)); } catch(e){ r = Math.floor(Math.random()*pool.length); }
+    thinkBlock.rot = isNaN(r) ? 0 : r;
+  }
+  const r = thinkBlock.rot % pool.length, F = pool[r];
+  const next = []; for (let i=1; i<pool.length && next.length<4; i++) next.push(pool[(r+i)%pool.length]);
+  return `<div class="tlead"><div class="t1">${F.img?artLink(F.u,F.img,F.t):''}<p class="kicker">Thinking from the Nexus · ${esc(F.k)}</p><h2>${ext(F.u, esc(F.t))}</h2><p class="standfirst">${esc(F.d)}</p><p class="meta" style="margin-top:12px">${esc(F.date)}${F.by?' · '+esc(F.by):''}</p></div>
+    <div class="t2"><p class="kicker">Thinking from the Nexus</p><ol style="margin:6px 0 0;padding:0;list-style:none">${next.map(x=>`<li style="padding:10px 0;border-top:1px solid var(--rule-soft)">${ext(x.u, `<b style="font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25">${esc(x.t)}</b>`)}<p class="meta" style="margin-top:3px;font-size:12px">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol><a href="#thinking">All Thinking →</a></div></div>`;
+}
 function essaysBand(){
   return `<div class="essays">${THINK.essays.map(e=>`<article class="essay-c">${e.img?artLink(e.u,e.img,e.t):''}<span class="no">${esc(e.no.toUpperCase())} · ${esc(e.k.toUpperCase())}</span>${ext(e.u, `<h3>${esc(e.t)}</h3>`)}<p>${esc(e.d)}</p><span class="m">${esc(e.date)} · ${esc(e.by)} · Leonardo 2050</span>${ext(e.u,'Read the essay ↗','r')}</article>`).join('')}</div>`;
 }
@@ -942,12 +959,8 @@ function viewThinking(){
     <div class="tlead"><div class="t1"><p class="kicker">Current perspective · ${esc(L.k)}</p><h2>${ext(L.u, esc(L.t))}</h2><p class="standfirst">${esc(L.d)} ${esc(L.x)}</p><p class="meta" style="margin-top:14px">${esc(L.date)} · ${esc(L.by)}</p></div>
     <div class="t2"><p class="kicker">Read the essay</p><p>Published at ThinkPeople Nexus and gathered in the Leonardo 2050 inquiry.</p>${ext(L.u,'At ThinkPeople Nexus ↗')}${ext(L.u2,'At Leonardo 2050 ↗')}</div></div>
   </section>
-  <section class="sec wrap" aria-labelledby="h-l50"><div class="sec-head"><h2 id="h-l50">Leonardo 2050 · Three questions for 2050</h2>${ext(L50+'thinking.html','All Leonardo 2050 thinking ↗','all')}</div>
-    <p class="meta" style="margin:-8px 0 18px">Society. Relationship. Capability. Three essays move from the divisions emerging within society, to the human relationships through which progress gains meaning, to the capabilities organisations miss when people become headcount.</p>
-    ${essaysBand()}
-  </section>
   <section class="sec wrap" aria-labelledby="h-tfn"><div class="sec-head"><h2 id="h-tfn">Thinking from the Nexus</h2>${ext(TPN,'The full collection ↗','all')}</div>
-    <div class="tgrid">${THINK.articles.map(tcard).join('')}</div>
+    <div class="tgrid">${thinkPool().filter(x=>x!==THINK.lead).map(tcard).join('')}</div>
   </section>
   <section class="sec wrap" aria-labelledby="h-prop"><div class="eqn"><span class="q">CI: = (Hw+Hr) x AI</span><div class="w"><p class="kicker" id="h-prop">Leonardo 2050 · The proposition</p><p>Intelligence is becoming abundant. Wisdom must still be cultivated. Leonardo 2050 asks what kind of humanity we are SHaiPING as artificial intelligence enters thought, work, institutions and everyday life.</p>
     <ul class="lnav">${THINK.leonardo.map(l=>`<li>${ext(L50+l[1], esc(l[0])+' ↗')}</li>`).join('')}</ul></div></div></section>`;
