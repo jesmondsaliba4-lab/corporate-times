@@ -413,6 +413,22 @@ h1,h2,h3,h4{text-wrap:balance}
 .art{display:block;overflow:hidden;background:var(--navy)}
 .art img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
 a.art:hover img{transform:scale(1.03)}
+.thome .tscroll ol{margin:6px 0 0;padding:0;list-style:none}
+.thome .tscroll li{padding:10px 0 10px;border-top:1px solid var(--rule-soft)}
+.thome .tscroll li a{margin-top:0}
+.thome .tscroll li b{font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25}
+.thome .tscroll li .meta{margin-top:3px;font-size:12px}
+.thome .tscroll li.on{border-left:3px solid var(--gold-deep);padding-left:12px;background:linear-gradient(90deg,rgba(176,137,74,.08),transparent)}
+.thome .tscroll li .feat{display:block;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.thome .tall{margin-top:12px}
+@media (max-width:1079px){ .thome .tscroll li:nth-child(n+7){display:none} }
+@media (min-width:1080px){
+  .thome{align-items:stretch}
+  .thome .t2{position:relative;min-height:440px}
+  .thome .tframe{position:absolute;inset:14px 0 0 0;display:flex;flex-direction:column}
+  .thome .tscroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;padding-right:6px;border-bottom:1px solid var(--rule-soft);-webkit-mask-image:linear-gradient(#000 calc(100% - 36px),transparent);mask-image:linear-gradient(#000 calc(100% - 36px),transparent)}
+  .thome .tscroll:focus-visible{outline:2px solid var(--gold-text);outline-offset:2px}
+}
 .tlead .art{aspect-ratio:16/8;margin-bottom:18px}
 .essay-c .art{aspect-ratio:16/9;margin:-4px 0 6px;border:1px solid var(--navy-line)}
 .tcard .art{aspect-ratio:3/2;margin-bottom:4px}
@@ -945,9 +961,10 @@ function thinkBlock(){
     thinkBlock.rot = isNaN(r) ? 0 : r;
   }
   const r = thinkBlock.rot % pool.length, F = pool[r];
-  const next = []; for (let i=1; i<pool.length && next.length<4; i++) next.push(pool[(r+i)%pool.length]);
-  return `<div class="tlead"><div class="t1">${F.img?artLink(F.u,F.img,F.t):''}<p class="kicker">Thinking from the Nexus · ${esc(F.k)}</p><h2>${ext(F.u, esc(F.t))}</h2><p class="standfirst">${esc(F.d)}</p><p class="meta" style="margin-top:12px">${esc(F.date)}${F.by?' · '+esc(F.by):''}</p></div>
-    <div class="t2"><p class="kicker">Thinking from the Nexus</p><ol style="margin:6px 0 0;padding:0;list-style:none">${next.map(x=>`<li style="padding:10px 0;border-top:1px solid var(--rule-soft)">${ext(x.u, `<b style="font-family:var(--serif);font-weight:600;font-size:18px;line-height:1.25">${esc(x.t)}</b>`)}<p class="meta" style="margin-top:3px;font-size:12px">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol><a href="#thinking">All Thinking →</a></div></div>`;
+  setTimeout(()=>{ const sc=document.querySelector('.thome .tscroll'), on=sc&&sc.querySelector('li.on'); if(!sc||!on||sc.scrollHeight<=sc.clientHeight) return;
+    const d = on.getBoundingClientRect().top - sc.getBoundingClientRect().top; if (d + on.offsetHeight > sc.clientHeight - 30) sc.scrollTop = d - 70; }, 0);
+  return `<div class="tlead thome"><div class="t1">${F.img?artLink(F.u,F.img,F.t):''}<p class="kicker">Thinking from the Nexus · ${esc(F.k)}</p><h2>${ext(F.u, esc(F.t))}</h2><p class="standfirst">${esc(F.d)}</p><p class="meta" style="margin-top:12px">${esc(F.date)}${F.by?' · '+esc(F.by):''}</p></div>
+    <div class="t2"><div class="tframe"><p class="kicker">Thinking from the Nexus</p><div class="tscroll" tabindex="0" aria-label="All Thinking pieces"><ol>${pool.map(x=>`<li${x===F?' class="on"':''}>${x===F?'<span class="feat">Featured</span>':''}${ext(x.u, `<b>${esc(x.t)}</b>`)}<p class="meta">${esc(x.date)}${x.by?' · '+esc(x.by):''}</p></li>`).join('')}</ol></div><a class="tall" href="#thinking">All Thinking →</a></div></div></div>`;
 }
 function essaysBand(){
   return `<div class="essays">${THINK.essays.map(e=>`<article class="essay-c">${e.img?artLink(e.u,e.img,e.t):''}<span class="no">${esc(e.no.toUpperCase())} · ${esc(e.k.toUpperCase())}</span>${ext(e.u, `<h3>${esc(e.t)}</h3>`)}<p>${esc(e.d)}</p><span class="m">${esc(e.date)} · ${esc(e.by)} · Leonardo 2050</span>${ext(e.u,'Read the essay ↗','r')}</article>`).join('')}</div>`;
