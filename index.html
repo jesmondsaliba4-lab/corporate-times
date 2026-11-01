@@ -419,6 +419,13 @@ a.art:hover img{transform:scale(1.03)}
 .ed-side{flex:1 1 320px;min-width:0}
 .ed-side .wnd{margin-top:0;padding-top:12px}
 .side-wnd .wnd{margin-top:0;border-top:0;padding-top:0}
+@media (min-width:1080px){
+  .side-wnd{position:relative;min-height:560px}
+  .side-wnd .wnd{position:absolute;top:14px;left:0;right:0;bottom:0;display:flex;flex-direction:column}
+  .side-wnd .wnd-scroll{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;padding-right:6px;border-bottom:1px solid var(--rule-soft)}
+  .side-wnd .wnd-scroll:focus-visible{outline:2px solid var(--gold-text);outline-offset:2px}
+  .side-wnd .more{margin-top:12px}
+}
 .ed-side .iv-side{border-top:4px solid var(--navy)}
 .ed-main .obs{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .wnd ol{margin:0;padding:0;list-style:none}
@@ -910,13 +917,15 @@ function tickerHtml(){
   return li + li.replace(/<li>/g,'<li aria-hidden="true">').replace(/<a /g,'<a tabindex="-1" ');
 }
 function wndSide(){
-  const malta = WND.items.filter(x=>x[0]==='malta');
-  const leads = WND.items.filter(x=>x[3] && x[0]!=='malta');
+  const malta = WND.items.filter(x=>x[0]==='malta').slice(0,2);
+  const leads = WND.items.filter(x=>x[3] && x[0]!=='malta' && x[0]!=='sport');
   return `<section class="wnd" aria-labelledby="h-wnd"><p class="kicker">Malta Observer</p><h2 id="h-wnd"><a href="#dispatch">News Dispatch</a></h2>
     <p class="wnd-ed">${esc(WND.edition)}</p>
+    <div class="wnd-scroll" tabindex="0" aria-label="Dispatch headlines">
     <ol>${malta.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
     <p class="grp2">Lead stories</p>
     <ol>${leads.map(x=>`<li><span class="tk-sec" style="color:var(--gold-text)">${esc(wndSec(x[0]))}</span><br>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
+    </div>
     <div class="more"><a href="#dispatch">The full dispatch →</a>${ext(WNDU,'maltaobserver.com ↗')}</div></section>`;
 }
 function viewDispatch(){
