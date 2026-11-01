@@ -243,6 +243,25 @@ h1,h2,h3,h4{text-wrap:balance}
 .prose>p:first-of-type::first-letter{font-family:var(--serif);font-weight:600;float:left;font-size:3.4em;line-height:.9;padding:.06em .1em 0 0;color:var(--gold-deep)}
 .prose h2{margin:1.6em 0 .5em;font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text);line-height:1.4}
 .prose blockquote{margin:1.2em 0;padding:0 0 0 20px;border-left:3px solid var(--gold-deep);font-style:italic}
+.prose.cde img{max-width:100%;height:auto;display:block;margin:6px 0 14px}
+.prose.cde figure{margin:1.2em 0}
+.prose.cde figcaption{font-family:var(--sans);font-size:12px;color:var(--muted);margin-top:6px}
+.prose.cde table{width:100%;border-collapse:collapse;font-family:var(--sans);font-size:14px;line-height:1.45;margin:1em 0;display:block;overflow-x:auto}
+.prose.cde td,.prose.cde th{border:1px solid var(--rule);padding:6px 8px;vertical-align:top}
+.prose.cde a{color:var(--gold-text);text-decoration:underline;text-underline-offset:2px}
+.prose.cde ul,.prose.cde ol{margin:0 0 1.05em;padding-left:1.3em}
+.prose.cde h3,.prose.cde h4{margin:1.4em 0 .4em;font-family:var(--serif);font-weight:600;font-size:1.05em}
+.prose.cde hr{border:0;border-top:1px solid var(--rule);margin:1.6em 0}
+.prose.cde>p:first-of-type::first-letter{all:unset}
+.prose.cde .vid a{font-family:var(--sans);font-weight:700;font-size:15px;text-decoration:none}
+.yearbar{display:flex;flex-wrap:wrap;gap:6px 14px;margin:18px 0 0;font-size:14px;font-weight:600}
+.yearbar a{color:var(--gold-text)}
+.cq-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.cq-tabs a{border:1px solid var(--rule);padding:6px 14px;font-weight:600;font-size:14px}
+.cq-tabs a[aria-current]{background:var(--navy);border-color:var(--navy);color:#fff}
+.cde-list h3{font-size:clamp(19px,1.6vw,23px)}
+.cde-src{margin-top:28px;font-size:13px;color:var(--muted)}
+.list li.cde-hits{display:block;padding:0;border:0}
 .prose .bio{margin-top:2em;padding-top:14px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--muted);font-style:italic}
 .fig{margin:0 0 28px}
 .fig img{width:100%}
@@ -518,7 +537,7 @@ const SEC = {
   commentary:{l:'Corporate Commentary', n:'The editorial view of The Corporate Times, every month.'},
   culture:{l:'Culture', n:'Arts and culture.'}
 };
-const NAV = [['home','Front page'],['news','News'],['s-commentary','Commentary'],['interviews','Interviews'],['s-finance','Finance'],['s-law','Law'],['s-work','People & Work'],['s-tech','Technology'],['s-maritime','Maritime'],['s-business','Economy'],['s-europe','Europe'],['s-opinion','Opinion'],['thinking','Thinking'],['@observer','Malta Observer'],['editions','Editions']];
+const NAV = [['home','Front page'],['news','News'],['s-commentary','Commentary'],['interviews','Interviews'],['s-finance','Finance'],['s-law','Law'],['s-work','People & Work'],['s-tech','Technology'],['s-maritime','Maritime'],['s-business','Economy'],['s-europe','Europe'],['s-opinion','Opinion'],['thinking','Thinking'],['x-pr-link','Corporate Identities'],['@comuniq','Comuniq.eu'],['@observer','Malta Observer'],['editions','Editions']];
 const MO = 'https://maltaobserver.com/';
 const OBS = {
   asof: '31 October 2026',
@@ -800,7 +819,7 @@ function viewInterviews(){
 }
 let searchQ = '';
 function viewSearch(){
-  return `<section class="sec wrap"><div class="sec-head"><h1>Search the archive</h1><p>Headlines, names and full text across ${A.length} articles.</p></div>
+  return `<section class="sec wrap"><div class="sec-head"><h1>Search the archive</h1><p>Headlines, names and full text across ${A.length} articles, plus headlines from the cde.news archive.</p></div>
   <form class="search" role="search" id="sform"><label for="q" class="skip">Search</label><input id="q" type="search" placeholder="Try: captive insurance, Fabri, Grand Harbour" value="${esc(searchQ)}" autocomplete="off"></form>
   <p class="count" id="scount"></p><ul class="list" id="sres"></ul></section>`;
 }
@@ -812,6 +831,13 @@ function runSearch(){
   const hits = sorted(A.filter(a=>{ const hay=(a.h+' '+a.d+' '+a.by+' '+a.img.map(i=>i.c).join(' ')+' '+a.body.map(b=>b[1]).join(' ')).toLowerCase(); return terms.every(t=>hay.includes(t)); }));
   cnt.textContent = hits.length ? `${hits.length} article${hits.length>1?'s':''} found` : 'No articles match. Try fewer or different words.';
   res.innerHTML = hits.slice(0,60).map(listItem).join('');
+  const ch = [];
+  for (const k of Object.keys(CDE)) if (CDEL[k]) for (const it of CDEL[k].items){ const hay=(it.t+' '+it.x).toLowerCase(); if (!it.ct && terms.every(t=>hay.includes(t)) && !ch.some(c=>c[1].id===it.id)) ch.push([k,it]); }
+  ch.sort((x,y)=>y[1].d.localeCompare(x[1].d));
+  if (ch.length){
+    if (!hits.length) cnt.textContent = '';
+    res.innerHTML += `<li class="cde-hits"><h2 class="grp" style="margin-top:20px">FROM THE CDE.NEWS ARCHIVE · ${ch.length} ${ch.length>1?'STORIES':'STORY'}</h2></li>` + ch.slice(0,40).map(([k,it])=>`<li><div class="t"><p class="kicker"><a href="#x-${k}">${esc(CDE[k].l)}</a></p><h3><a href="${cdeHref(it)}">${esc(it.t)}</a></h3><p>${esc(it.x)}</p><p class="meta">${esc(cdeDate(it.d))}</p></div></li>`).join('');
+  }
 }
 function viewArticle(id){
   const a = BY[id];
@@ -946,6 +972,95 @@ function viewDispatch(){
       <ol>${rest.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol></section>`; }).join('')}</div>
   <div class="backbar">${ext(WNDU,'Open the live dispatch on maltaobserver.com ↗')}<a href="#observer">The Malta Observer front page →</a></div></section>`;
 }
+/* ---------- cde.news archive: Corporate Identities (PR Link) and Comuniq.eu (L-Ewropej, Int fl-Ewropa) ---------- */
+const CDE = {
+  'pr-link': {l:'Corporate Identities', k:'PR Link', nav:'x-pr-link', dd:'', n:'Company news and press releases carried by Corporate Identities on cde.news, newest first.'},
+  'ewropej': {l:'L-Ewropej', k:'Comuniq.eu', nav:'comuniq', dd:'Europe and the EU institutions', n:'European news from the Comuniq.eu desk on cde.news, newest first.'},
+  'int-fl-ewropa': {l:'Int fl-Ewropa', k:'Comuniq.eu', nav:'comuniq', dd:'Malta’s MEPs at work', n:'Malta’s MEPs and the European Parliament, from the Comuniq.eu desk on cde.news, newest first.'}
+};
+const CQ = ['ewropej','int-fl-ewropa'];
+const CDEL = {}, CDEA = {}, CDEP = {};
+function cdeGet(path, store, key){
+  if (store[key]) return Promise.resolve(store[key]);
+  const pk = path; if (CDEP[pk]) return CDEP[pk];
+  return CDEP[pk] = fetch(path).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(j=>{ store[key]=j; return j; }).finally(()=>{ delete CDEP[pk]; });
+}
+const cdeList = k => cdeGet('cde/'+k+'.json', CDEL, k);
+const cdeArt = id => cdeGet('cde/a/'+id+'.json', CDEA, id);
+const cdeHref = it => it.ct && BY[it.ct] ? '#a-'+it.ct : '#c-'+it.id;
+const cdeDate = d => { const t=new Date(d.slice(0,10)+'T12:00:00'); return isNaN(t)?'':t.toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); };
+const cdeMonth = d => new Date(d.slice(0,7)+'-15T12:00:00').toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+function cdeLater(h, fn){
+  fn().then(html=>{ if (decodeURIComponent((location.hash||'').slice(1))===h){ main.innerHTML = html; } })
+      .catch(()=>{ if (decodeURIComponent((location.hash||'').slice(1))===h) main.innerHTML = `<section class="sec wrap"><div class="sec-head"><h1>Not available just now</h1></div><p>This part of the archive could not be loaded. <a href="#${esc(h)}" onclick="location.reload();return false" style="color:var(--gold-text);font-weight:600">Try again →</a></p></section>`; });
+  return `<section class="wrap" style="padding:60px 0"><p class="meta">Loading…</p></section>`;
+}
+function cdeHead(k){
+  const C = CDE[k];
+  const tabs = C.nav==='comuniq' ? `<p class="cq-tabs">${CQ.map(x=>`<a href="#x-${x}"${x===k?' aria-current="page"':''}>${esc(CDE[x].l)}</a>`).join('')}</p>` : '';
+  return {C, tabs};
+}
+function viewCdeList(k){
+  const h = 'x-'+k;
+  const render = L => {
+    const {C, tabs} = cdeHead(k);
+    const years = [...new Set(L.items.map(i=>i.d.slice(0,4)))];
+    let out='', m='', y='';
+    for (const it of L.items){
+      const mk = it.d.slice(0,7);
+      if (mk!==m){ if(m) out+='</ul>'; m=mk; const yy=mk.slice(0,4); out+=`<h2 class="grp"${yy!==y?` id="y-${k}-${yy}"`:''}>${esc(cdeMonth(mk).toUpperCase())}</h2><ul class="list cde-list">`; y=yy; }
+      out += `<li><div class="t"><h3><a href="${cdeHref(it)}">${esc(it.t)}</a></h3><p>${esc(it.x)}</p><p class="meta">${esc(cdeDate(it.d))}${it.ct?' · Also in the '+esc(edLabel(BY[it.ct]?BY[it.ct].issue:LATEST))+' edition':''}</p></div>${it.im?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="${esc(it.im)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></a>`:''}</li>`;
+    }
+    if (m) out+='</ul>';
+    return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}
+      <nav class="yearbar" aria-label="Jump to year">${years.map(yy=>`<a href="#y-${k}-${yy}" data-jump="y-${k}-${yy}">${yy}</a>`).join('')}</nav>
+      ${out}<p class="cde-src">From the cde.news archive (${esc(C.k)}). Each story links to its original on cde.news.</p></section>`;
+  };
+  if (CDEL[k]) return render(CDEL[k]);
+  return cdeLater(h, ()=>cdeList(k).then(render));
+}
+function cdeCur(id){ const a=CDEA[id]; return a ? CDE[a.cats[0]].nav : ''; }
+function cdeTitle(id){ const a=CDEA[id]; return (a ? a.t+' · ' : '')+'The Corporate Times'; }
+function viewCdeArticle(id){
+  const h = 'c-'+id;
+  if (!/^\d+$/.test(id)) return viewNotFound();
+  const render = a => {
+    const k = a.cats[0], C = CDE[k];
+    document.title = a.t+' · The Corporate Times';
+    document.getElementById('nav').innerHTML = navHtml(C.nav);
+    const L = CDEL[k];
+    let more = '';
+    if (L){ const i = L.items.findIndex(x=>x.id===a.id); const near = L.items.filter((x,j)=>x.id!==a.id && j>=Math.max(0,i-3) && j<=i+6).slice(0,7);
+      more = `<p class="kicker">More ${esc(C.l)}</p><ol>${near.map(x=>`<li><a href="${cdeHref(x)}">${esc(x.t)}</a><p class="meta">${esc(cdeDate(x.d))}</p></li>`).join('')}</ol>`; }
+    else cdeList(k).then(()=>{ if (decodeURIComponent((location.hash||'').slice(1))===h){ const t=document.getElementById('cde-trail'); if(t) t.outerHTML = viewCdeArticle(id).match(/<aside class="trail"[\s\S]*?<\/aside>/)[0]; } }).catch(()=>{});
+    const also = a.cats.length>1 ? ` · also in ${a.cats.slice(1).map(c=>`<a href="#x-${c}">${esc(CDE[c].l)}</a>`).join(', ')}` : '';
+    const ctA = (L && (L.items.find(x=>x.id===a.id)||{}).ct);
+    const adKey = ['fm','antes','ganado','et','deepal'][Number(a.id)%5];
+    return `<article class="article wrap">
+    <div class="head">
+      <p class="kicker"><a href="#x-${k}">${esc(C.l)}</a>${C.nav==='comuniq'?' <span class="iv">· Comuniq.eu</span>':''}${also}</p>
+      <h1>${esc(a.t)}</h1>
+      <div class="byline"><span><strong>${C.nav==='comuniq'?'Comuniq.eu':'Corporate Identities'}</strong></span><span>${esc(cdeDate(a.d))}</span><span>${ext(a.u,'Original on cde.news ↗')}</span></div>
+    </div>
+    <div class="cols">
+      <div class="prose cde">${a.html}
+        ${ctA && BY[ctA] ? `<p class="bio"><a href="#a-${ctA}">This story also appears in the ${esc(edLabel(BY[ctA].issue))} edition of The Corporate Times →</a></p>`:''}
+        <p class="bio">First published on cde.news, ${esc(cdeDate(a.d))}. ${ext(a.u,'Read the original ↗')}</p>
+        <div class="backbar"><a href="#x-${k}">More ${esc(C.l)} →</a>${C.nav==='comuniq'?CQ.filter(x=>x!==k).map(x=>`<a href="#x-${x}">${esc(CDE[x].l)} →</a>`).join(''):''}<a href="#home">Front page</a></div>
+      </div>
+      <aside class="trail" id="cde-trail" aria-label="More stories">${more}
+        <div class="ad"><p class="adlabel">Advertisement</p><img src="${ADS[adKey].f}" alt="${esc(ADS[adKey].c)} advertisement" loading="lazy"></div>
+      </aside>
+    </div>
+  </article>`;
+  };
+  if (CDEA[id]) return render(CDEA[id]);
+  return cdeLater(h, ()=>cdeArt(id).then(render));
+}
+document.addEventListener('click', e=>{
+  const j = e.target.closest('a[data-jump]'); if(!j) return;
+  e.preventDefault(); const el=document.getElementById(j.dataset.jump); if(el) el.scrollIntoView({behavior:'smooth'});
+});
 function viewNotFound(){
   return `<section class="sec wrap"><div class="sec-head"><h1>Page not found</h1></div><p>That story or section isn’t in the archive. <a href="#home" style="color:var(--gold-text);font-weight:600">Go to the front page →</a></p></section>`;
 }
@@ -953,25 +1068,30 @@ function viewNotFound(){
 /* ---------- router ---------- */
 const main = document.getElementById('main');
 function navHtml(cur){
-  return NAV.map(([h,l])=> h==='@observer'
-    ? `<button type="button" class="dd${cur==='observer'?' cur':''}" id="ddbtn" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
+  return NAV.map(([h,l])=> h[0]==='@'
+    ? `<button type="button" class="dd${cur===h.slice(1)?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
     : `<a href="#${h}"${cur===h?' aria-current="page"':''}>${esc(l)}</a>`).join('');
 }
-function ddPanel(){
+function ddPanel(which){
+  if (which==='comuniq') return `<div class="wrap"><div class="ddhead"><p>Comuniq.eu · European news and the work of Malta’s MEPs, from the cde.news archive.</p></div>
+  <ul class="ddgrid">${CQ.map(k=>`<li><a href="#x-${k}"><b>${esc(CDE[k].l)}</b><span>${esc(CDE[k].dd)}</span></a></li>`).join('')}</ul></div>`;
   return `<div class="wrap"><div class="ddhead"><p>Malta Observer · ThinkPeople Nexus Malta Observatory. Reports open on maltaobserver.com.</p><span style="display:flex;gap:18px;flex-wrap:wrap"><a href="#observer">The Observer front page here →</a><a href="#dispatch">World News Dispatch here →</a></span></div>
   <ul class="ddgrid">${OBS.pages.map(p=>`<li>${ext(MO+p[1], `<b>${esc(p[0])}</b><span>${esc(p[2])}</span>`)}</li>`).join('')}</ul></div>`;
 }
-function setDD(open){
-  const b=document.getElementById('ddbtn'), p=document.getElementById('ddpanel'); if(!b||!p) return;
-  b.setAttribute('aria-expanded', open?'true':'false'); p.hidden = !open;
+let ddWhich = '';
+function setDD(open, which){
+  const p=document.getElementById('ddpanel'); if(!p) return;
+  if (open && which && which!==ddWhich){ p.innerHTML = ddPanel(which); ddWhich = which; }
+  document.querySelectorAll('.sections button.dd').forEach(b=>b.setAttribute('aria-expanded', open && b.dataset.dd===ddWhich ? 'true':'false'));
+  p.hidden = !open;
 }
 document.addEventListener('click', e=>{
-  const b=e.target.closest('#ddbtn');
-  if (b){ setDD(b.getAttribute('aria-expanded')!=='true'); return; }
+  const b=e.target.closest('.sections button.dd');
+  if (b){ setDD(b.getAttribute('aria-expanded')!=='true', b.dataset.dd); return; }
   if (!e.target.closest('#ddpanel')) setDD(false);
   else if (e.target.closest('a')) setDD(false);
 });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const b=document.getElementById('ddbtn'); if(b&&b.getAttribute('aria-expanded')==='true'){ setDD(false); b.focus(); } } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const b=document.querySelector('.sections button.dd[aria-expanded="true"]'); if(b){ setDD(false); b.focus(); } } });
 function route(){
   const h = decodeURIComponent((location.hash||'').slice(1)) || 'home';
   let html, cur = h, title = 'The Corporate Times';
@@ -984,13 +1104,15 @@ function route(){
   else if (h==='observer') { html = viewObserver(); title='Malta Observer · The Corporate Times'; }
   else if (h==='thinking') { html = viewThinking(); title='Thinking · The Corporate Times'; }
   else if (h==='partners') { html = viewHome(); cur='home'; }
+  else if (h.startsWith('x-') && CDE[h.slice(2)]) { const k=h.slice(2); html = viewCdeList(k); cur = CDE[k].nav; title = CDE[k].l+' · The Corporate Times'; }
+  else if (h.startsWith('c-')) { html = viewCdeArticle(h.slice(2)); cur = cdeCur(h.slice(2)); title = cdeTitle(h.slice(2)); }
   else if (h.startsWith('s-')) { html = viewSection(h.slice(2)); title=(SEC[h.slice(2)]||{l:''}).l+' · The Corporate Times'; }
   else if (h.startsWith('e-')) { html = viewEdition(h.slice(2)); cur='editions'; title=(ISSUE[h.slice(2)]||{label:''}).label+' · The Corporate Times'; }
   else if (h.startsWith('a-')) { const a=BY[h.slice(2)]; html = viewArticle(h.slice(2)); cur = a ? (a.sec==='commentary'?'s-commentary':'s-'+a.sec) : ''; if(a) title = titleOf(a)+' · The Corporate Times'; }
   else { html = viewHome(); cur='home'; }
   main.innerHTML = html;
   document.getElementById('nav').innerHTML = navHtml(cur);
-  document.getElementById('ddpanel').innerHTML = ddPanel(); setDD(false);
+  ddWhich = ''; setDD(false);
   document.title = title;
   if (h==='partners') { const el=document.getElementById('partners'); if(el) el.scrollIntoView(); }
   else if (!route.keep) window.scrollTo(0,0);
@@ -998,6 +1120,7 @@ function route(){
     const q=document.getElementById('q'); q.addEventListener('input', runSearch);
     document.getElementById('sform').addEventListener('submit', e=>{e.preventDefault(); runSearch();});
     runSearch(); q.focus();
+    Promise.all(Object.keys(CDE).map(k=>cdeList(k).catch(()=>null))).then(()=>{ if((location.hash||'')==='#search') runSearch(); });
   }
 }
 document.getElementById('today').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
