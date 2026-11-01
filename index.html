@@ -418,6 +418,8 @@ a.art:hover img{transform:scale(1.03)}
 .ed-main{flex:999 1 620px;min-width:0}
 .ed-side{flex:1 1 320px;min-width:0}
 .ed-side .wnd{margin-top:0;padding-top:12px}
+.side-wnd .wnd{margin-top:0;border-top:0;padding-top:0}
+.ed-side .iv-side{border-top:4px solid var(--navy)}
 .ed-main .obs{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
 .wnd ol{margin:0;padding:0;list-style:none}
 .wnd li{padding:10px 0;border-top:1px solid var(--rule-soft)}
@@ -465,8 +467,8 @@ a.art:hover img{transform:scale(1.03)}
   <nav class="sections" id="nav" aria-label="Sections"></nav>
 </header></div>
 <div class="ddpanel" id="ddpanel" hidden></div>
-<div class="ticker" id="ticker" role="region" aria-label="World News Dispatch headlines"><div class="wrap">
-  <a class="tk-label" href="#dispatch">World News Dispatch<span id="tk-ed"></span></a>
+<div class="ticker" id="ticker" role="region" aria-label="News Dispatch headlines"><div class="wrap">
+  <a class="tk-label" href="#dispatch">News Dispatch<span id="tk-ed"></span></a>
   <div class="tk-view"><ul class="tk-track" id="tk-track"></ul></div>
   <button type="button" class="tk-btn" id="tk-btn" aria-pressed="false" aria-label="Pause headlines">❚❚</button>
 </div></div>
@@ -677,13 +679,7 @@ function viewHome(){
       ${leadIm?`<figure class="lead-photo${isLogo(leadIm)?' logo':''}">${imgTag(leadIm,'',lead.h)}${leadIm.c?`<figcaption>${esc(leadIm.c)}</figcaption>`:''}</figure>`:''}
       <ul class="more-front">${fronts.map(a=>{const im=pic(a);return `<li><div><a class="h" href="${href(a)}">${esc(a.h)}</a><p>${esc(excerpt(a,150))}</p></div>${im&&!isLogo(im)?`<a href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`}).join('')}</ul>
     </div>
-    ${main?`<aside class="side" aria-label="The interview">
-      <p class="kicker">The interview · ${edLabel(main.issue)}</p>
-      <h2><a href="${href(main)}">${esc(main.h)}</a></h2>
-      ${pic(main)?`<figure class="por">${imgTag(pic(main))}${pic(main).c?`<figcaption>${esc(pic(main).c)}</figcaption>`:''}</figure>`:''}
-      <p class="x">${esc(excerpt(main,240))}</p>
-      <a class="read" href="${href(main)}">Read the interview →</a>
-    </aside>`:''}
+    <aside class="side side-wnd" aria-label="News Dispatch">${wndSide()}</aside>
   </div>
   <div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
   </div>
@@ -692,7 +688,13 @@ function viewHome(){
     <div class="sec-head"><h2 id="h-ed">In the ${edLabel(LATEST)} edition</h2><p>${ISSUE[LATEST].date} · ${ed.length} articles · <a class="all" href="#e-${LATEST}">Read the full edition →</a></p></div>
     <div class="edrow"><div class="ed-main"><div class="obs">${restEd.slice(0,6).map(card).join('')}</div>
     <div class="brief"><h3>ALSO INSIDE</h3><ul>${restEd.slice(6).map(a=>`<li><a href="${href(a)}">${esc(titleOf(a))}</a><p class="meta">${esc(secLabel(a))}${a.page?` · page ${a.page}`:''}</p></li>`).join('')}</ul></div></div>
-    <aside class="ed-side" aria-label="World News Dispatch">${wndSide()}</aside></div>
+    ${main?`<aside class="ed-side" aria-label="The interview"><div class="side iv-side">
+      <p class="kicker">The interview · ${edLabel(main.issue)}</p>
+      <h2><a href="${href(main)}">${esc(main.h)}</a></h2>
+      ${pic(main)?`<figure class="por">${imgTag(pic(main))}${pic(main).c?`<figcaption>${esc(pic(main).c)}</figcaption>`:''}</figure>`:''}
+      <p class="x">${esc(excerpt(main,240))}</p>
+      <a class="read" href="${href(main)}">Read the interview →</a>
+    </div></aside>`:''}</div>
     <div class="numbers" style="margin-top:32px">
       <p class="label">THE NUMBERS THIS YEAR</p>
       <div class="num-grid">${numbers.filter(x=>x.a).map(x=>`<div class="num"><b>${x.n}</b><span>${esc(x.t)}</span><a href="${href(x.a)}">${esc(edLabel(x.a.issue))} · read the story →</a></div>`).join('')}</div>
@@ -874,7 +876,7 @@ function viewObserver(){
   </section>
   <section class="sec wrap" aria-labelledby="h-rep"><div class="sec-head"><h2 id="h-rep">The Observatory</h2><p>Start with one of five main reports, then explore Malta’s future plans, elections, what to watch next, or how the Observer works.</p></div>
     <ul class="reports">${OBS.reports.map(r=>`<li>${ext(MO+r[2], `<span class="no">${r[0]}</span><b>${esc(r[1])}</b><span>${esc(r[3])}</span>`)}</li>`).join('')}</ul>
-    <div class="backbar"><a href="#dispatch">Today’s World News Dispatch →</a>${ext(MO+'world-news-dispatch.html','World News Dispatch ↗')}${ext('https://tpnintel.com/','The ThinkPeople Nexus Dispatch ↗')}${ext(MO+'about.html','About the Observatory ↗')}</div>
+    <div class="backbar"><a href="#dispatch">Today’s News Dispatch →</a>${ext(MO+'world-news-dispatch.html','World News Dispatch ↗')}${ext('https://tpnintel.com/','The ThinkPeople Nexus Dispatch ↗')}${ext(MO+'about.html','About the Observatory ↗')}</div>
   </section>`;
 }
 function tcard(x){
@@ -910,7 +912,7 @@ function tickerHtml(){
 function wndSide(){
   const malta = WND.items.filter(x=>x[0]==='malta');
   const leads = WND.items.filter(x=>x[3] && x[0]!=='malta');
-  return `<section class="wnd" aria-labelledby="h-wnd"><p class="kicker">Malta Observer</p><h2 id="h-wnd"><a href="#dispatch">World News Dispatch</a></h2>
+  return `<section class="wnd" aria-labelledby="h-wnd"><p class="kicker">Malta Observer</p><h2 id="h-wnd"><a href="#dispatch">News Dispatch</a></h2>
     <p class="wnd-ed">${esc(WND.edition)}</p>
     <ol>${malta.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
     <p class="grp2">Lead stories</p>
@@ -918,11 +920,11 @@ function wndSide(){
     <div class="more"><a href="#dispatch">The full dispatch →</a>${ext(WNDU,'maltaobserver.com ↗')}</div></section>`;
 }
 function viewDispatch(){
-  return `<section class="sec wrap"><div class="sec-head"><h1>World News Dispatch</h1><p>From the Malta Observer. ${esc(WND.edition)}. ${esc(WND.window)}. Each headline opens at its publisher.</p></div>
+  return `<section class="sec wrap"><div class="sec-head"><h1>News Dispatch</h1><p>From the Malta Observer. ${esc(WND.edition)}. ${esc(WND.window)}. Each headline opens at its publisher.</p></div>
   <div class="dsp">${WND.sections.map(([k,l])=>{ const its=WND.items.filter(x=>x[0]===k); const lead=its.find(x=>x[3])||its[0]; const rest=its.filter(x=>x!==lead);
     return `<section class="dsec" aria-label="${esc(l)}"><h2>${esc(l)}</h2><article class="dlead"><p class="kicker">Lead story</p><h3>${ext(lead[5],esc(lead[4]))}</h3>${lead[8]?`<p>${esc(lead[8])}</p>`:''}<div class="m">${wndMeta(lead)}</div></article>
       <ol>${rest.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol></section>`; }).join('')}</div>
-  <div class="backbar">${ext(WNDU,'Open the live World News Dispatch ↗')}<a href="#observer">The Malta Observer front page →</a></div></section>`;
+  <div class="backbar">${ext(WNDU,'Open the live dispatch on maltaobserver.com ↗')}<a href="#observer">The Malta Observer front page →</a></div></section>`;
 }
 function viewNotFound(){
   return `<section class="sec wrap"><div class="sec-head"><h1>Page not found</h1></div><p>That story or section isn’t in the archive. <a href="#home" style="color:var(--gold-text);font-weight:600">Go to the front page →</a></p></section>`;
@@ -958,7 +960,7 @@ function route(){
   else if (h==='interviews') { html = viewInterviews(); title='Interviews · The Corporate Times'; }
   else if (h==='editions') { html = viewEditions(); title='Editions · The Corporate Times'; }
   else if (h==='search') { html = viewSearch(); title='Search · The Corporate Times'; }
-  else if (h==='dispatch') { html = viewDispatch(); cur='observer'; title='World News Dispatch · The Corporate Times'; }
+  else if (h==='dispatch') { html = viewDispatch(); cur='observer'; title='News Dispatch · The Corporate Times'; }
   else if (h==='observer') { html = viewObserver(); title='Malta Observer · The Corporate Times'; }
   else if (h==='thinking') { html = viewThinking(); title='Thinking · The Corporate Times'; }
   else if (h==='partners') { html = viewHome(); cur='home'; }
