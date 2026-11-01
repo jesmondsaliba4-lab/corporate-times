@@ -260,6 +260,21 @@ h1,h2,h3,h4{text-wrap:balance}
 .cq-tabs a{border:1px solid var(--rule);padding:6px 14px;font-weight:600;font-size:14px}
 .cq-tabs a[aria-current]{background:var(--navy);border-color:var(--navy);color:#fff}
 .cde-list h3{font-size:clamp(19px,1.6vw,23px)}
+.list .th.logo.ci{background:#fff}
+.list .th.logo.ci img{padding:4%}
+.clients{margin:18px 0 0}
+.clients .label{margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.chips{display:flex;flex-wrap:wrap;gap:6px 8px;margin:0}
+.chips a{border:1px solid var(--rule);padding:5px 11px;font-size:13px;font-weight:600;white-space:nowrap}
+.chips a span{font-weight:400;color:var(--muted);margin-left:2px}
+.chips a[aria-current]{background:var(--navy);border-color:var(--navy);color:#fff}
+.chips a[aria-current] span{color:rgba(255,255,255,.75)}
+.clients details{margin-top:10px}
+.clients summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--gold-text)}
+.clients details .chips{margin-top:10px}
+.client-h{margin:26px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(24px,2.2vw,30px)}
+.client-h span{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted);margin-left:8px}
+.ddpanel .ddsub{margin:16px 0 6px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
 .cde-src{margin-top:28px;font-size:13px;color:var(--muted)}
 .list li.cde-hits{display:block;padding:0;border:0}
 .prose .bio{margin-top:2em;padding-top:14px;border-top:1px solid var(--rule);font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--muted);font-style:italic}
@@ -537,7 +552,7 @@ const SEC = {
   commentary:{l:'Corporate Commentary', n:'The editorial view of The Corporate Times, every month.'},
   culture:{l:'Culture', n:'Arts and culture.'}
 };
-const NAV = [['home','Front page'],['news','News'],['s-commentary','Commentary'],['interviews','Interviews'],['s-finance','Finance'],['s-law','Law'],['s-work','People & Work'],['s-tech','Technology'],['s-maritime','Maritime'],['s-business','Economy'],['s-europe','Europe'],['s-opinion','Opinion'],['thinking','Thinking'],['x-pr-link','Corporate Identities'],['@comuniq','Comuniq.eu'],['@observer','Malta Observer'],['editions','Editions']];
+const NAV = [['home','Front page'],['news','News'],['s-commentary','Commentary'],['interviews','Interviews'],['s-finance','Finance'],['s-law','Law'],['s-work','People & Work'],['s-tech','Technology'],['s-maritime','Maritime'],['s-business','Economy'],['@europe','Europe'],['s-opinion','Opinion'],['thinking','Thinking'],['x-pr-link','Corporate Identities'],['@observer','Malta Observer'],['editions','Editions']];
 const MO = 'https://maltaobserver.com/';
 const OBS = {
   asof: '31 October 2026',
@@ -975,8 +990,8 @@ function viewDispatch(){
 /* ---------- cde.news archive: Corporate Identities (PR Link) and Comuniq.eu (L-Ewropej, Int fl-Ewropa) ---------- */
 const CDE = {
   'pr-link': {l:'Corporate Identities', k:'PR Link', nav:'x-pr-link', dd:'', n:'Company news and press releases carried by Corporate Identities on cde.news, newest first.'},
-  'ewropej': {l:'L-Ewropej', k:'Comuniq.eu', nav:'comuniq', dd:'Europe and the EU institutions', n:'European news from the Comuniq.eu desk on cde.news, newest first.'},
-  'int-fl-ewropa': {l:'Int fl-Ewropa', k:'Comuniq.eu', nav:'comuniq', dd:'Malta’s MEPs at work', n:'Malta’s MEPs and the European Parliament, from the Comuniq.eu desk on cde.news, newest first.'}
+  'ewropej': {l:'L-Ewropej', k:'Comuniq.eu', nav:'europe', dd:'Europe and the EU institutions', n:'European news from the Comuniq.eu desk on cde.news, newest first.'},
+  'int-fl-ewropa': {l:'Int fl-Ewropa', k:'Comuniq.eu', nav:'europe', dd:'Malta’s MEPs at work', n:'Malta’s MEPs and the European Parliament, from the Comuniq.eu desk on cde.news, newest first.'}
 };
 const CQ = ['ewropej','int-fl-ewropa'];
 const CDEL = {}, CDEA = {}, CDEP = {};
@@ -997,22 +1012,35 @@ function cdeLater(h, fn){
 }
 function cdeHead(k){
   const C = CDE[k];
-  const tabs = C.nav==='comuniq' ? `<p class="cq-tabs">${CQ.map(x=>`<a href="#x-${x}"${x===k?' aria-current="page"':''}>${esc(CDE[x].l)}</a>`).join('')}</p>` : '';
+  const tabs = C.nav==='europe' ? `<p class="cq-tabs">${CQ.map(x=>`<a href="#x-${x}"${x===k?' aria-current="page"':''}>${esc(CDE[x].l)}</a>`).join('')}</p>` : '';
   return {C, tabs};
 }
-function viewCdeList(k){
-  const h = 'x-'+k;
+function clientBar(k, L, cl){
+  if (!L.clients) return '';
+  const top = L.clients.slice(0,10), rest = L.clients.slice(10);
+  const chip = (slug, name, n) => `<a href="#x-${k}${slug?'/'+slug:''}"${slug===cl?' aria-current="page"':''}>${esc(name)} <span>${n}</span></a>`;
+  const inRest = rest.some(c=>c[0]===cl);
+  return `<div class="clients"><p class="label">By client</p><p class="chips">${chip('', 'All', L.count)}${top.map(c=>chip(...c)).join('')}${chip('other','Other releases',L.other)}</p>
+    <details${inRest?' open':''}><summary>All ${L.clients.length} clients</summary><p class="chips">${rest.map(c=>chip(...c)).join('')}</p></details></div>`;
+}
+function viewCdeList(k, cl=''){
+  const h = 'x-'+k+(cl?'/'+cl:'');
   const render = L => {
     const {C, tabs} = cdeHead(k);
-    const years = [...new Set(L.items.map(i=>i.d.slice(0,4)))];
+    const named = cl && cl!=='other' ? (L.clients||[]).find(c=>c[0]===cl) : null;
+    if (cl && cl!=='other' && !named) return viewNotFound();
+    const items = cl==='other' ? L.items.filter(i=>!i.cl) : cl ? L.items.filter(i=>i.cl===cl) : L.items;
+    const years = [...new Set(items.map(i=>i.d.slice(0,4)))];
+    const sub = named ? `<h2 class="client-h">${esc(named[1])} <span>${items.length} release${items.length>1?'s':''}</span></h2>` : cl==='other' ? `<h2 class="client-h">Other releases <span>${items.length}</span></h2>` : '';
     let out='', m='', y='';
-    for (const it of L.items){
+    for (const it of items){
+      const ctPic = !it.im && it.ct && BY[it.ct] && pic(BY[it.ct]) && !isLogo(pic(BY[it.ct])) ? pic(BY[it.ct]) : null;
       const mk = it.d.slice(0,7);
       if (mk!==m){ if(m) out+='</ul>'; m=mk; const yy=mk.slice(0,4); out+=`<h2 class="grp"${yy!==y?` id="y-${k}-${yy}"`:''}>${esc(cdeMonth(mk).toUpperCase())}</h2><ul class="list cde-list">`; y=yy; }
-      out += `<li><div class="t"><h3><a href="${cdeHref(it)}">${esc(it.t)}</a></h3><p>${esc(it.x)}</p><p class="meta">${esc(cdeDate(it.d))}${it.ct?' · Also in the '+esc(edLabel(BY[it.ct]?BY[it.ct].issue:LATEST))+' edition':''}</p></div>${it.im?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="${esc(it.im)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.remove()"></a>`:''}</li>`;
+      out += `<li><div class="t"><h3><a href="${cdeHref(it)}">${esc(it.t)}</a></h3><p>${esc(it.x)}</p><p class="meta">${esc(cdeDate(it.d))}${it.ct?' · Also in the '+esc(edLabel(BY[it.ct]?BY[it.ct].issue:LATEST))+' edition':''}</p></div>${it.im?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="${esc(it.im)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;${k==='pr-link'?`this.src='img/ci-tile.jpg';this.parentNode.classList.add('logo','ci')`:'this.parentNode.remove()'}"></a>`:ctPic?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true">${imgTag(ctPic)}</a>`:(k==='pr-link'?`<a class="th logo ci" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="img/ci-tile.jpg" alt="" loading="lazy" decoding="async"></a>`:'')}</li>`;
     }
     if (m) out+='</ul>';
-    return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}
+    return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}${clientBar(k, L, cl)}${sub}
       <nav class="yearbar" aria-label="Jump to year">${years.map(yy=>`<a href="#y-${k}-${yy}" data-jump="y-${k}-${yy}">${yy}</a>`).join('')}</nav>
       ${out}<p class="cde-src">From the cde.news archive (${esc(C.k)}). Each story links to its original on cde.news.</p></section>`;
   };
@@ -1034,19 +1062,21 @@ function viewCdeArticle(id){
       more = `<p class="kicker">More ${esc(C.l)}</p><ol>${near.map(x=>`<li><a href="${cdeHref(x)}">${esc(x.t)}</a><p class="meta">${esc(cdeDate(x.d))}</p></li>`).join('')}</ol>`; }
     else cdeList(k).then(()=>{ if (decodeURIComponent((location.hash||'').slice(1))===h){ const t=document.getElementById('cde-trail'); if(t) t.outerHTML = viewCdeArticle(id).match(/<aside class="trail"[\s\S]*?<\/aside>/)[0]; } }).catch(()=>{});
     const also = a.cats.length>1 ? ` · also in ${a.cats.slice(1).map(c=>`<a href="#x-${c}">${esc(CDE[c].l)}</a>`).join(', ')}` : '';
-    const ctA = (L && (L.items.find(x=>x.id===a.id)||{}).ct);
+    const li = L ? (L.items.find(x=>x.id===a.id)||{}) : {};
+    const ctA = li.ct;
+    const clN = li.cl && L.clients ? (L.clients.find(c=>c[0]===li.cl)||[])[1] : '';
     const adKey = ['fm','antes','ganado','et','deepal'][Number(a.id)%5];
     return `<article class="article wrap">
     <div class="head">
-      <p class="kicker"><a href="#x-${k}">${esc(C.l)}</a>${C.nav==='comuniq'?' <span class="iv">· Comuniq.eu</span>':''}${also}</p>
+      <p class="kicker"><a href="#x-${k}">${esc(C.l)}</a>${C.nav==='europe'?' <span class="iv">· Comuniq.eu</span>':''}${clN?` · <a href="#x-${k}/${li.cl}">${esc(clN)}</a>`:''}${also}</p>
       <h1>${esc(a.t)}</h1>
-      <div class="byline"><span><strong>${C.nav==='comuniq'?'Comuniq.eu':'Corporate Identities'}</strong></span><span>${esc(cdeDate(a.d))}</span><span>${ext(a.u,'Original on cde.news ↗')}</span></div>
+      <div class="byline"><span><strong>${C.nav==='europe'?'Comuniq.eu':'Corporate Identities'}</strong></span><span>${esc(cdeDate(a.d))}</span><span>${ext(a.u,'Original on cde.news ↗')}</span></div>
     </div>
     <div class="cols">
       <div class="prose cde">${a.html}
         ${ctA && BY[ctA] ? `<p class="bio"><a href="#a-${ctA}">This story also appears in the ${esc(edLabel(BY[ctA].issue))} edition of The Corporate Times →</a></p>`:''}
         <p class="bio">First published on cde.news, ${esc(cdeDate(a.d))}. ${ext(a.u,'Read the original ↗')}</p>
-        <div class="backbar"><a href="#x-${k}">More ${esc(C.l)} →</a>${C.nav==='comuniq'?CQ.filter(x=>x!==k).map(x=>`<a href="#x-${x}">${esc(CDE[x].l)} →</a>`).join(''):''}<a href="#home">Front page</a></div>
+        <div class="backbar"><a href="#x-${k}">More ${esc(C.l)} →</a>${C.nav==='europe'?CQ.filter(x=>x!==k).map(x=>`<a href="#x-${x}">${esc(CDE[x].l)} →</a>`).join(''):''}<a href="#home">Front page</a></div>
       </div>
       <aside class="trail" id="cde-trail" aria-label="More stories">${more}
         <div class="ad"><p class="adlabel">Advertisement</p><img src="${ADS[adKey].f}" alt="${esc(ADS[adKey].c)} advertisement" loading="lazy"></div>
@@ -1069,11 +1099,13 @@ function viewNotFound(){
 const main = document.getElementById('main');
 function navHtml(cur){
   return NAV.map(([h,l])=> h[0]==='@'
-    ? `<button type="button" class="dd${cur===h.slice(1)?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
+    ? `<button type="button" class="dd${cur===h.slice(1)||(h==='@europe'&&cur==='s-europe')?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
     : `<a href="#${h}"${cur===h?' aria-current="page"':''}>${esc(l)}</a>`).join('');
 }
 function ddPanel(which){
-  if (which==='comuniq') return `<div class="wrap"><div class="ddhead"><p>Comuniq.eu · European news and the work of Malta’s MEPs, from the cde.news archive.</p></div>
+  if (which==='europe') return `<div class="wrap"><div class="ddhead"><p>Europe · what Brussels and Strasbourg decide, and what it means for Malta.</p></div>
+  <ul class="ddgrid"><li><a href="#s-europe"><b>Europe</b><span>Inti fl-Ewropa, in The Corporate Times editions</span></a></li></ul>
+  <p class="ddsub">Comuniq.eu</p>
   <ul class="ddgrid">${CQ.map(k=>`<li><a href="#x-${k}"><b>${esc(CDE[k].l)}</b><span>${esc(CDE[k].dd)}</span></a></li>`).join('')}</ul></div>`;
   return `<div class="wrap"><div class="ddhead"><p>Malta Observer · ThinkPeople Nexus Malta Observatory. Reports open on maltaobserver.com.</p><span style="display:flex;gap:18px;flex-wrap:wrap"><a href="#observer">The Observer front page here →</a><a href="#dispatch">World News Dispatch here →</a></span></div>
   <ul class="ddgrid">${OBS.pages.map(p=>`<li>${ext(MO+p[1], `<b>${esc(p[0])}</b><span>${esc(p[2])}</span>`)}</li>`).join('')}</ul></div>`;
@@ -1104,7 +1136,7 @@ function route(){
   else if (h==='observer') { html = viewObserver(); title='Malta Observer · The Corporate Times'; }
   else if (h==='thinking') { html = viewThinking(); title='Thinking · The Corporate Times'; }
   else if (h==='partners') { html = viewHome(); cur='home'; }
-  else if (h.startsWith('x-') && CDE[h.slice(2)]) { const k=h.slice(2); html = viewCdeList(k); cur = CDE[k].nav; title = CDE[k].l+' · The Corporate Times'; }
+  else if (h.startsWith('x-') && CDE[h.slice(2).split('/')[0]]) { const [k,cl]=h.slice(2).split('/'); html = viewCdeList(k, cl||''); cur = CDE[k].nav; title = CDE[k].l+' · The Corporate Times'; }
   else if (h.startsWith('c-')) { html = viewCdeArticle(h.slice(2)); cur = cdeCur(h.slice(2)); title = cdeTitle(h.slice(2)); }
   else if (h.startsWith('s-')) { html = viewSection(h.slice(2)); title=(SEC[h.slice(2)]||{l:''}).l+' · The Corporate Times'; }
   else if (h.startsWith('e-')) { html = viewEdition(h.slice(2)); cur='editions'; title=(ISSUE[h.slice(2)]||{label:''}).label+' · The Corporate Times'; }
