@@ -917,7 +917,8 @@ function tickerHtml(){
   return li + li.replace(/<li>/g,'<li aria-hidden="true">').replace(/<a /g,'<a tabindex="-1" ');
 }
 function wndSide(){
-  const malta = WND.items.filter(x=>x[0]==='malta').slice(0,2);
+  const maltaAll = WND.items.filter(x=>x[0]==='malta');
+  const malta = maltaAll.slice(0,2), maltaMore = maltaAll.slice(2);
   const leads = WND.items.filter(x=>x[3] && x[0]!=='malta' && x[0]!=='sport');
   return `<section class="wnd" aria-labelledby="h-wnd"><p class="kicker">Malta Observer</p><h2 id="h-wnd"><a href="#dispatch">News Dispatch</a></h2>
     <p class="wnd-ed">${esc(WND.edition)}</p>
@@ -925,6 +926,8 @@ function wndSide(){
     <ol>${malta.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
     <p class="grp2">Lead stories</p>
     <ol>${leads.map(x=>`<li><span class="tk-sec" style="color:var(--gold-text)">${esc(wndSec(x[0]))}</span><br>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>
+    ${maltaMore.length?`<p class="grp2">More from Malta</p>
+    <ol>${maltaMore.map(x=>`<li>${ext(x[5],esc(x[4]))}<div class="m">${wndMeta(x)}</div></li>`).join('')}</ol>`:''}
     </div>
     <div class="more"><a href="#dispatch">The full dispatch →</a>${ext(WNDU,'maltaobserver.com ↗')}</div></section>`;
 }
