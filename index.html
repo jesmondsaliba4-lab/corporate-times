@@ -1223,8 +1223,14 @@ function mergeDesk(list){
   mergeDesk.done = true;
   for (let i = A.length-1; i >= 0; i--) if (A[i].desk) { delete BY[A[i].id]; A.splice(i,1); }
   for (const a of CI.splice(0)) delete BY[a.id];
+  // The same story released twice on the Sites desk (e.g. once under Business, once under
+  // Corporate Identities) shows once: the most recent release wins.
+  const hkey = s => String(s && s.headline || '').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+  const newest = {};
+  list.slice(0,24).forEach(s=>{ if (s && s.headline) { const k = hkey(s); if (!newest[k] || String(s.released_at||'') > String(newest[k].released_at||'')) newest[k] = s; } });
   list.slice(0,24).forEach((s,i)=>{
     if (!s || !s.id || !s.headline) return;
+    if (newest[hkey(s)] !== s) return;
     const sec = SEC[s.section] ? s.section : (DSEC[s.section] || 'business');
     const body = (s.body||[]).filter(b=>Array.isArray(b) && (b[0]==='h'||b[0]==='p'));
     const a = { id:'d-'+String(s.id).replace(/[^a-z0-9_]/gi,''), issue:LATEST, sec, news:s.kind==='article', pr:s.kind==='press', ci:s.kind==='press' || s.section==='corporate-identities', iv:false, page:null, ord:i,
