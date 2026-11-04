@@ -74,7 +74,7 @@ function mapDispatch(wd) {
   const w = L.window || {};
   return {
     edition: `${cap(L.slot || 'latest')} edition · ${L.slot_date ? longDate(L.slot_date) : ''}`,
-    window: `Top stories from ${stamp(w.from)} to ${stamp(w.to)}, Malta time · published ${stamp(L.approved_at)}`,
+    window: `Top stories from ${stamp(w.from)} to ${stamp(w.to)}, Malta time · published ${stamp(L.approved_at || (L.publication && L.publication.approved_at))}`,
     sections: SECTIONS.map(s => [s[0], s[1]]),
     items
   };
@@ -156,9 +156,17 @@ function mapDesk(j) {
   })).filter(s => s.id && s.headline);
 }
 
+// The News Dispatch comes straight from the engine's public feed (the same approved editions the Observer shows);
+// the Observer's own copy is the fallback. Since 3 Nov 2026 maltaobserver.com/api/world-dispatch answers 401.
+const WORLD = PUB ? PUB.replace(/\/v1\/publisher\.json$/i, '/v1/world-dispatch.json') : '';
+async function worldDispatch() {
+  if (WORLD) { try { return await get(WORLD); } catch (e) { /* fall through to the Observer */ } }
+  return get(MO + '/api/world-dispatch');
+}
+
 export default async function handler(req, res) {
   const [wd, gl, tp, l5, dk] = await Promise.allSettled([
-    get(MO + '/api/world-dispatch'), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text'),
+    worldDispatch(), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text'),
     PUB ? get(PUB + '?site=corporate-times') : Promise.resolve(null)]);
   const val = p => p.status === 'fulfilled' ? p.value : null;
   const body = {
