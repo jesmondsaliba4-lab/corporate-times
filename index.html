@@ -655,7 +655,7 @@ const isLogo = im => im && LOGOS.has(im.f);
 const mins = a => Math.max(1, Math.round(a.w/220));
 function secLabel(a){ return a.sec==='commentary' ? 'Corporate Commentary' : SEC[a.sec].l; }
 function kicker(a){
-  let k = `<a href="#s-${a.sec}">${esc(secLabel(a))}</a>`;
+  let k = a.ci ? `<a href="#x-pr-link">Corporate Identities</a>` : `<a href="#s-${a.sec}">${esc(secLabel(a))}</a>`;
   if (a.iv) k += ` <span class="iv">· Interview</span>`;
   else if (a.news) k += ` <span class="iv">· News</span>`;
   else if (a.pr) k += ` <span class="iv">· Press release</span>`;
@@ -1073,7 +1073,11 @@ function viewCdeList(k, cl=''){
       out += `<li><div class="t"><h3><a href="${cdeHref(it)}">${esc(it.t)}</a></h3><p>${esc(it.x)}</p><p class="meta">${esc(cdeDate(it.d))}${it.ct?' · Also in the '+esc(edLabel(BY[it.ct]?BY[it.ct].issue:LATEST))+' edition':''}</p></div>${it.im?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="${esc(it.im)}" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.onerror=null;${k==='pr-link'?`this.src='img/ci-tile.jpg';this.parentNode.classList.add('logo','ci')`:'this.parentNode.remove()'}"></a>`:ctPic?`<a class="th" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true">${imgTag(ctPic)}</a>`:(k==='pr-link'?`<a class="th logo ci" href="${cdeHref(it)}" tabindex="-1" aria-hidden="true"><img src="img/ci-tile.jpg" alt="" loading="lazy" decoding="async"></a>`:'')}</li>`;
     }
     if (m) out+='</ul>';
-    return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}${clientBar(k, L, cl)}${sub}
+    // Press releases released on publish.tpnintel.com (the Sites desk), newest first, above the cde.news archive.
+    const fresh = k==='pr-link' && !cl ? A.filter(a=>a.desk && a.ci).sort((x,y)=>String(y.date).localeCompare(String(x.date))) : [];
+    const latest = fresh.length ? `<h2 class="grp">LATEST FROM CORPORATE IDENTITIES</h2><ul class="list cde-list">${fresh.map(a=>{ const im = pic(a);
+      return `<li><div class="t"><h3><a href="#a-${a.id}">${esc(a.h)}</a></h3>${a.d?`<p>${esc(a.d)}</p>`:''}<p class="meta">${esc(deskDate(a.date))}${a.pr?' · Press release':''}${a.by?' · '+esc(a.by):''}</p></div>${im?`<a class="th" href="#a-${a.id}" tabindex="-1" aria-hidden="true"><img src="${esc(im.f)}" alt="" loading="lazy"></a>`:''}</li>`; }).join('')}</ul>` : '';
+    return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}${latest}${clientBar(k, L, cl)}${sub}
       <nav class="yearbar" aria-label="Jump to year">${years.map(yy=>`<a href="#y-${k}-${yy}" data-jump="y-${k}-${yy}">${yy}</a>`).join('')}</nav>
       ${out}<p class="cde-src">From the cde.news archive (${esc(C.k)}). Each story links to its original on cde.news.</p></section>`;
   };
@@ -1210,7 +1214,7 @@ const GMAP={growth:/^Real GDP growth/,prices:/^Prices, Retail/,housing:/^Housing
 /* Stories released on publish.tpnintel.com (the Sites desk) arrive with the live feed: they join the current edition
    as online stories, newest first, ahead of the print pages, so a release reaches the front page. A withdrawn story
    simply stops arriving and is removed. */
-const DSEC = {thinking:'opinion'};
+const DSEC = {thinking:'opinion', 'corporate-identities':'business'};
 function mergeDesk(list){
   mergeDesk.done = true;
   for (let i = A.length-1; i >= 0; i--) if (A[i].desk) { delete BY[A[i].id]; A.splice(i,1); }
@@ -1218,7 +1222,7 @@ function mergeDesk(list){
     if (!s || !s.id || !s.headline) return;
     const sec = SEC[s.section] ? s.section : (DSEC[s.section] || 'business');
     const body = (s.body||[]).filter(b=>Array.isArray(b) && (b[0]==='h'||b[0]==='p'));
-    const a = { id:'d-'+String(s.id).replace(/[^a-z0-9_]/gi,''), issue:LATEST, sec, news:s.kind==='article', pr:s.kind==='press', iv:false, page:null, ord:i,
+    const a = { id:'d-'+String(s.id).replace(/[^a-z0-9_]/gi,''), issue:LATEST, sec, news:s.kind==='article', pr:s.kind==='press', ci:s.kind==='press' || s.section==='corporate-identities', iv:false, page:null, ord:i,
       h:s.headline, d:s.dek||'', by:String(s.author||'').replace(/^by\s+/i,''), bio:'', body: body.length ? body : [['p', s.dek||'']],
       img: s.image && /^https:\/\//.test(s.image.url) ? [{f:s.image.url, w:s.image.width||1600, h:s.image.height||1000, c:[s.image.alt, s.image.credit].filter(Boolean).join(' · ')}] : [],
       w: body.reduce((n,b)=>n+String(b[1]).split(/\s+/).length,0), desk:true, date:s.released_at, link: /^https:\/\//.test(s.link||'') ? s.link : '' };
