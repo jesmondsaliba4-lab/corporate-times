@@ -893,7 +893,7 @@ function viewArticle(id){
   if (a.sec==='europe') body += `<div class="disclaimer"><img src="img/ads/ep-disclaimer.jpg" alt="European Parliament funding disclaimer" loading="lazy"></div>`;
   const sameEd = byIssue(a.issue).filter(x=>x!==a).slice(0,7);
   const sameSec = sorted(A.filter(x=>x.sec===a.sec && x!==a && x.issue!==a.issue)).slice(0,5);
-  const adKey = ['fm','antes','ganado','et','deepal'][A.indexOf(a)%5];
+  const adKey = ['fm','antes','ganado','et','deepal'][Math.max(0, A.indexOf(a) >= 0 ? A.indexOf(a) : CI.indexOf(a))%5];
   const standfirst = a.sec==='commentary' ? '' : (a.d ? `<p class="standfirst">${esc(a.d)}</p>` : '');
   const h1 = a.sec==='commentary' ? `Corporate Commentary` : a.h;
   return `<article class="article wrap">
@@ -1074,7 +1074,7 @@ function viewCdeList(k, cl=''){
     }
     if (m) out+='</ul>';
     // Press releases released on publish.tpnintel.com (the Sites desk), newest first, above the cde.news archive.
-    const fresh = k==='pr-link' && !cl ? A.filter(a=>a.desk && a.ci).sort((x,y)=>String(y.date).localeCompare(String(x.date))) : [];
+    const fresh = k==='pr-link' && !cl ? CI.slice().sort((x,y)=>String(y.date).localeCompare(String(x.date))) : [];
     const latest = fresh.length ? `<h2 class="grp">LATEST FROM CORPORATE IDENTITIES</h2><ul class="list cde-list">${fresh.map(a=>{ const im = pic(a);
       return `<li><div class="t"><h3><a href="#a-${a.id}">${esc(a.h)}</a></h3>${a.d?`<p>${esc(a.d)}</p>`:''}<p class="meta">${esc(deskDate(a.date))}${a.pr?' · Press release':''}${a.by?' · '+esc(a.by):''}</p></div>${im?`<a class="th" href="#a-${a.id}" tabindex="-1" aria-hidden="true"><img src="${esc(im.f)}" alt="" loading="lazy"></a>`:''}</li>`; }).join('')}</ul>` : '';
     return `<section class="sec wrap"><div class="sec-head"><h1>${esc(C.l)}</h1><p>${esc(C.n)} ${L.count} stories.</p></div>${tabs}${latest}${clientBar(k, L, cl)}${sub}
@@ -1215,9 +1215,14 @@ const GMAP={growth:/^Real GDP growth/,prices:/^Prices, Retail/,housing:/^Housing
    as online stories, newest first, ahead of the print pages, so a release reaches the front page. A withdrawn story
    simply stops arriving and is removed. */
 const DSEC = {thinking:'opinion', 'corporate-identities':'business'};
+/* Press releases and Corporate Identities stories (Jes, 4 Nov 2026: "remove this from the front page") are kept apart
+   in CI: they appear only on the Corporate Identities page and open on their own address, never on the front page,
+   in the edition lists or in the section strips. */
+const CI = [];
 function mergeDesk(list){
   mergeDesk.done = true;
   for (let i = A.length-1; i >= 0; i--) if (A[i].desk) { delete BY[A[i].id]; A.splice(i,1); }
+  for (const a of CI.splice(0)) delete BY[a.id];
   list.slice(0,24).forEach((s,i)=>{
     if (!s || !s.id || !s.headline) return;
     const sec = SEC[s.section] ? s.section : (DSEC[s.section] || 'business');
@@ -1226,7 +1231,8 @@ function mergeDesk(list){
       h:s.headline, d:s.dek||'', by:String(s.author||'').replace(/^by\s+/i,''), bio:'', body: body.length ? body : [['p', s.dek||'']],
       img: s.image && /^https:\/\//.test(s.image.url) ? [{f:s.image.url, w:s.image.width||1600, h:s.image.height||1000, c:[s.image.alt, s.image.credit].filter(Boolean).join(' · ')}] : [],
       w: body.reduce((n,b)=>n+String(b[1]).split(/\s+/).length,0), desk:true, date:s.released_at, link: /^https:\/\//.test(s.link||'') ? s.link : '' };
-    A.push(a); BY[a.id] = a;
+    if (a.ci) CI.push(a); else A.push(a);
+    BY[a.id] = a;
   });
 }
 async function goLive(){
