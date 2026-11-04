@@ -89,6 +89,7 @@ h1,h2,h3,h4{text-wrap:balance}
 .sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;border-bottom:3px double var(--ink);padding-bottom:12px;margin-bottom:24px}
 .sec-head h2,.sec-head h1{margin:0;font-family:var(--serif);font-weight:600;font-size:clamp(28px,2.6vw,38px);line-height:1.1}
 .sec-head p{margin:0;font-size:14px;color:var(--muted);max-width:640px}
+.sec-head .ct-word{display:inline-block;height:1.3em;width:auto;vertical-align:-.4em;margin:0 .02em}
 .sec-head .all{font-size:14px;font-weight:600;color:var(--gold-text)}
 
 /* front */
@@ -750,7 +751,7 @@ function viewHome(){
   </div>
 
   <section class="sec wrap" aria-labelledby="h-ed">
-    <div class="sec-head"><h2 id="h-ed">In the ${edLabel(LATEST)} edition</h2><p>${ISSUE[LATEST].date} · ${ed.length} articles · <a class="all" href="#e-${LATEST}">Read the full edition →</a></p></div>
+    <div class="sec-head"><h2 id="h-ed">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</h2><p>${ISSUE[LATEST].date} · ${ed.length} articles · <a class="all" href="#e-${LATEST}">Read the full edition →</a></p></div>
     <div class="edrow"><div class="ed-main"><div class="obs">${restEd.slice(0,6).map(card).join('')}</div>
     <div class="brief"><h3>ALSO INSIDE</h3><ul>${restEd.slice(6).map(a=>`<li><a href="${href(a)}">${esc(titleOf(a))}</a><p class="meta">${esc(secLabel(a))}${a.page?` · page ${a.page}`:''}</p></li>`).join('')}</ul></div></div>
     ${main?`<aside class="ed-side" aria-label="The interview"><div class="side iv-side">
