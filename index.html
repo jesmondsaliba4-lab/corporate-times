@@ -1515,7 +1515,7 @@ async function goLive(){
       if (j.glance.generated_at) OBS.asof = new Date(j.glance.generated_at).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
       changed = true;
     }
-    if (changed){ const y = window.scrollY; route.keep = true; route(); route.keep = false; window.scrollTo(0,y); }
+    if (changed && !/^#enquire/.test(location.hash)){ const y = window.scrollY; route.keep = true; route(); route.keep = false; window.scrollTo(0,y); } // an Enquire answer is not redrawn
   } catch(e) { /* keep the built-in copy */ }
   if (!mergeDesk.done && /^#a-d-/.test(location.hash)) { mergeDesk.done = true; route.keep = true; route(); route.keep = false; }
 }
