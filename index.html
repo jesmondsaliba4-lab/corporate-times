@@ -533,7 +533,11 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-num{background:var(--navy);color:var(--on-navy);padding:12px 14px;border-top:3px solid var(--gold)}
 .ctd-num b{display:block;font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
 .ctd-num span{display:block;margin-top:6px;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
-.ctd-front{padding-top:22px}
+.ctd-front{padding-top:0}
+.ctd-sidefoot{flex:none;display:block!important;margin-top:14px;padding:14px 0 0!important;border-top:3px double var(--ink);border-bottom:0!important}
+.ctd-sidefoot .ctd-mast img{height:64px}
+.ctd-sidefoot .ctd-info{text-align:left;margin-top:10px}
+.ctd-sidefoot .ctd-links{justify-content:flex-start}
 .ctd-lead h2{margin:8px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(30px,3.4vw,50px);line-height:1.05;letter-spacing:-.01em}
 .ctd-cards{list-style:none;margin:24px 0 0;padding:16px 0 0;border-top:1px solid var(--ink);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 20px}
 .ctd-cards img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--navy);margin-bottom:8px}
@@ -764,12 +768,7 @@ function dspBlock(){
     grp(W?'The world this week':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
     grp(W?'Europe this week':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
   ].join('');
-  return `<section class="ctd wrap" aria-labelledby="h-ctd">
-  <div class="ctd-head">
-    <a class="ctd-mast" href="${esc(u)}" id="h-ctd"><img src="${esc(E.masthead||'')}" alt="${esc(E.name)}"></a>
-    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
-      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':'The Daily Dispatch'} →</a>`:''}</p></div>
-  </div>
+  return `<section class="ctd wrap" aria-label="${esc(E.name)}">
   <div class="front ctd-front">
     <div class="lead ctd-lead">
       <p class="kicker">${esc(L.sector)}</p>
@@ -784,7 +783,11 @@ function dspBlock(){
     ${side?`<aside class="side side-wnd ctd-side" aria-label="The latest from the Corporate desk"><div class="wnd"><h2 class="ctd-side-h"><a href="${esc(u)}">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</a></h2>
       <div class="wnd-scroll" tabindex="0" aria-label="The latest from the Corporate desk">${side}</div>
       <div class="wnd-fill"></div>
-      <div class="more"><a href="${esc(u)}">The full edition →</a></div></div></aside>`:''}
+      <div class="ctd-head ctd-sidefoot">
+    <a class="ctd-mast" href="${esc(u)}"><img src="${esc(E.masthead||'')}" alt="${esc(E.name)}"></a>
+    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
+      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':'The Daily Dispatch'} →</a>`:''}</p></div>
+  </div></div></aside>`:''}
   </div>
   <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published on weekday mornings at 07:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
 </section>`;
