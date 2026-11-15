@@ -594,6 +594,8 @@ a.art:hover img{transform:scale(1.03)}
 .enq-ans li{margin:8px 0;font-size:16px;line-height:1.55}
 .enq-ans sup{margin-left:2px;font-size:11px;font-weight:700}
 .enq-ans sup a{color:var(--gold-text);padding:0 2px}
+.enq-ans sup.res a{background:var(--navy);color:var(--gold);border-radius:2px;padding:0 4px}
+.enq-src b.res{color:var(--navy);font-weight:700;letter-spacing:.04em}
 .enq-ans .gaps{margin:14px 0 0;font-size:15px;color:var(--muted);font-style:italic}
 .enq-ans .fine{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule-soft);font-size:13px;color:var(--muted)}
 .enq-ans .credit{margin:6px 0 0;font-size:13px;font-weight:600;color:var(--gold-text)}
@@ -916,16 +918,16 @@ async function runEnquire(q){
   const local = u => String(u||'').replace(/^https:\/\/(www\.)?corporate-times\.com\/(?=#)/,'');
   const link = (s, t) => { const u = local(s.url); return u.startsWith('#') ? `<a href="${esc(u)}">${t}</a>` : `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`; };
   const byN = Object.fromEntries((r.sources||[]).map(s=>[s.n,s]));
-  const cite = n => byN[n] ? `<sup>${link(byN[n], String(n))}</sup>` : '';
+  const cite = n => byN[n] ? `<sup${byN[n].research?' class="res" title="ThinkPeople Nexus research · Meridian"':''}>${link(byN[n], String(n))}</sup>` : '';
   out.innerHTML = `<article class="enq-ans">
     <p class="badge">${ENQ_SPARK}AI research answer</p>
     <p class="q">${esc(r.q)}</p>
     ${r.summary?`<p class="sum">${esc(r.summary)}</p>`:''}
     ${(r.points||[]).length?`<ul>${r.points.map(p=>`<li>${esc(p.text)}${(p.cites||[]).map(cite).join('')}</li>`).join('')}</ul>`:''}
     ${r.gaps?`<p class="gaps">${esc(r.gaps)}</p>`:''}
-    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources. It can make mistakes: check the linked sources.</p>
-    <p class="credit">Further research supported by ThinkPeople Nexus Insights &amp; Research · Malta Observer</p>
-    ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date)} · ${esc(s.via)}</small></li>`).join('')}</ol></div>`:''}
+    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources (Meridian news monitoring). It can make mistakes: check the linked sources.</p>
+    <p class="credit">Further research supported by ThinkPeople Nexus Insights &amp; Research · Meridian · Malta Observer</p>
+    ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date)} · ${s.research?'<b class="res">Research · Meridian</b> · ':''}${esc(s.via)}</small></li>`).join('')}</ol></div>`:''}
   </article>`;
 }
 
