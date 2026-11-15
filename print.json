@@ -186,5 +186,31 @@
    "url": "https://www.corporate-times.com/#a-2026-01-commentary",
    "image": "https://www.corporate-times.com/img/art/commentary-2026-01.jpg"
   }
+ ],
+ "house": [
+  {
+   "id": "tpn",
+   "image": "https://www.corporate-times.com/img/house/house-tpn.jpg",
+   "caption": "ThinkPeople Nexus",
+   "url": "https://thinkpeoplenexus.com/"
+  },
+  {
+   "id": "ci",
+   "image": "https://www.corporate-times.com/img/house/house-ci.jpg",
+   "caption": "Corporate Identities · Corporate ID Group",
+   "url": "https://corporateidgroup.com/"
+  },
+  {
+   "id": "observer",
+   "image": "https://www.corporate-times.com/img/house/house-observer.jpg",
+   "caption": "The Malta Observer",
+   "url": "https://www.maltaobserver.com/"
+  },
+  {
+   "id": "cde",
+   "image": "https://www.corporate-times.com/img/house/house-cde.jpg",
+   "caption": "cde.news",
+   "url": "https://cde.news/"
+  }
  ]
 }
