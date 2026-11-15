@@ -541,14 +541,18 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-num{background:var(--navy);color:var(--on-navy);padding:12px 14px;border-top:3px solid var(--gold)}
 .ctd-num b{display:block;font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
 .ctd-num span{display:block;margin-top:6px;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
-.ctd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(18px,2.4vw,32px);margin-top:22px;padding-top:16px;border-top:1px solid var(--ink)}
-.ctd-row h3{margin:0 0 8px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.ctd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:18px}
+.ctd-box{background:var(--navy);color:var(--on-navy);padding:14px 16px 10px;border-top:3px solid var(--gold)}
+.ctd-row h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 .ctd-row ul{list-style:none;margin:0;padding:0}
-.ctd-row li{padding:7px 0;border-bottom:1px dotted var(--rule);font-size:14px;line-height:1.4}
-.ctd-row li i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:6px}
-.ctd-row li b{font-weight:600}
-.ctd-row li a{color:inherit}
-.ctd-row li a:hover{color:var(--gold-text)}
+.ctd-row li{padding:8px 0;border-bottom:1px dotted var(--navy-line);font-size:14px;line-height:1.42;color:var(--on-navy-2)}
+.ctd-row li:last-child{border-bottom:0}
+.ctd-row li i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-right:6px}
+.ctd-row li b{font-weight:600;color:var(--on-navy)}
+.ctd-row li a{color:var(--gold)}
+.ctd-row li a:hover{color:var(--on-navy)}
+.ctp{padding-top:clamp(36px,4vw,52px)}
+.ctp .sec-head{margin-bottom:0}
 .ctd-foot{margin:14px 0 0;font-size:13px;color:var(--muted)}
 .ctd-foot a{color:var(--gold-text);font-weight:600}
 @media (max-width:860px){.ctd-grid{grid-template-columns:minmax(0,1fr)}.ctd-info{text-align:left}.ctd-links{justify-content:flex-start}}
@@ -753,9 +757,9 @@ function dspBlock(){
   const L = E.lead;
   const li = (x,t) => `<li>${x.tag?`<i>${esc(x.tag)}</i>`:''}${t}${x.source&&x.source.url?` <a href="${esc(x.source.url)}" target="_blank" rel="noopener" aria-label="Source: ${esc(x.source.label)}">↗</a>`:''}</li>`;
   const cols = [
-    E.inbrief.length ? `<div><h3>${W?'Also this week':'In brief'}</h3><ul>${E.inbrief.slice(0,6).map(x=>li(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)).join('')}</ul></div>` : '',
-    E.world.length ? `<div><h3>${W?'The world this week':'The world this morning'}</h3><ul>${E.world.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : '',
-    E.europe.length ? `<div><h3>${W?'Europe this week':'Europe this morning'}</h3><ul>${E.europe.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : ''
+    E.inbrief.length ? `<div class="ctd-box"><h3>${W?'Also this week':'In brief'}</h3><ul>${E.inbrief.slice(0,6).map(x=>li(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)).join('')}</ul></div>` : '',
+    E.world.length ? `<div class="ctd-box"><h3>${W?'The world this week':'The world this morning'}</h3><ul>${E.world.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : '',
+    E.europe.length ? `<div class="ctd-box"><h3>${W?'Europe this week':'Europe this morning'}</h3><ul>${E.europe.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : ''
   ].filter(Boolean);
   return `<section class="ctd wrap" aria-labelledby="h-ctd">
   <div class="ctd-head">
@@ -816,6 +820,7 @@ function viewHome(){
   const eu = sorted(A.filter(a=>a.sec==='europe'));
   const leadIm = pic(lead);
   return `${dspBlock()}
+  <section class="wrap ctp" aria-labelledby="h-ctp"><div class="sec-head"><h2 id="h-ctp">From the Monthly Print Edition</h2><p>${esc(ISSUE[LATEST].label)} edition · ${esc(ISSUE[LATEST].date)} · <a class="all" href="#e-${LATEST}">The full edition →</a> · <a class="all" href="#editions">All editions →</a></p></div></section>
   <div class="wrap"><div class="front" id="front">
     <div class="lead">
       ${kicker(lead)}
