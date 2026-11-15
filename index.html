@@ -569,6 +569,44 @@ a.art:hover img{transform:scale(1.03)}
 .ed-side{flex:1 1 360px}
 .ideas .wrap{gap:clamp(24px,3vw,40px)}
 .ideas .photo{flex:1 1 360px;max-width:360px}
+
+/* Enquire: AI-assisted research (15 Nov 2026), as on cde.news */
+.ai-ico{width:15px;height:15px;vertical-align:-2px;margin-right:5px}
+.utility .enq-link{color:var(--gold)!important;font-weight:600}
+.enq{max-width:920px}
+.enq .badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-text)}
+.enq h1{margin:6px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(34px,4vw,52px);line-height:1.05}
+.enq h1 span{font-style:italic;font-weight:500;color:var(--gold-deep)}
+.enq .intro{margin:12px 0 0;font-family:var(--serif);font-size:clamp(18px,1.5vw,21px);line-height:1.45;color:var(--ink-2)}
+.enq-form{display:flex;gap:10px;margin:22px 0 0;padding:6px;background:var(--card);border:1px solid var(--rule);border-top:3px solid var(--navy)}
+.enq-form input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:17px;padding:10px 12px;color:var(--ink)}
+.enq-form input:focus{outline:none}
+.enq-form button{border:0;background:var(--navy);color:var(--on-navy);font:600 15px/1 var(--sans);padding:0 20px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.enq-form button:hover{background:var(--gold-deep)}
+.enq-try{margin:14px 0 0;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;font-size:14px}
+.enq-try b{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.enq-try a{padding:5px 10px;border:1px solid var(--rule);background:var(--card);color:var(--ink-2)}
+.enq-try a:hover{border-color:var(--gold-deep);color:var(--gold-text)}
+.enq-ans{margin:28px 0 0;padding:22px 24px;background:var(--card);border:1px solid var(--rule);border-top:4px solid var(--navy)}
+.enq-ans .q{margin:6px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(22px,2vw,28px);line-height:1.2}
+.enq-ans .sum{margin:12px 0 0;font-family:var(--serif);font-size:19px;line-height:1.5;color:var(--ink-2)}
+.enq-ans ul{margin:14px 0 0;padding-left:20px}
+.enq-ans li{margin:8px 0;font-size:16px;line-height:1.55}
+.enq-ans sup{margin-left:2px;font-size:11px;font-weight:700}
+.enq-ans sup a{color:var(--gold-text);padding:0 2px}
+.enq-ans .gaps{margin:14px 0 0;font-size:15px;color:var(--muted);font-style:italic}
+.enq-ans .fine{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule-soft);font-size:13px;color:var(--muted)}
+.enq-ans .credit{margin:6px 0 0;font-size:13px;font-weight:600;color:var(--gold-text)}
+.enq-src{margin:18px 0 0}
+.enq-src h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
+.enq-src ol{list-style:none;margin:0;padding:0}
+.enq-src li{display:grid;grid-template-columns:30px 1fr;gap:4px 10px;padding:9px 0;border-top:1px solid var(--rule-soft);font-size:15px}
+.enq-src li span{font-weight:700;color:var(--gold-text)}
+.enq-src li small{grid-column:2;color:var(--muted);font-size:12.5px}
+.enq-wait{margin:28px 0 0;font-family:var(--serif);font-size:19px;color:var(--muted)}
+.enq-wait i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--gold-deep);animation:enqp 1s ease-in-out infinite alternate}
+@keyframes enqp{from{opacity:.25}to{opacity:1}}
+.enq-err{margin:24px 0 0;padding:14px 16px;border-left:3px solid var(--gold-deep);background:var(--parchment)}
 </style>
 
 </head>
@@ -576,7 +614,7 @@ a.art:hover img{transform:scale(1.03)}
 <a class="skip" href="#home" id="skiplink">Skip to the stories</a>
 <div class="utility"><div class="wrap">
   <span><span id="today"></span><span class="tag"> · Malta’s Corporate &amp; Business Journal</span></span>
-  <span class="links"><a href="https://daily.corporate-times.com/">Daily</a><a href="https://weekly.corporate-times.com/">Weekly</a><a href="#editions">Editions</a><a href="#interviews">Interviews</a><a href="#thinking">Thinking</a><a href="#observer">Malta Observer</a><a href="#search">Search</a><a href="#partners">Advertise</a></span>
+  <span class="links"><a class="enq-link" href="#enquire"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>Enquire</a><a href="https://daily.corporate-times.com/">Daily</a><a href="https://weekly.corporate-times.com/">Weekly</a><a href="#editions">Editions</a><a href="#interviews">Interviews</a><a href="#thinking">Thinking</a><a href="#observer">Malta Observer</a><a href="#search">Search</a><a href="#partners">Advertise</a></span>
 </div></div>
 <div class="mastband"><header class="mast wrap">
   <a class="mast-link" href="#home" aria-label="The Corporate Times, front page">
@@ -835,6 +873,47 @@ function dspBlock(){
   <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published on weekday mornings at 07:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
 </section>`;
 }
+
+/* ---------- Enquire: AI-assisted research across Corporate Times reporting ---------- */
+const ENQ_API = 'https://daily.corporate-times.com/enquire.json';
+const ENQ_TRY = ['What did Malta International Airport report this year?','What do employers think about the four-day week?','Which companies have issued bonds recently?','How is AI changing work in Malta?'];
+const ENQ_SPARK = '<svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>';
+function viewEnquire(q){
+  setTimeout(()=>{ const f=document.getElementById('enq-form'); if(!f) return;
+    f.addEventListener('submit', e=>{ e.preventDefault(); const v=document.getElementById('enq-q').value.trim(); if(v) location.hash='#enquire/'+encodeURIComponent(v); });
+    if (q) runEnquire(q); else document.getElementById('enq-q').focus(); }, 0);
+  return `<section class="sec wrap"><div class="enq">
+    <p class="badge">${ENQ_SPARK}Powered by AI</p>
+    <h1>Enquire <span>AI-assisted research</span></h1>
+    <p class="intro">Research any topic in your own words. AI reads across Corporate Times reporting, the print editions, the Daily and Weekly Dispatch and cde.news, and writes a short answer, with a numbered link to every source it used.</p>
+    <form class="enq-form" id="enq-form" role="search"><label for="enq-q" class="skip">Your enquiry</label><input id="enq-q" type="search" maxlength="300" placeholder="Your enquiry" value="${esc(q||'')}" autocomplete="off"><button type="submit">${ENQ_SPARK}Enquire</button></form>
+    <p class="enq-try"><b>Try</b>${ENQ_TRY.map(t=>`<a href="#enquire/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</p>
+    <div id="enq-out"></div>
+  </div></section>`;
+}
+async function runEnquire(q){
+  const out = document.getElementById('enq-out'); if(!out) return;
+  out.innerHTML = `<p class="enq-wait"><i></i>Reading across Corporate Times reporting…</p>`;
+  let r;
+  try { r = await fetch(ENQ_API+'?q='+encodeURIComponent(q)).then(x=>x.json()); }
+  catch(e){ r = { error:'Enquire could not be reached just now. Please try again in a minute.' }; }
+  if (decodeURIComponent((location.hash||'').replace(/^#enquire\/?/,'')) !== q) return; // the reader has moved on
+  if (r.error && !r.summary){ out.innerHTML = `<p class="enq-err">${esc(r.error)}</p>`; return; }
+  const local = u => String(u||'').replace(/^https:\/\/(www\.)?corporate-times\.com\/(?=#)/,'');
+  const link = (s, t) => { const u = local(s.url); return u.startsWith('#') ? `<a href="${esc(u)}">${t}</a>` : `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`; };
+  const byN = Object.fromEntries((r.sources||[]).map(s=>[s.n,s]));
+  const cite = n => byN[n] ? `<sup>${link(byN[n], String(n))}</sup>` : '';
+  out.innerHTML = `<article class="enq-ans">
+    <p class="badge">${ENQ_SPARK}AI research answer</p>
+    <p class="q">${esc(r.q)}</p>
+    ${r.summary?`<p class="sum">${esc(r.summary)}</p>`:''}
+    ${(r.points||[]).length?`<ul>${r.points.map(p=>`<li>${esc(p.text)}${(p.cites||[]).map(cite).join('')}</li>`).join('')}</ul>`:''}
+    ${r.gaps?`<p class="gaps">${esc(r.gaps)}</p>`:''}
+    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources. It can make mistakes: check the linked sources.</p>
+    <p class="credit">Further research supported by ThinkPeople Nexus Insights &amp; Research · Malta Observer</p>
+    ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date)} · ${esc(s.via)}</small></li>`).join('')}</ol></div>`:''}
+  </article>`;
+}
 function viewHome(){
   // the print section shows the print edition only: stories released on the Sites desk (e.g. a Thinking piece) stay out
   const ed = byIssue(LATEST, true).filter(a=>!a.desk);
@@ -991,7 +1070,7 @@ function viewInterviews(){
 }
 let searchQ = '';
 function viewSearch(){
-  return `<section class="sec wrap"><div class="sec-head"><h1>Search the archive</h1><p>Headlines, names and full text across ${A.length} articles, plus headlines from the cde.news archive.</p></div>
+  return `<section class="sec wrap"><div class="sec-head"><h1>Search the archive</h1><p>Headlines, names and full text across ${A.length} articles, plus headlines from the cde.news archive. For an answer in your own words, try <a href="#enquire" style="color:var(--gold-text);font-weight:600">Enquire →</a></p></div>
   <form class="search" role="search" id="sform"><label for="q" class="skip">Search</label><input id="q" type="search" placeholder="Try: captive insurance, Fabri, Grand Harbour" value="${esc(searchQ)}" autocomplete="off"></form>
   <p class="count" id="scount"></p><ul class="list" id="sres"></ul></section>`;
 }
@@ -1316,6 +1395,7 @@ function route(){
   else if (h==='interviews') { html = viewInterviews(); title='Interviews · The Corporate Times'; }
   else if (h==='editions') { html = viewEditions(); title='Editions · The Corporate Times'; }
   else if (h==='search') { html = viewSearch(); title='Search · The Corporate Times'; }
+  else if (h==='enquire' || h.startsWith('enquire/')) { html = viewEnquire(h.startsWith('enquire/')?h.slice(8):''); cur='enquire'; title='Enquire · The Corporate Times'; }
   else if (h==='dispatch') { html = viewDispatch(); cur='observer'; title='News Dispatch · The Corporate Times'; }
   else if (h==='observer') { html = viewObserver(); title='Malta Observer · The Corporate Times'; }
   else if (h==='thinking') { html = viewThinking(); title='Thinking · The Corporate Times'; }
