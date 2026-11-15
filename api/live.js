@@ -164,10 +164,30 @@ async function worldDispatch() {
   return get(MO + '/api/world-dispatch');
 }
 
+// The Corporate Times Dispatch: the latest published Daily and Weekly, for the front page's first section.
+// Only the fields the page shows pass through; Corporate Identities releases are not in this feed.
+function mapEdition(j) {
+  if (!j || j.contract !== 'ct-dispatch-portal/1' || j.none || !j.lead) return null;
+  const s = x => (x == null ? '' : String(x));
+  const src = x => x && x.label ? { label: s(x.label), url: https(x.url) } : null;
+  return {
+    kind: j.kind === 'weekly' ? 'weekly' : 'daily', name: s(j.name), date: s(j.date), dateLine: s(j.dateLine), number: +j.number || 0,
+    url: https(j.url), pdf: https(j.pdf), masthead: https(j.masthead), readingTime: s(j.readingTime),
+    lead: { sector: s(j.lead.sector), headline: s(j.lead.headline), standfirst: s(j.lead.standfirst), why: s(j.lead.why), image: https(j.lead.image), caption: s(j.lead.caption), source: src(j.lead.source) },
+    stories: (j.stories || []).slice(0, 6).map(x => ({ sector: s(x.sector), title: s(x.title), text: s(x.text), image: https(x.image), source: src(x.source) })),
+    numbers: (j.numbers || []).slice(0, 4).map(x => ({ value: s(x.value), label: s(x.label), source: src(x.source) })),
+    inbrief: (j.inbrief || []).slice(0, 8).map(x => ({ tag: s(x.tag), company: s(x.company), text: s(x.text), source: src(x.source) })),
+    world: (j.world || []).slice(0, 4).map(x => ({ tag: s(x.tag), title: s(x.title), source: src(x.source) })),
+    europe: (j.europe || []).slice(0, 4).map(x => ({ tag: s(x.tag), title: s(x.title), source: src(x.source) })),
+    thinking: j.thinking ? { title: s(j.thinking.title), author: s(j.thinking.author), url: https(j.thinking.url), image: https(j.thinking.image) } : null
+  };
+}
+
 export default async function handler(req, res) {
-  const [wd, gl, tp, l5, dk] = await Promise.allSettled([
+  const [wd, gl, tp, l5, dk, dd, wk] = await Promise.allSettled([
     worldDispatch(), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text'),
-    PUB ? get(PUB + '?site=corporate-times') : Promise.resolve(null)]);
+    PUB ? get(PUB + '?site=corporate-times') : Promise.resolve(null),
+    get('https://daily.corporate-times.com/edition.json'), get('https://weekly.corporate-times.com/edition.json')]);
   const val = p => p.status === 'fulfilled' ? p.value : null;
   const body = {
     fetched_at: new Date().toISOString(),
@@ -175,7 +195,8 @@ export default async function handler(req, res) {
     glance: (() => { try { return mapGlance(val(gl)); } catch { return null; } })(),
     thinking: (() => { try { return mapThinking(val(tp), val(l5)); } catch { return null; } })(),
     desk: (() => { try { return mapDesk(val(dk)); } catch { return null; } })(),
-    errors: [wd, gl, tp, l5, dk].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50', 'desk'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
+    editions: { daily: (() => { try { return mapEdition(val(dd)); } catch { return null; } })(), weekly: (() => { try { return mapEdition(val(wk)); } catch { return null; } })() },
+    errors: [wd, gl, tp, l5, dk, dd, wk].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50', 'desk', 'daily', 'weekly'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
   };
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   // 60 s at the edge: an edition approved on the Observer reaches the site within about a minute.
@@ -183,4 +204,4 @@ export default async function handler(req, res) {
   res.status(200).send(JSON.stringify(body));
 }
 
-export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking, mapDesk };
+export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking, mapDesk, mapEdition };
