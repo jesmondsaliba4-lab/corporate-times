@@ -4,9 +4,9 @@
  "ads": [
   {
    "id": "fm",
-   "image": "https://www.corporate-times.com/img/ads/fm-conference.jpg",
-   "caption": "FinanceMalta 19th Annual Conference, 11–12 November 2026",
-   "until": "2026-11-12"
+   "image": "https://www.corporate-times.com/img/ads/financemalta.jpg",
+   "caption": "FinanceMalta",
+   "url": "https://financemalta.org/"
   },
   {
    "id": "antes",
