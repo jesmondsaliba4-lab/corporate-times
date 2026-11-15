@@ -711,6 +711,32 @@ const firstPara = a => (a.body.find(b=>b[0]==='p')||['',''])[1];
 function cut(s,n){ s=s||''; if(s.length<=n) return s; const t=s.slice(0,n); return t.slice(0,t.lastIndexOf(' ')).replace(/[,;:–—-]$/,'')+'…'; }
 const excerpt = (a,n=200) => cut(a.d || firstPara(a), n);
 const pic = a => a.img && a.img[0];
+// Stories printed without a photograph get one of the Corporate Times topic illustrations (the same set as the Dispatch),
+// chosen from the headline, then the section. Used for story cards, lists and the front page; never for interview portraits.
+const ART_RULES = [
+  [/airport|airline|aviation|flight|air malta|\bKM Malta\b/i,'aviation'],
+  [/insur|captive|reinsur/i,'insurance'],
+  [/gaming|igaming|casino|betting|\bMGA\b/i,'gaming'],
+  [/\bbond|bondholder|securities|listing|prospectus|capital market/i,'bonds'],
+  [/\bbank|fintech|payment|lending|credit|\bBOV\b|HSBC|APS\b/i,'banking'],
+  [/property|real estate|construction|housing|rent\b|rental|developer|planning authority/i,'property'],
+  [/energy|power|electric|solar|\boil\b|fuel|climate|emission|\bETS\b|carbon|green/i,'energy'],
+  [/\bAI\b|artificial intelligence|digital|technolog|\bdata\b|cyber|telecom|software|\btech\b|\bGO\b|Epic|Melita/i,'telecoms'],
+  [/port|shipping|ship|maritime|freight|logistic|trailer|transport|yacht|vessel/i,'maritime'],
+  [/touris|hotel|hospitality|restaurant|travel|cruise/i,'hospitality'],
+  [/retail|consumer|shop|supermarket|food|beverage/i,'retail'],
+  [/\bMFSA\b|\bFIAU\b|regulat|court|legal|\blaw\b|directive|compliance|tribunal|judge|lawyer|advocate/i,'regulators'],
+  [/\bMSE\b|stock exchange|shares|investor|market cap|dividend/i,'markets'],
+  [/econom|\bGDP\b|inflation|budget|salar|wage|employ|labour|workforce|\bNSO\b|growth|export|deficit|tax/i,'economy']
+];
+const ART_SEC = { finance:'banking', law:'regulators', work:'economy', tech:'telecoms', maritime:'maritime', business:'economy', europe:'regulators', commentary:'economy', opinion:'general' };
+function artFor(a){
+  const text = (a.h||'')+' '+(a.d||'');
+  const r = ART_RULES.find(([re])=>re.test(a.h||'')) || ART_RULES.find(([re])=>re.test(text));
+  const t = r ? r[1] : (ART_SEC[a.sec] || 'general');
+  return { f:`img/visuals/${t}-1.jpg`, w:1600, h:750, c:'', art:true };
+}
+const picOrArt = a => pic(a) || artFor(a);
 const isLogo = im => im && LOGOS.has(im.f);
 const mins = a => Math.max(1, Math.round(a.w/220));
 function secLabel(a){ return a.sec==='commentary' ? 'Corporate Commentary' : SEC[a.sec].l; }
@@ -743,13 +769,13 @@ function imgTag(im, cls='', alt=''){
   return `<img src="${esc(im.f)}" width="${im.w}" height="${im.h}" alt="${esc(alt||im.c||'')}" loading="lazy" decoding="async"${cls?` class="${cls}"`:''}>`;
 }
 function card(a){
-  const im = pic(a);
+  const im = picOrArt(a);
   const ph = im ? `<a class="ph${isLogo(im)?' logo':''}" href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`
                 : `<a class="noph" href="${href(a)}" tabindex="-1" aria-hidden="true">${esc(cut(a.d||firstPara(a),110))}</a>`;
   return `<article>${ph}${kicker(a)}<h3><a href="${href(a)}">${esc(titleOf(a))}</a></h3><p>${esc(excerpt(a,170))}</p><p class="meta">${metaLine(a)}</p></article>`;
 }
 function listItem(a){
-  const im = pic(a);
+  const im = picOrArt(a);
   return `<li><div class="t">${kicker(a)}<h3><a href="${href(a)}">${esc(titleOf(a))}</a></h3><p>${esc(excerpt(a,240))}</p><p class="meta">${metaLine(a)}${a.page?` · Print page ${a.page}`:''}</p></div>${im?`<a class="th${isLogo(im)?' logo':''}" href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`;
 }
 function adFig(k){ const x=ADS[k]; return `<figure><p class="adlabel">Advertisement</p><img src="${x.f}" alt="${esc(x.c)} advertisement" loading="lazy"><figcaption>${esc(x.c)}</figcaption></figure>`; }
@@ -835,7 +861,7 @@ function viewHome(){
     return `<section class="sec wrap" aria-labelledby="h-${s}"><div class="sec-head"><h2 id="h-${s}">${esc(SEC[s].l)}</h2><a class="all" href="#s-${s}">All ${total} stories →</a></div><div class="obs four">${pickd.map(card).join('')}</div></section>`;
   }).join('');
   const eu = sorted(A.filter(a=>a.sec==='europe'));
-  const leadIm = pic(lead);
+  const leadIm = picOrArt(lead);
   return `${dspBlock()}
   <section class="sec wrap" aria-labelledby="h-think">
     <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
@@ -853,7 +879,7 @@ function viewHome(){
       <p class="standfirst">${esc(excerpt(lead,260))}</p>
       <p class="meta">Front page · ${ISSUE[LATEST].date} · ${mins(lead)} min read</p>
       ${leadIm?`<figure class="lead-photo${isLogo(leadIm)?' logo':''}">${imgTag(leadIm,'',lead.h)}${leadIm.c?`<figcaption>${esc(leadIm.c)}</figcaption>`:''}</figure>`:''}
-      <ul class="more-front">${fronts.map(a=>{const im=pic(a);return `<li><div><a class="h" href="${href(a)}">${esc(a.h)}</a><p>${esc(excerpt(a,150))}</p></div>${im&&!isLogo(im)?`<a href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`}).join('')}</ul>
+      <ul class="more-front">${fronts.map(a=>{const im=picOrArt(a);return `<li><div><a class="h" href="${href(a)}">${esc(a.h)}</a><p>${esc(excerpt(a,150))}</p></div>${im&&!isLogo(im)?`<a href="${href(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`}).join('')}</ul>
     </div>
     <aside class="side side-wnd" aria-label="News Dispatch">${wndSide()}</aside>
   </div></div>
