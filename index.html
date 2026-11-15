@@ -541,28 +541,23 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-num{background:var(--navy);color:var(--on-navy);padding:12px 14px;border-top:3px solid var(--gold)}
 .ctd-num b{display:block;font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
 .ctd-num span{display:block;margin-top:6px;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
-.ctd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:18px;align-items:start}
-.ctd-box{background:var(--navy);color:var(--on-navy);border-top:3px solid var(--gold)}
-.ctd-box summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:end}
-.ctd-box summary::-webkit-details-marker{display:none}
-.ctd-box summary b{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.05;color:var(--on-navy)}
-.ctd-box summary span{grid-column:1;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
-.ctd-box summary em{grid-column:2;grid-row:1 / span 2;align-self:center;font-style:normal;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
-.ctd-box summary em::after{content:" ▾"}
-.ctd-box[open] summary em{font-size:0}
-.ctd-box[open] summary em::after{content:"Close ▴";font-size:12px}
-.ctd-box summary:hover b{color:var(--gold)}
-.ctd-box ul{padding:0 14px 8px!important;border-top:1px solid var(--navy-line)}
-.ctd-row h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
-.ctd-row ul{list-style:none;margin:0;padding:0}
-.ctd-row li{padding:8px 0;border-bottom:1px dotted var(--navy-line);font-size:14px;line-height:1.42;color:var(--on-navy-2)}
-.ctd-row li:last-child{border-bottom:0}
-.ctd-row li i{font-style:normal;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-right:6px}
-.ctd-row li b{font-weight:600;color:var(--on-navy)}
-.ctd-row li a{color:var(--gold)}
-.ctd-row li a:hover{color:var(--on-navy)}
-.ctp{padding-top:clamp(36px,4vw,52px)}
-.ctp .sec-head{margin-bottom:0}
+.ctd-side .wnd{margin-top:0;border-top:4px solid var(--navy);padding-top:12px}
+.ctd-side .grp2:first-child{margin-top:4px}
+.ctd-side li b{font-weight:600}
+.ctd-side li a{color:inherit}
+.ctd-side li a:hover{color:var(--gold-text)}
+.ctd-side .tk-sec{color:var(--gold-text)}
+.ctd-side .m{margin-top:3px;font-size:12px;color:var(--muted)}
+.ctd-scroll{max-height:460px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--rule) transparent;padding-right:6px;border-bottom:1px solid var(--rule-soft);-webkit-mask-image:linear-gradient(#000 calc(100% - 36px),transparent);mask-image:linear-gradient(#000 calc(100% - 36px),transparent)}
+.ctd-scroll li{font-size:14.5px;line-height:1.4}
+@media (min-width:1180px){
+  .ctd-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.78fr)}
+  .ctd-side{position:relative;min-height:520px}
+  .ctd-side .wnd{position:absolute;inset:0;display:flex;flex-direction:column}
+  .ctd-side .ctd-scroll{flex:1 1 auto;min-height:0;max-height:none}
+  .ctd-side .more{margin-top:12px}
+}
+@media (min-width:861px) and (max-width:1179px){.ctd-side{grid-column:1 / -1}}
 .ctd-foot{margin:14px 0 0;font-size:13px;color:var(--muted)}
 .ctd-foot a{color:var(--gold-text);font-weight:600}
 @media (max-width:860px){.ctd-grid{grid-template-columns:minmax(0,1fr)}.ctd-info{text-align:left}.ctd-links{justify-content:flex-start}}
@@ -766,12 +761,14 @@ function dspBlock(){
   const sl = x => x && x.label ? (x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)) : '';
   const L = E.lead;
   const li = (x,t) => `<li>${x.tag?`<i>${esc(x.tag)}</i>`:''}${t}${x.source&&x.source.url?` <a href="${esc(x.source.url)}" target="_blank" rel="noopener" aria-label="Source: ${esc(x.source.label)}">↗</a>`:''}</li>`;
-  const box = (t, sub, items) => `<details class="ctd-box"><summary><b>${esc(t)}</b><span>${esc(sub)} · ${items.length} item${items.length===1?'':'s'}</span><em aria-hidden="true">Open</em></summary><ul>${items.join('')}</ul></details>`;
-  const cols = [
-    E.inbrief.length ? box(W?'Also this week':'In brief', W?'From the week’s filings and reports':'From the day’s filings', E.inbrief.slice(0,6).map(x=>li(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))) : '',
-    E.world.length ? box(W?'The world this week':'The world this morning', 'Beyond Malta', E.world.map(x=>li(x, esc(x.title)))) : '',
-    E.europe.length ? box(W?'Europe this week':'Europe this morning', 'The EU dimension, from cde.news', E.europe.map(x=>li(x, esc(x.title)))) : ''
-  ].filter(Boolean);
+  // the side bar: headlines only, scrolling like the Malta Observer's News Dispatch; announcements first
+  const hl = (x, t) => `<li>${x.tag?`<span class="tk-sec">${esc(x.tag)}</span><br>`:''}${x.source&&x.source.url?`<a href="${esc(x.source.url)}" target="_blank" rel="noopener">${t}</a>`:t}${x.source?`<div class="m">${esc(x.source.label)}</div>`:''}</li>`;
+  const grp = (t, items) => items.length ? `<p class="grp2">${esc(t)}</p><ol>${items.join('')}</ol>` : '';
+  const side = [
+    grp(W?'Also this week · announcements':'In brief · announcements', E.inbrief.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))),
+    grp(W?'The world this week':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
+    grp(W?'Europe this week':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
+  ].join('');
   return `<section class="ctd wrap" aria-labelledby="h-ctd">
   <div class="ctd-head">
     <a class="ctd-mast" href="${esc(u)}" id="h-ctd"><img src="${esc(E.masthead||'')}" alt="${esc(E.name)}"></a>
@@ -791,8 +788,10 @@ function dspBlock(){
       <ul class="ctd-stories">${E.stories.map(x=>`<li${x.image?'':' class="noimg"'}><div><p class="kicker">${esc(x.sector)}</p><h3><a href="${esc(u)}">${esc(x.title)}</a></h3><p class="t">${esc(x.text)}</p></div>${x.image?`<a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(x.image)}" alt="" loading="lazy"></a>`:''}</li>`).join('')}</ul>
       ${E.numbers.length?`<div class="ctd-nums">${E.numbers.map(n=>`<div class="ctd-num"><b>${esc(n.value)}</b><span>${esc(n.label)}</span></div>`).join('')}</div>`:''}
     </div>
+    ${side?`<aside class="ctd-side" aria-label="${W?'This week':'Today'}: announcements and headlines"><div class="wnd"><p class="kicker">${W?'This week’s Dispatch':'Today’s Dispatch'}</p><h2><a href="${esc(u)}">Headlines</a></h2>
+      <div class="wnd-scroll ctd-scroll" tabindex="0" aria-label="Announcements and headlines">${side}</div>
+      <div class="more"><a href="${esc(u)}">The full edition →</a></div></div></aside>`:''}
   </div>
-  ${cols.length?`<div class="ctd-row">${cols.join('')}</div>`:''}
   <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published on weekday mornings at 07:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
 </section>`;
 }
