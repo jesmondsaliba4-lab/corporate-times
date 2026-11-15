@@ -541,8 +541,18 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-num{background:var(--navy);color:var(--on-navy);padding:12px 14px;border-top:3px solid var(--gold)}
 .ctd-num b{display:block;font-family:var(--serif);font-size:26px;font-weight:600;line-height:1}
 .ctd-num span{display:block;margin-top:6px;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
-.ctd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:18px}
-.ctd-box{background:var(--navy);color:var(--on-navy);padding:14px 16px 10px;border-top:3px solid var(--gold)}
+.ctd-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:18px;align-items:start}
+.ctd-box{background:var(--navy);color:var(--on-navy);border-top:3px solid var(--gold)}
+.ctd-box summary{list-style:none;cursor:pointer;padding:12px 14px;display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:end}
+.ctd-box summary::-webkit-details-marker{display:none}
+.ctd-box summary b{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.05;color:var(--on-navy)}
+.ctd-box summary span{grid-column:1;font-size:12px;line-height:1.35;color:var(--on-navy-2)}
+.ctd-box summary em{grid-column:2;grid-row:1 / span 2;align-self:center;font-style:normal;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.ctd-box summary em::after{content:" ▾"}
+.ctd-box[open] summary em{font-size:0}
+.ctd-box[open] summary em::after{content:"Close ▴";font-size:12px}
+.ctd-box summary:hover b{color:var(--gold)}
+.ctd-box ul{padding:0 14px 8px!important;border-top:1px solid var(--navy-line)}
 .ctd-row h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
 .ctd-row ul{list-style:none;margin:0;padding:0}
 .ctd-row li{padding:8px 0;border-bottom:1px dotted var(--navy-line);font-size:14px;line-height:1.42;color:var(--on-navy-2)}
@@ -756,10 +766,11 @@ function dspBlock(){
   const sl = x => x && x.label ? (x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)) : '';
   const L = E.lead;
   const li = (x,t) => `<li>${x.tag?`<i>${esc(x.tag)}</i>`:''}${t}${x.source&&x.source.url?` <a href="${esc(x.source.url)}" target="_blank" rel="noopener" aria-label="Source: ${esc(x.source.label)}">↗</a>`:''}</li>`;
+  const box = (t, sub, items) => `<details class="ctd-box"><summary><b>${esc(t)}</b><span>${esc(sub)} · ${items.length} item${items.length===1?'':'s'}</span><em aria-hidden="true">Open</em></summary><ul>${items.join('')}</ul></details>`;
   const cols = [
-    E.inbrief.length ? `<div class="ctd-box"><h3>${W?'Also this week':'In brief'}</h3><ul>${E.inbrief.slice(0,6).map(x=>li(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)).join('')}</ul></div>` : '',
-    E.world.length ? `<div class="ctd-box"><h3>${W?'The world this week':'The world this morning'}</h3><ul>${E.world.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : '',
-    E.europe.length ? `<div class="ctd-box"><h3>${W?'Europe this week':'Europe this morning'}</h3><ul>${E.europe.map(x=>li(x, esc(x.title))).join('')}</ul></div>` : ''
+    E.inbrief.length ? box(W?'Also this week':'In brief', W?'From the week’s filings and reports':'From the day’s filings', E.inbrief.slice(0,6).map(x=>li(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))) : '',
+    E.world.length ? box(W?'The world this week':'The world this morning', 'Beyond Malta', E.world.map(x=>li(x, esc(x.title)))) : '',
+    E.europe.length ? box(W?'Europe this week':'Europe this morning', 'The EU dimension, from cde.news', E.europe.map(x=>li(x, esc(x.title)))) : ''
   ].filter(Boolean);
   return `<section class="ctd wrap" aria-labelledby="h-ctd">
   <div class="ctd-head">
