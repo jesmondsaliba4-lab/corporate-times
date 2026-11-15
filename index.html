@@ -560,6 +560,15 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-foot{margin:14px 0 0;font-size:13px;color:var(--muted)}
 .ctd-foot a{color:var(--gold-text);font-weight:600}
 @media (max-width:860px){.ctd-info{text-align:left}.ctd-links{justify-content:flex-start}}
+
+/* Symmetry (15 Nov 2026): every two-column block on the front page has the same right-hand column, 360px wide, with
+   the same gap as the News Dispatch side bar, so the side columns line up from top to bottom */
+.thome{gap:24px clamp(24px,3vw,40px)}
+.thome .t2{flex:1 1 360px}
+.edrow{gap:28px clamp(24px,3vw,40px)}
+.ed-side{flex:1 1 360px}
+.ideas .wrap{gap:clamp(24px,3vw,40px)}
+.ideas .photo{flex:1 1 360px;max-width:360px}
 </style>
 
 </head>
