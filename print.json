@@ -1,0 +1,188 @@
+{
+ "contract": "ct-print/1",
+ "note": "From the Corporate Times monthly print editions on corporate-times.com: adverts and the opinion pieces (Opinion and Corporate Commentary).",
+ "ads": [
+  {
+   "id": "fm",
+   "image": "https://www.corporate-times.com/img/ads/fm-conference.jpg",
+   "caption": "FinanceMalta 19th Annual Conference, 11–12 November 2026",
+   "until": "2026-11-12"
+  },
+  {
+   "id": "antes",
+   "image": "https://www.corporate-times.com/img/ads/antes.jpg",
+   "caption": "Antes Insurance Brokers"
+  },
+  {
+   "id": "ganado",
+   "image": "https://www.corporate-times.com/img/ads/ganado.jpg",
+   "caption": "Ganado Advocates"
+  },
+  {
+   "id": "et",
+   "image": "https://www.corporate-times.com/img/ads/express-trailers.jpg",
+   "caption": "Express Trailers"
+  },
+  {
+   "id": "deepal",
+   "image": "https://www.corporate-times.com/img/ads/deepal.jpg",
+   "caption": "Deepal"
+  }
+ ],
+ "opinion": [
+  {
+   "id": "2026-10-commentary",
+   "kind": "commentary",
+   "issue": "2026-10",
+   "edition": "October 2026",
+   "title": "Corporate Commentary · October 2026",
+   "deck": "For years, Malta’s ambition to strengthen its position as an international financial services centre has been accompanied by a persistent challenge: convincing international investors that the country offers not only…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-10-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-10.jpg"
+  },
+  {
+   "id": "2026-09-commentary",
+   "kind": "commentary",
+   "issue": "2026-09",
+   "edition": "September 2026",
+   "title": "Corporate Commentary · September 2026",
+   "deck": "One of this month’s unlikeliest highlights, besides the unsurprising verdict that still managed to shock a nation, was a press conference called by former prime minister Joseph Muscat.",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-09-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-09.jpg"
+  },
+  {
+   "id": "2026-08-commentary",
+   "kind": "commentary",
+   "issue": "2026-08",
+   "edition": "August 2026",
+   "title": "Corporate Commentary · August 2026",
+   "deck": "A recent article published in The New York Times examined Malta’s role in international corporate tax planning. Whatever one’s view of the article’s motivations, including the argument that it may have been influenced…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-08-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-08.jpg"
+  },
+  {
+   "id": "2026-08-what-happens-when-ai-takes-all",
+   "kind": "opinion",
+   "issue": "2026-08",
+   "edition": "August 2026",
+   "title": "What happens when AI takes all the jobs?",
+   "deck": "That is not quite the right question. Most serious thinkers on technology and work do not predict the end of all jobs. They predict something more subtle and perhaps more disruptive: the transformation of work and the…",
+   "author": "Gege Gatt",
+   "url": "https://www.corporate-times.com/#a-2026-08-what-happens-when-ai-takes-all",
+   "image": "https://www.corporate-times.com/img/2026-08-134-0.jpg"
+  },
+  {
+   "id": "2026-07-commentary",
+   "kind": "commentary",
+   "issue": "2026-07",
+   "edition": "July 2026",
+   "title": "Corporate Commentary · July 2026",
+   "deck": "The electricity outages currently disrupting lives and businesses across Malta should surprise no one. They are the predictable consequence of record population growth, record tourist arrivals and record summer…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-07-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-07.jpg"
+  },
+  {
+   "id": "2026-07-not-every-hands-on-ceo-is",
+   "kind": "opinion",
+   "issue": "2026-07",
+   "edition": "July 2026",
+   "title": "Not Every Hands-On CEO Is a Micromanager",
+   "deck": "I have sat in enough boardrooms to know that \"micromanager\" is a label often thrown around far too easily. The moment a CEO becomes heavily involved, asks one question too many or wants visibility over important…",
+   "author": "Denise Fiorentino",
+   "url": "https://www.corporate-times.com/#a-2026-07-not-every-hands-on-ceo-is",
+   "image": "https://www.corporate-times.com/img/2026-07-080-0.jpg"
+  },
+  {
+   "id": "2026-07-when-competitors-become-partners-in-the",
+   "kind": "opinion",
+   "issue": "2026-07",
+   "edition": "July 2026",
+   "title": "When Competitors Become Partners in the Energy Transition",
+   "deck": "For decades, businesses viewed sustainability as a regulatory obligation or a long-term investment that often took a back seat to more immediate operational concerns. Today, however, volatile energy markets are changing…",
+   "author": "Owen Bell, Projects Executive, Malta Business Bureau",
+   "url": "https://www.corporate-times.com/#a-2026-07-when-competitors-become-partners-in-the",
+   "image": "https://www.corporate-times.com/img/2026-07-084-0.jpg"
+  },
+  {
+   "id": "2026-06-commentary",
+   "kind": "commentary",
+   "issue": "2026-06",
+   "edition": "June 2026",
+   "title": "Corporate Commentary · June 2026",
+   "deck": "This month marks the third anniversary of The Corporate Times.",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-06-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-06.jpg"
+  },
+  {
+   "id": "2026-05-commentary",
+   "kind": "commentary",
+   "issue": "2026-05",
+   "edition": "May 2026",
+   "title": "Corporate Commentary · May 2026",
+   "deck": "By the time this edition reaches our readers, the country should already have a clearer indication of who will have been entrusted with governing Malta over the coming five years.",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-05-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-05.jpg"
+  },
+  {
+   "id": "2026-04-commentary",
+   "kind": "commentary",
+   "issue": "2026-04",
+   "edition": "April 2026",
+   "title": "Corporate Commentary · April 2026",
+   "deck": "Maltese inflation dynamics are unusually exposed to external transport shocks. As a small island economy dependent on imported goods for most consumption and production inputs, even marginal changes in logistics costs…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-04-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-04.jpg"
+  },
+  {
+   "id": "2026-04-equality-is-not-equity",
+   "kind": "opinion",
+   "issue": "2026-04",
+   "edition": "April 2026",
+   "title": "Equality is Not Equity",
+   "deck": "Why the EU Must Rethink its Approach to Island Economies",
+   "author": "Mario Xuereb, CEO, Malta Business Bureau",
+   "url": "https://www.corporate-times.com/#a-2026-04-equality-is-not-equity",
+   "image": "https://www.corporate-times.com/img/2026-04-069-0.jpg"
+  },
+  {
+   "id": "2026-03-commentary",
+   "kind": "commentary",
+   "issue": "2026-03",
+   "edition": "March 2026",
+   "title": "Corporate Commentary · March 2026",
+   "deck": "Government is very busy framing the freshly announced agreement to return Manoel Island to the public as a historic win for the people, especially as a general election looms. Critics, on the other hand, have been…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-03-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-03.jpg"
+  },
+  {
+   "id": "2026-02-commentary",
+   "kind": "commentary",
+   "issue": "2026-02",
+   "edition": "February 2026",
+   "title": "Corporate Commentary · February 2026",
+   "deck": "In business, certainty does not exist. Markets shift, costs fluctuate, and regulations evolve. Leaders understand this and they plan around risk and adjust as circumstances change. What they cannot accommodate, however…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-02-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-02.jpg"
+  },
+  {
+   "id": "2026-01-commentary",
+   "kind": "commentary",
+   "issue": "2026-01",
+   "edition": "January 2026",
+   "title": "Corporate Commentary · January 2026",
+   "deck": "If these first few weeks of 2026 are to be taken as an indication of how this year is going to unfold, global leaders and business decision-makers will find little reassurance. Instead of the customary cautious optimism…",
+   "author": "The Corporate Times",
+   "url": "https://www.corporate-times.com/#a-2026-01-commentary",
+   "image": "https://www.corporate-times.com/img/art/commentary-2026-01.jpg"
+  }
+ ]
+}

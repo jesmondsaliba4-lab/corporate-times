@@ -15,6 +15,7 @@ Malta’s corporate observatory, within the wider work of Corporate ID Group, de
 Send the edition folder (Word files + photos); the build script turns it into the embedded data and images.
 
 ## Sharing headlines with other sites (e.g. the Malta Observer)
+- `print.json` — the print editions' adverts and opinion pieces (Opinion and Corporate Commentary), read by the Daily and Weekly Dispatch.
 - `feed.json` — the latest edition's stories (title, dek, section, image, link), open to any site (CORS `*`).
 - `embed.js` — drop-in widget. On the other site:
 
