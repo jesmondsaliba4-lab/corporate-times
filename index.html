@@ -607,6 +607,20 @@ a.art:hover img{transform:scale(1.03)}
 .enq-wait i{display:inline-block;width:8px;height:8px;margin-right:8px;border-radius:50%;background:var(--gold-deep);animation:enqp 1s ease-in-out infinite alternate}
 @keyframes enqp{from{opacity:.25}to{opacity:1}}
 .enq-err{margin:24px 0 0;padding:14px 16px;border-left:3px solid var(--gold-deep);background:var(--parchment)}
+
+.enq-side{margin-top:28px}
+.enq-side .kicker .ai-ico{color:var(--gold-deep)}
+.enq-mini{display:flex;margin:14px 0 0;border:1px solid var(--rule);border-top:3px solid var(--navy);background:var(--card)}
+.enq-mini input{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:15px;padding:10px 12px;color:var(--ink)}
+.enq-mini input:focus{outline:none}
+.enq-mini button{border:0;background:var(--navy);color:var(--gold);width:46px;cursor:pointer}
+.enq-mini button .ai-ico{width:18px;height:18px;margin:0}
+.enq-mini button:hover{background:var(--gold-deep);color:var(--card)}
+.enq-mini-try{list-style:none;margin:10px 0 0;padding:0}
+.enq-mini-try li{padding:7px 0;border-bottom:1px dotted var(--rule);font-size:14px;line-height:1.35}
+.enq-mini-try a{color:var(--ink-2)}
+.enq-mini-try a::before{content:"→ ";color:var(--gold-deep)}
+.enq-mini-try a:hover{color:var(--gold-text)}
 </style>
 
 </head>
@@ -914,6 +928,20 @@ async function runEnquire(q){
     ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date)} · ${esc(s.via)}</small></li>`).join('')}</ol></div>`:''}
   </article>`;
 }
+
+// Enquire as a feature in the front page's side bar, under The Interview
+function enqSide(){
+  setTimeout(()=>{ const f=document.getElementById('enq-side-form'); if(!f||f.dataset.on) return; f.dataset.on='1';
+    f.addEventListener('submit', e=>{ e.preventDefault(); const v=f.querySelector('input').value.trim(); location.hash = v ? '#enquire/'+encodeURIComponent(v) : '#enquire'; }); }, 0);
+  return `<div class="side enq-side">
+    <p class="kicker">${ENQ_SPARK}Powered by AI</p>
+    <h2><a href="#enquire">Enquire</a></h2>
+    <p class="x">Research any topic in your own words. AI reads across Corporate Times reporting and cde.news, and answers with a numbered link to every source it used.</p>
+    <form class="enq-mini" id="enq-side-form" role="search"><label for="enq-side-q" class="skip">Your enquiry</label><input id="enq-side-q" type="search" maxlength="300" placeholder="Ask a question" autocomplete="off"><button type="submit" aria-label="Enquire">${ENQ_SPARK}</button></form>
+    <ul class="enq-mini-try">${ENQ_TRY.slice(0,3).map(t=>`<li><a href="#enquire/${encodeURIComponent(t)}">${esc(t)}</a></li>`).join('')}</ul>
+    <a class="read" href="#enquire">Open Enquire →</a>
+  </div>`;
+}
 function viewHome(){
   // the print section shows the print edition only: stories released on the Sites desk (e.g. a Thinking piece) stay out
   const ed = byIssue(LATEST, true).filter(a=>!a.desk);
@@ -980,7 +1008,7 @@ function viewHome(){
       ${pic(main)?`<figure class="por">${imgTag(pic(main))}${pic(main).c?`<figcaption>${esc(pic(main).c)}</figcaption>`:''}</figure>`:''}
       <p class="x">${esc(excerpt(main,240))}</p>
       <a class="read" href="${href(main)}">Read the interview →</a>
-    </div></aside>`:''}</div>
+    </div>${enqSide()}</aside>`:''}</div>
     <div class="numbers" style="margin-top:32px">
       <p class="label">THE NUMBERS THIS YEAR</p>
       <div class="num-grid">${numbers.filter(x=>x.a).map(x=>`<div class="num"><b>${x.n}</b><span>${esc(x.t)}</span><a href="${href(x.a)}">${esc(edLabel(x.a.issue))} · read the story →</a></div>`).join('')}</div>
