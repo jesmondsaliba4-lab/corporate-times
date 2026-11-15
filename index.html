@@ -717,24 +717,32 @@ const ART_RULES = [
   [/airport|airline|aviation|flight|air malta|\bKM Malta\b/i,'aviation'],
   [/insur|captive|reinsur/i,'insurance'],
   [/gaming|igaming|casino|betting|\bMGA\b/i,'gaming'],
-  [/\bbond|bondholder|securities|listing|prospectus|capital market/i,'bonds'],
+  [/\bbond|bondholder|securities|prospectus|capital market/i,'bonds'],
   [/\bbank|fintech|payment|lending|credit|\bBOV\b|HSBC|APS\b/i,'banking'],
-  [/property|real estate|construction|housing|rent\b|rental|developer|planning authority/i,'property'],
-  [/energy|power|electric|solar|\boil\b|fuel|climate|emission|\bETS\b|carbon|green/i,'energy'],
-  [/\bAI\b|artificial intelligence|digital|technolog|\bdata\b|cyber|telecom|software|\btech\b|\bGO\b|Epic|Melita/i,'telecoms'],
-  [/port|shipping|ship|maritime|freight|logistic|trailer|transport|yacht|vessel/i,'maritime'],
+  [/property|real estate|construction|housing|\brent\b|rental|developer|planning authority/i,'property'],
+  [/energy|power station|electric|solar|\boil\b|fuel|climate|emission|\bETS\b|carbon/i,'energy'],
+  [/\bAI\b|artificial intelligence|machine learning|algorithm|copilot|chatgpt|automation|\bAI-/i,'ai'],
+  [/trailer|lorry|truck|haulage|logistic|supply chain|freight|courier|delivery|road transport|\bATTO\b/i,'logistics'],
+  [/\bport\b|shipping|shipowner|\bship|maritime|yacht|vessel|freeport|harbour/i,'maritime'],
   [/touris|hotel|hospitality|restaurant|travel|cruise/i,'hospitality'],
   [/retail|consumer|shop|supermarket|food|beverage/i,'retail'],
+  [/\bEU\b|europe|brussels|strasbourg|\bMEPs?\b|european commission|european parliament/i,'europe'],
   [/\bMFSA\b|\bFIAU\b|regulat|court|legal|\blaw\b|directive|compliance|tribunal|judge|lawyer|advocate/i,'regulators'],
   [/\bMSE\b|stock exchange|shares|investor|market cap|dividend/i,'markets'],
-  [/econom|\bGDP\b|inflation|budget|salar|wage|employ|labour|workforce|\bNSO\b|growth|export|deficit|tax/i,'economy']
+  [/salar|wage|employ|labour|workforce|talent|recruit|\bHR\b|human resource|\bpeople\b|staff|workers|skills|wellbeing|well-being|leadership|four-day|workplace|career|graduates/i,'people'],
+  [/digital|technolog|\bdata\b|cyber|telecom|software|\btech\b|\bGO\b|Epic|Melita|innovation/i,'telecoms'],
+  [/econom|\bGDP\b|inflation|budget|growth|export|deficit|\btax|\bNSO\b|productiv/i,'economy']
 ];
-const ART_SEC = { finance:'banking', law:'regulators', work:'economy', tech:'telecoms', maritime:'maritime', business:'economy', europe:'regulators', commentary:'economy', opinion:'general' };
+const ART_SEC = { finance:'banking', law:'regulators', work:'people', tech:'telecoms', maritime:'maritime', business:'economy', europe:'europe', commentary:'opinion', opinion:'opinion' };
+// several drawings for the busiest subjects, so neighbouring stories do not repeat the same picture
+const ART_VAR = { opinion:['opinion-1','opinion-2'], people:['people-1','people-2'], ai:['ai-1','ai-2'], economy:['economy-1','economy-2'], banking:['banking-1','banking-2'] };
 function artFor(a){
   const text = (a.h||'')+' '+(a.d||'');
   const r = ART_RULES.find(([re])=>re.test(a.h||'')) || ART_RULES.find(([re])=>re.test(text));
   const t = r ? r[1] : (ART_SEC[a.sec] || 'general');
-  return { f:`img/visuals/${t}-1.jpg`, w:1600, h:750, c:'', art:true };
+  const v = ART_VAR[t]; let h = 0; for (const ch of String(a.id)) h = (h*31 + ch.charCodeAt(0)) >>> 0;
+  const f = v ? v[h % v.length] : t+'-1';
+  return { f:`img/visuals/${f}.jpg`, w:1600, h:750, c:'', art:true };
 }
 const picOrArt = a => pic(a) || artFor(a);
 const isLogo = im => im && LOGOS.has(im.f);
