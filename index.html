@@ -551,7 +551,8 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-side .wnd-scroll li{font-size:14.5px;line-height:1.4}
 @media (max-width:1079px){.ctd-side .wnd-scroll{max-height:460px;overflow-y:auto}}
 /* the monthly print edition starts under a heavy navy rule */
-.ctp{margin-top:clamp(36px,4vw,52px);padding-top:clamp(18px,2vw,26px)!important;border-top:8px solid var(--navy)}
+.ctp{margin-top:clamp(36px,4vw,52px)}
+.ctp::before{content:"";display:block;height:8px;background:var(--navy);margin-bottom:clamp(18px,2vw,26px)}
 .ctd-foot{margin:14px 0 0;font-size:13px;color:var(--muted)}
 .ctd-foot a{color:var(--gold-text);font-weight:600}
 @media (max-width:860px){.ctd-info{text-align:left}.ctd-links{justify-content:flex-start}}
