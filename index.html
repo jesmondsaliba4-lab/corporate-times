@@ -1339,6 +1339,7 @@ function mergeDesk(list){
   list.slice(0,24).forEach((s,i)=>{
     if (!s || !s.id || !s.headline) return;
     if (newest[hkey(s)] !== s) return;
+    if (/^thinking$/i.test(String(s.section||''))) return; // Thinking pieces live in Thinking, not in the print sections
     const sec = SEC[s.section] ? s.section : (DSEC[s.section] || 'business');
     const body = (s.body||[]).filter(b=>Array.isArray(b) && (b[0]==='h'||b[0]==='p'));
     const a = { id:'d-'+String(s.id).replace(/[^a-z0-9_]/gi,''), issue:LATEST, sec, news:s.kind==='article', pr:s.kind==='press', ci:s.kind==='press' || s.section==='corporate-identities', iv:false, page:null, ord:i,
