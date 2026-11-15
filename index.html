@@ -802,7 +802,8 @@ function dspBlock(){
 </section>`;
 }
 function viewHome(){
-  const ed = byIssue(LATEST, true);
+  // the print section shows the print edition only: stories released on the Sites desk (e.g. a Thinking piece) stay out
+  const ed = byIssue(LATEST, true).filter(a=>!a.desk);
   const top4 = ed.filter(a=>a.news).slice(0,4);
   if (viewHome.rot === undefined){
     let r0 = 0;
@@ -836,7 +837,15 @@ function viewHome(){
   const eu = sorted(A.filter(a=>a.sec==='europe'));
   const leadIm = pic(lead);
   return `${dspBlock()}
-  <section class="wrap ctp" aria-labelledby="h-ctp"><div class="sec-head"><h2 id="h-ctp">From the Monthly Print Edition</h2><p>${esc(ISSUE[LATEST].label)} edition · ${esc(ISSUE[LATEST].date)} · <a class="all" href="#e-${LATEST}">The full edition →</a> · <a class="all" href="#editions">All editions →</a></p></div></section>
+  <section class="sec wrap" aria-labelledby="h-think">
+    <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
+    ${thinkBlock()}
+  </section>
+
+  <div class="wrap"><div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
+  </div>
+
+  <section class="wrap ctp" aria-labelledby="h-ctp"><div class="sec-head"><h2 id="h-ctp">The Latest Corporate Times Print Edition</h2><p>${esc(ISSUE[LATEST].label)} edition · ${esc(ISSUE[LATEST].date)} · ${ed.length} articles · <a class="all" href="#e-${LATEST}">The full edition →</a> · <a class="all" href="#editions">All editions →</a></p></div></section>
   <div class="wrap"><div class="front" id="front">
     <div class="lead">
       ${kicker(lead)}
@@ -849,16 +858,7 @@ function viewHome(){
     <aside class="side side-wnd" aria-label="News Dispatch">${wndSide()}</aside>
   </div></div>
 
-  <section class="sec wrap" aria-labelledby="h-think">
-    <div class="sec-head"><h2 id="h-think">Thinking</h2><a class="all" href="#thinking">ThinkPeople Nexus and Leonardo 2050 →</a></div>
-    ${thinkBlock()}
-  </section>
-
-  <div class="wrap"><div class="adband"><p class="adlabel">Advertisement</p><img src="img/ads/fm-conference-wide.jpg" alt="FinanceMalta 19th Annual Conference, 11–12 November 2026: Financing the next generation economy" loading="lazy"></div>
-  </div>
-
-  <section class="sec wrap" aria-labelledby="h-ed">
-    <div class="sec-head"><h2 id="h-ed">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</h2><p>${ISSUE[LATEST].date} · ${ed.length} articles · <a class="all" href="#e-${LATEST}">Read the full edition →</a></p></div>
+  <section class="sec wrap ctp-more" aria-label="More from the print edition">
     <div class="edrow"><div class="ed-main"><div class="obs">${restEd.slice(0,6).map(card).join('')}</div>
     <div class="brief"><h3>ALSO INSIDE</h3><ul>${restEd.slice(6).map(a=>`<li><a href="${href(a)}">${esc(titleOf(a))}</a><p class="meta">${esc(secLabel(a))}${a.page?` · page ${a.page}`:''}</p></li>`).join('')}</ul></div></div>
     ${main?`<aside class="ed-side" aria-label="The interview"><div class="side iv-side">
