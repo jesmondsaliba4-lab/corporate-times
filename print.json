@@ -29,6 +29,20 @@
    "id": "deepal",
    "image": "https://www.corporate-times.com/img/ads/deepal.jpg",
    "caption": "Deepal"
+  },
+  {
+   "id": "go",
+   "image": "https://www.corporate-times.com/img/ads/go-business.jpg",
+   "caption": "GO Business",
+   "url": "https://www.go.com.mt/business",
+   "note": "Business Infinity advert from The Corporate Times, Sunday Times of Malta, 24 Sept 2023"
+  },
+  {
+   "id": "misco",
+   "image": "https://www.corporate-times.com/img/ads/misco.jpg",
+   "caption": "MISCO",
+   "url": "https://www.miscomalta.com/",
+   "note": "Accredited HR and leadership courses advert from The Corporate Times, Sunday Times of Malta, 24 Sept 2023 (says: starting in October 2023)"
   }
  ],
  "opinion": [
@@ -192,25 +206,53 @@
    "id": "tpn",
    "image": "https://www.corporate-times.com/img/house/house-tpn.jpg",
    "caption": "ThinkPeople Nexus",
-   "url": "https://thinkpeoplenexus.com/"
+   "url": "https://thinkpeoplenexus.com/",
+   "logo": "https://www.corporate-times.com/img/house/logo-tpn.png",
+   "kicker": "ThinkPeople Nexus",
+   "headline": "Human development and co-intelligence",
+   "line": "Research, insight and capability building for people and organisations, from Gozo, Malta.",
+   "site": "thinkpeoplenexus.com"
   },
   {
    "id": "ci",
    "image": "https://www.corporate-times.com/img/house/house-ci.jpg",
    "caption": "Corporate Identities · Corporate ID Group",
-   "url": "https://corporateidgroup.com/"
+   "url": "https://corporateidgroup.com/",
+   "logo": "https://www.corporate-times.com/img/house/logo-ci.png",
+   "kicker": "Corporate Identities · Professional Instinct",
+   "headline": "Identity. Purpose. People. Reputation.",
+   "line": "Strategic communication for organisations that want to make a meaningful difference.",
+   "services": [
+    "PR & Reputation",
+    "Content & Editorial",
+    "Purpose & People Branding",
+    "Public Affairs",
+    "Narrative & AI Language Architecture"
+   ],
+   "site": "corporateidgroup.com"
   },
   {
    "id": "observer",
    "image": "https://www.corporate-times.com/img/house/house-observer.jpg",
    "caption": "The Malta Observer",
-   "url": "https://www.maltaobserver.com/"
+   "url": "https://www.maltaobserver.com/",
+   "logo": "https://www.corporate-times.com/img/house/logo-observer.png",
+   "kicker": "The Malta Observer",
+   "headline": "Local perspectives with a global outlook",
+   "line": "The News Dispatch: Malta's stories, signals and official figures, every day.",
+   "site": "maltaobserver.com",
+   "wide": true
   },
   {
    "id": "cde",
    "image": "https://www.corporate-times.com/img/house/house-cde.jpg",
    "caption": "cde.news",
-   "url": "https://cde.news/"
+   "url": "https://cde.news/",
+   "logo": "https://www.corporate-times.com/img/house/logo-cde.png",
+   "kicker": "cde.news · One Vision",
+   "headline": "Malta's world news feed",
+   "line": "Local perspective with global outlook: Malta, Europe and the world, from morning briefing to Comuniq.EU.",
+   "site": "cde.news"
   }
  ]
 }
