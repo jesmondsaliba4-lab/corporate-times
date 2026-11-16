@@ -183,11 +183,21 @@ function mapEdition(j) {
   };
 }
 
+// The latest filings and notices from the primary sources (MSE, companies, regulators, institutions), headlines only,
+// for the Dispatch side bar: they go up as they arrive, between editions (Jes, 16 Nov 2026).
+function mapFilings(j) {
+  if (!j || j.contract !== 'ct-filings/1' || !Array.isArray(j.items)) return null;
+  const s = x => (x == null ? '' : String(x));
+  return j.items.slice(0, 20).map(x => ({ tag: s(x.tag), company: s(x.company), text: s(x.text), date: s(x.date),
+    source: x.source && x.source.label ? { label: s(x.source.label), url: https(x.source.url) } : null })).filter(x => x.text);
+}
+
 export default async function handler(req, res) {
-  const [wd, gl, tp, l5, dk, dd, wk] = await Promise.allSettled([
+  const [wd, gl, tp, l5, dk, dd, wk, fl] = await Promise.allSettled([
     worldDispatch(), get(MO + '/api/glance'), get(TPN + '/thinking/', 'text'), get(L50 + '/thinking.html', 'text'),
     PUB ? get(PUB + '?site=corporate-times') : Promise.resolve(null),
-    get('https://daily.corporate-times.com/edition.json'), get('https://weekly.corporate-times.com/edition.json')]);
+    get('https://daily.corporate-times.com/edition.json'), get('https://weekly.corporate-times.com/edition.json'),
+    get('https://daily.corporate-times.com/filings.json')]);
   const val = p => p.status === 'fulfilled' ? p.value : null;
   const body = {
     fetched_at: new Date().toISOString(),
@@ -196,7 +206,8 @@ export default async function handler(req, res) {
     thinking: (() => { try { return mapThinking(val(tp), val(l5)); } catch { return null; } })(),
     desk: (() => { try { return mapDesk(val(dk)); } catch { return null; } })(),
     editions: { daily: (() => { try { return mapEdition(val(dd)); } catch { return null; } })(), weekly: (() => { try { return mapEdition(val(wk)); } catch { return null; } })() },
-    errors: [wd, gl, tp, l5, dk, dd, wk].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50', 'desk', 'daily', 'weekly'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
+    filings: (() => { try { return mapFilings(val(fl)); } catch { return null; } })(),
+    errors: [wd, gl, tp, l5, dk, dd, wk, fl].map((p, i) => p.status === 'rejected' ? ['dispatch', 'glance', 'thinking-tpn', 'thinking-l50', 'desk', 'daily', 'weekly', 'filings'][i] + ': ' + String(p.reason && p.reason.message || p.reason) : null).filter(Boolean)
   };
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   // 60 s at the edge: an edition approved on the Observer reaches the site within about a minute.
@@ -204,4 +215,4 @@ export default async function handler(req, res) {
   res.status(200).send(JSON.stringify(body));
 }
 
-export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking, mapDesk, mapEdition };
+export { mapDispatch, mapGlance, parseTPN, parseL50, mapThinking, mapDesk, mapEdition, mapFilings };

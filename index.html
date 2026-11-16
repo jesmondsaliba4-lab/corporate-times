@@ -845,7 +845,7 @@ function adFig(k){ const x=ADS[k]; return `<figure><p class="adlabel">Advertisem
 /* ---------- views ---------- */
 
 /* The Dispatch (Daily or Weekly) from /api/live: Sunday shows the Weekly, other days the Daily; either falls back to the other. */
-let EDS = null;
+let EDS = null, FILINGS = null;
 function maltaDay(){ try { return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Malta',weekday:'short'}).format(new Date()); } catch(e){ return ''; } }
 function dspBlock(){
   if (!EDS) return '';
@@ -861,7 +861,10 @@ function dspBlock(){
   const hl = (x, t) => `<li>${x.tag?`<span class="tk-sec">${esc(x.tag)}</span><br>`:''}${x.source&&x.source.url?`<a href="${esc(x.source.url)}" target="_blank" rel="noopener">${t}</a>`:t}${x.source?`<div class="m">${esc(x.source.label)}</div>`:''}</li>`;
   const grp = (t, items) => items.length ? `${t?`<p class="grp2">${esc(t)}</p>`:''}<ol>${items.join('')}</ol>` : '';
   const side = [
-    grp('', E.inbrief.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))),
+    // live filings first (they arrive between editions); the edition's own in-brief only when the feed is unavailable
+    (FILINGS && FILINGS.length)
+      ? grp('Latest filings', FILINGS.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)))
+      : grp('', E.inbrief.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))),
     grp(W?'The world this week':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
     grp(W?'Europe this week':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
   ].join('');
@@ -1509,6 +1512,7 @@ async function goLive(){
     }
     if (Array.isArray(j.desk)) { mergeDesk(j.desk); changed = true; }
     if (j.editions && (j.editions.daily || j.editions.weekly)) { EDS = j.editions; changed = true; }
+    if (Array.isArray(j.filings) && j.filings.length) { FILINGS = j.filings; changed = true; }
     if (j.glance && j.glance.items){
       for (const [k,g] of Object.entries(j.glance.items)){ const re = GMAP[k]; if (!re) continue;
         for (const p of OBS.panels) for (const f of p.f) if (re.test(f[1])){ f[0]=g.display; f[1]=g.label; f[2]=[g.source,g.detail].filter(Boolean).join(' · '); } }
