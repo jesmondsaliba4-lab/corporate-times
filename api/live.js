@@ -174,7 +174,7 @@ function mapEdition(j) {
     kind: j.kind === 'weekly' ? 'weekly' : 'daily', name: s(j.name), date: s(j.date), dateLine: s(j.dateLine), number: +j.number || 0,
     url: https(j.url), pdf: https(j.pdf), masthead: https(j.masthead), readingTime: s(j.readingTime),
     lead: { sector: s(j.lead.sector), headline: s(j.lead.headline), standfirst: s(j.lead.standfirst), why: s(j.lead.why), image: https(j.lead.image), caption: s(j.lead.caption), source: src(j.lead.source) },
-    stories: (j.stories || []).slice(0, 6).map(x => ({ sector: s(x.sector), title: s(x.title), text: s(x.text), image: https(x.image), source: src(x.source) })),
+    stories: (j.stories || []).slice(0, 6).map(x => ({ sector: s(x.sector), title: s(x.title), text: s(x.text), image: https(x.image), credit: x.credit ? s(x.credit) : undefined, source: src(x.source) })),
     numbers: (j.numbers || []).slice(0, 4).map(x => ({ value: s(x.value), label: s(x.label), source: src(x.source) })),
     inbrief: (j.inbrief || []).slice(0, 8).map(x => ({ tag: s(x.tag), company: s(x.company), text: s(x.text), source: src(x.source) })),
     world: (j.world || []).slice(0, 4).map(x => ({ tag: s(x.tag), title: s(x.title), source: src(x.source) })),
