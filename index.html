@@ -873,7 +873,7 @@ function dspBlock(){
     <div class="lead ctd-lead">
       <p class="kicker">${esc(L.sector)}</p>
       <h2><a href="${esc(u)}">${esc(L.headline)}</a></h2>
-      ${L.image?`<figure><a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(L.image)}" alt="" loading="lazy"></a>${L.caption?`<figcaption>${esc(L.caption)}</figcaption>`:''}</figure>`:''}
+      ${L.image?`<figure><a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(L.image)}" alt="" loading="lazy"></a>${L.caption?`<figcaption>${esc(L.caption).replace('martinagius.com','<a href="https://martinagius.com" target="_blank" rel="noopener">martinagius.com</a>')}</figcaption>`:''}</figure>`:''}
       <p class="standfirst">${esc(L.standfirst)}</p>
       ${L.why?`<p class="ctd-why"><b>Why it matters</b>${esc(L.why)}</p>`:''}
       ${L.source?`<p class="ctd-src">Source: ${sl(L.source)}</p>`:''}
