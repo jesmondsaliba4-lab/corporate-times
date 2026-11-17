@@ -544,7 +544,8 @@ a.art:hover img{transform:scale(1.03)}
 .ctd-credit{margin:-4px 0 6px;font-size:11px;color:var(--muted)}.ctd-credit a{color:inherit}
 .ctd-cards h3{margin:4px 0 0;font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.16}
 .ctd-cards .t{margin:5px 0 0;font-size:14px;line-height:1.45;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-@media (max-width:900px){.ctd-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ctd-cards.ctd-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:900px){.ctd-cards,.ctd-cards.ctd-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:560px){.ctd-cards{grid-template-columns:minmax(0,1fr)}}
 .ctd-side-h{margin:0 0 6px!important;font-size:clamp(22px,1.9vw,27px)!important}
 .ctd-side-h .ct-word{display:inline-block;height:1.3em;width:auto;vertical-align:-.4em;margin:0 .02em}
@@ -878,7 +879,7 @@ function dspBlock(){
       <p class="standfirst">${esc(L.standfirst)}</p>
       ${L.why?`<p class="ctd-why"><b>Why it matters</b>${esc(L.why)}</p>`:''}
       ${L.source?`<p class="ctd-src">Source: ${sl(L.source)}</p>`:''}
-      <ul class="ctd-cards">${E.stories.map(x=>`<li>${x.image?`<a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(x.image)}" alt="" loading="lazy"></a>`:''}${x.credit?`<p class="ctd-credit">${esc(x.credit).replace('martinagius.com','<a href="https://martinagius.com" target="_blank" rel="noopener">martinagius.com</a>')}</p>`:''}<p class="kicker">${esc(x.sector)}</p><h3><a href="${esc(u)}">${esc(x.title)}</a></h3><p class="t">${esc(x.text)}</p></li>`).join('')}</ul>
+      <ul class="ctd-cards${E.stories.length%4===0?' ctd-4':''}">${E.stories.map(x=>`<li>${x.image?`<a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(x.image)}" alt="" loading="lazy"></a>`:''}${x.credit?`<p class="ctd-credit">${esc(x.credit).replace('martinagius.com','<a href="https://martinagius.com" target="_blank" rel="noopener">martinagius.com</a>')}</p>`:''}<p class="kicker">${esc(x.sector)}</p><h3><a href="${esc(u)}">${esc(x.title)}</a></h3><p class="t">${esc(x.text)}</p></li>`).join('')}</ul>
       ${E.numbers.length?`<div class="ctd-nums">${E.numbers.map(n=>`<div class="ctd-num"><b>${esc(n.value)}</b><span>${esc(n.label)}</span></div>`).join('')}</div>`:''}
     </div>
     ${side?`<aside class="side side-wnd ctd-side" aria-label="The latest from the Corporate desk"><div class="wnd"><h2 class="ctd-side-h"><a href="${esc(u)}">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</a></h2>
