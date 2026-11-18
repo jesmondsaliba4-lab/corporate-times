@@ -601,7 +601,7 @@ a.art:hover img{transform:scale(1.03)}
 .enq-ans .gaps{margin:14px 0 0;font-size:15px;color:var(--muted);font-style:italic}
 .enq-ans .fine{margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule-soft);font-size:13px;color:var(--muted)}
 .enq-ans .credit{margin:6px 0 0;font-size:13px;font-weight:600;color:var(--gold-text)}
-.enq-src{margin:18px 0 0}
+.enq-src{margin:18px 0 0}.enq-more{margin:22px 0 0;padding:20px 24px;background:var(--card);border:1px solid var(--rule)}.enq-more h2{margin:0 0 10px;font-family:var(--serif);font-size:22px;font-weight:600}.enq-more summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:16px}.enq-more summary span{color:var(--muted);font-size:15px}.enq-more form{display:grid;gap:12px;margin:14px 0 0}.enq-more label{display:grid;gap:5px;font-size:14px;font-weight:600;color:var(--ink)}.enq-more textarea,.enq-more input[type=email],.enq-more input[name=name]{font:inherit;font-size:16px;font-weight:400;padding:10px 12px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}.enq-more .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.enq-more .consent{display:flex;gap:8px;align-items:flex-start;font-weight:400}.enq-more button{justify-self:start;border:0;background:var(--navy);color:#fff;font:600 15px/1 var(--sans);padding:12px 20px;cursor:pointer}.enq-more button:disabled{opacity:.6}.enq-more .note{margin:0;font-size:14px;color:var(--gold-text)}.enq-more .ok{margin:0;padding:12px 14px;background:#e4efe3;color:#21452a}.enq-more .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}@media (max-width:600px){.enq-more .two{grid-template-columns:1fr}}
 .enq-src h3{margin:0 0 6px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-text)}
 .enq-src ol{list-style:none;margin:0;padding:0}
 .enq-src li{display:grid;grid-template-columns:30px 1fr;gap:4px 10px;padding:9px 0;border-top:1px solid var(--rule-soft);font-size:15px}
@@ -925,7 +925,7 @@ async function runEnquire(q){
   try { r = await fetch(ENQ_API+'?q='+encodeURIComponent(q)).then(x=>x.json()); }
   catch(e){ r = { error:'Enquire could not be reached just now. Please try again in a minute.' }; }
   if (decodeURIComponent((location.hash||'').replace(/^#enquire\/?/,'')) !== q) return; // the reader has moved on
-  if (r.error && !r.summary){ out.innerHTML = `<p class="enq-err">${esc(r.error)}</p>`; return; }
+  if (r.error && !r.summary){ out.innerHTML = `<p class="enq-err">${esc(r.error)}</p>` + enqMore(q, false); enqMoreWire(q); return; }
   const local = u => String(u||'').replace(/^https:\/\/(www\.)?corporate-times\.com\/(?=#)/,'');
   const link = (s, t) => { const u = local(s.url); if (!u) return t; return u.startsWith('#') ? `<a href="${esc(u)}">${t}</a>` : `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`; };
   const byN = Object.fromEntries((r.sources||[]).map(s=>[s.n,s]));
@@ -939,7 +939,40 @@ async function runEnquire(q){
     <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources (Meridian news monitoring). It can make mistakes: check the linked sources.</p>
     <p class="credit">Further research supported by ThinkPeople Nexus Insights &amp; Research · Meridian · Malta Observer</p>
     ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li id="enq-s${s.n}"><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date)} · ${s.meridian?'<b class="res">Meridian analysis</b> · ThinkPeople Nexus Insights &amp; Research':(s.research?'<b class="res">Research · Meridian</b> · ':'')+esc(s.via)}</small></li>`).join('')}</ol></div>`:''}
-  </article>`;
+  </article>` + enqMore(q, true); enqMoreWire(q);
+}
+
+// "Need more than this?": a reader asks ThinkPeople Nexus to research further. Sent to the release desk
+// (release.tpnintel.com) through Enquire.Nexus, labelled corporate-times.com; an email reaches the desk too.
+const ENQ_REQ = 'https://enquire.nexus/api/research';
+function enqMore(q, answered){
+  return `<section class="enq-more" id="enq-more"><h2>${answered?'Need more than this?':'Not what you were looking for?'}</h2>
+    <details><summary><b>Request further research</b><span>Ask ThinkPeople Nexus to look into it for you.</span></summary>
+    <form id="enq-req" novalidate>
+      <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      <label>What else do you need to know?<textarea name="message" rows="3" maxlength="2000" required>${esc('Regarding "'+q+'": ')}</textarea></label>
+      <div class="two"><label>Your name <input name="name" maxlength="120" autocomplete="name"></label>
+      <label>Email (for the reply) <input name="email" type="email" maxlength="254" required autocomplete="email"></label></div>
+      <label class="consent"><input type="checkbox" name="consent" required> Corporate Times and ThinkPeople Nexus may keep my request and email address to reply to me.</label>
+      <button type="submit">Send request</button><p class="note" aria-live="polite"></p>
+    </form></details></section>`;
+}
+function enqMoreWire(q){
+  const f = document.getElementById('enq-req'); if (!f) return;
+  f.addEventListener('submit', async e=>{
+    e.preventDefault();
+    const note = f.querySelector('.note'), btn = f.querySelector('button');
+    const d = { q, source:'corporate-times.com', link: location.href, consent: f.consent.checked };
+    ['message','name','email','website'].forEach(k=>d[k]=f[k].value.trim());
+    if (!f.consent.checked || !d.email || d.message.length < 10){ note.textContent = 'Please add a valid email address, say what you need and tick the box.'; return; }
+    btn.disabled = true; note.textContent = 'Sending…';
+    try {
+      const r = await fetch(ENQ_REQ, { method:'POST', headers:{'content-type':'application/json'}, body: JSON.stringify(d) });
+      const j = await r.json().catch(()=>({}));
+      if (!r.ok){ note.textContent = j.error || 'That did not go through. Please try again.'; btn.disabled = false; return; }
+      f.closest('.enq-more').querySelector('details').outerHTML = '<p class="ok" role="status"><b>Thank you, your request has reached ThinkPeople Nexus.</b> We will look into it and reply by email.</p>';
+    } catch(err){ note.textContent = 'That did not go through. Please check your connection.'; btn.disabled = false; }
+  });
 }
 
 // Enquire as a feature in the front page's side bar, under The Interview
