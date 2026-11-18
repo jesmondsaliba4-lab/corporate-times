@@ -632,7 +632,7 @@ a.art:hover img{transform:scale(1.03)}
 <a class="skip" href="#home" id="skiplink">Skip to the stories</a>
 <div class="utility"><div class="wrap">
   <span><span id="today"></span><span class="tag"> · Malta’s Corporate &amp; Business Journal</span></span>
-  <span class="links"><a class="enq-link" href="#enquire"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>Enquire</a><a href="https://daily.corporate-times.com/">Daily</a><a href="https://weekly.corporate-times.com/">Weekly</a><a href="#editions">Editions</a><a href="#interviews">Interviews</a><a href="#thinking">Thinking</a><a href="#observer">Malta Observer</a><a href="#search">Search</a><a href="#partners">Advertise</a></span>
+  <span class="links"><a class="enq-link" href="#enquire"><svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>Enquire</a><a href="#search">Search</a><a href="#partners">Advertise</a></span>
 </div></div>
 <div class="mastband"><header class="mast wrap">
   <a class="mast-link" href="#home" aria-label="The Corporate Times, front page">
@@ -687,7 +687,8 @@ const SEC = {
   commentary:{l:'Corporate Commentary', n:'The editorial view of The Corporate Times, every month.'},
   culture:{l:'Culture', n:'Arts and culture.'}
 };
-const NAV = [['home','Front page'],['https://daily.corporate-times.com/','Daily'],['https://weekly.corporate-times.com/','Weekly'],['news','News'],['@sections','Sections'],['interviews','Interviews'],['@opinion','Opinion'],['@europe','Europe'],['x-pr-link','Corporate Identities'],['@observer','Malta Observer'],['editions','Editions']];
+// One job per bar (Jes, 18 Nov 2026): the top bar carries the tools (Enquire, Search, Advertise), this bar the content.
+const NAV = [['home','Front page'],['@dispatch','Dispatch'],['news','News'],['@sections','Sections'],['interviews','Interviews'],['@opinion','Opinion'],['@europe','Europe'],['x-pr-link','Corporate Identities'],['@observer','Malta Observer'],['editions','Editions']];
 const DDCUR = { sections:['s-finance','s-law','s-work','s-tech','s-maritime','s-business','s-culture'], opinion:['s-commentary','s-opinion','thinking'], europe:['s-europe'] };
 const MO = 'https://maltaobserver.com/';
 const OBS = {
@@ -1403,6 +1404,8 @@ function ddPanel(which){
   const cell = (hr, b, sp) => `<li><a href="#${hr}"><b>${esc(b)}</b><span>${esc(sp)}</span></a></li>`;
   if (which==='sections') return `<div class="wrap"><div class="ddhead"><p>The Corporate Times by subject, across every edition.</p><span><a href="#news">All the news →</a></span></div>
   <ul class="ddgrid g3">${['finance','law','work','tech','maritime','business'].map(k=>cell('s-'+k, SEC[k].l, SEC[k].n)).join('')}</ul></div>`;
+  if (which==='dispatch') return `<div class="wrap"><div class="ddhead"><p>The Corporate Times Dispatch · Malta's corporate news from the Exchange, companies and regulators, at their source.</p></div>
+  <ul class="ddgrid">${[['https://daily.corporate-times.com/','The Daily','Every weekday morning at 07:00, with Malta in figures and the markets'],['https://weekly.corporate-times.com/','The Weekly','The week in review, every Sunday at 08:00']].map(([u,b,sp])=>`<li>${ext(u, `<b>${b}</b><span>${sp}</span>`)}</li>`).join('')}</ul></div>`;
   if (which==='opinion') return `<div class="wrap"><div class="ddhead"><p>Comment, analysis and ideas.</p></div>
   <ul class="ddgrid">${cell('s-commentary','Corporate Commentary',SEC.commentary.n)}${cell('s-opinion','Opinion',SEC.opinion.n)}${cell('thinking','Thinking','Essays and research from ThinkPeople Nexus and Leonardo 2050.')}</ul></div>`;
   if (which==='europe') return `<div class="wrap"><div class="ddhead"><p>Europe · what Brussels and Strasbourg decide, and what it means for Malta.</p></div>
