@@ -620,7 +620,7 @@ a.art:hover img{transform:scale(1.03)}
 .enq-mini button{border:0;background:var(--navy);color:var(--gold);width:46px;cursor:pointer}
 .enq-mini button .ai-ico{width:18px;height:18px;margin:0}
 .enq-mini button:hover{background:var(--gold-deep);color:var(--card)}
-.enq-mini-try{list-style:none;margin:10px 0 0;padding:0}
+.enq-mini-try{list-style:none;margin:10px 0 0;padding:0}.enq-art{display:block;margin:0 0 18px;border:1px solid var(--rule);overflow:hidden;background:#080f22}.enq-art img{display:block;width:100%;height:auto}.enq .badge{flex-wrap:wrap;line-height:1.5}.enq-side-art{display:block;margin:0 0 12px;border:1px solid var(--rule);overflow:hidden;background:#080f22}.enq-side-art img{display:block;width:100%;height:auto}.enq-side .kicker{line-height:1.5}
 .enq-mini-try li{padding:7px 0;border-bottom:1px dotted var(--rule);font-size:14px;line-height:1.35}
 .enq-mini-try a{color:var(--ink-2)}
 .enq-mini-try a::before{content:"→ ";color:var(--gold-deep)}
@@ -909,7 +909,8 @@ function viewEnquire(q){
     f.addEventListener('submit', e=>{ e.preventDefault(); const v=document.getElementById('enq-q').value.trim(); if(v) location.hash='#enquire/'+encodeURIComponent(v); });
     if (q) runEnquire(q); else document.getElementById('enq-q').focus(); }, 0);
   return `<section class="sec wrap"><div class="enq">
-    <p class="badge">${ENQ_SPARK}Powered by AI</p>
+    <a class="enq-art" href="https://enquire.nexus/" target="_blank" rel="noopener"><img src="https://enquire.nexus/assets/enquire-art-1560.webp" srcset="https://enquire.nexus/assets/enquire-art-960.webp 960w, https://enquire.nexus/assets/enquire-art-1560.webp 1560w" sizes="(max-width: 960px) 100vw, 920px" width="1560" height="880" decoding="async" alt="A human face and an AI face look towards the Vitruvian figure, where the ThinkPeople X meets in a point of light."></a>
+    <p class="badge">${ENQ_SPARK}Co-Intelligent Solution powered by ThinkPeople’s Enquire.Nexus</p>
     <h1>Enquire <span>AI-assisted research</span></h1>
     <p class="intro">Research any topic in your own words. AI reads across Corporate Times reporting, the print editions, the Daily and Weekly Dispatch and cde.news, and writes a short answer, with a numbered link to every source it used.</p>
     <form class="enq-form" id="enq-form" role="search"><label for="enq-q" class="skip">Your enquiry</label><input id="enq-q" type="search" maxlength="300" placeholder="Your enquiry" value="${esc(q||'')}" autocomplete="off"><button type="submit">${ENQ_SPARK}Enquire</button></form>
@@ -946,7 +947,8 @@ function enqSide(){
   setTimeout(()=>{ const f=document.getElementById('enq-side-form'); if(!f||f.dataset.on) return; f.dataset.on='1';
     f.addEventListener('submit', e=>{ e.preventDefault(); const v=f.querySelector('input').value.trim(); location.hash = v ? '#enquire/'+encodeURIComponent(v) : '#enquire'; }); }, 0);
   return `<div class="side enq-side">
-    <p class="kicker">${ENQ_SPARK}Powered by AI</p>
+    <a class="enq-side-art" href="#enquire"><img src="https://enquire.nexus/assets/enquire-art-960.webp" width="960" height="541" loading="lazy" decoding="async" alt="A human face and an AI face look towards the Vitruvian figure, where the ThinkPeople X meets in a point of light."></a>
+    <p class="kicker">${ENQ_SPARK}Co-Intelligent Solution powered by ThinkPeople’s Enquire.Nexus</p>
     <h2><a href="#enquire">Enquire</a></h2>
     <p class="x">Research any topic in your own words. AI reads across Corporate Times reporting and cde.news, and answers with a numbered link to every source it used.</p>
     <form class="enq-mini" id="enq-side-form" role="search"><label for="enq-side-q" class="skip">Your enquiry</label><input id="enq-side-q" type="search" maxlength="300" placeholder="Ask a question" autocomplete="off"><button type="submit" aria-label="Enquire">${ENQ_SPARK}</button></form>
