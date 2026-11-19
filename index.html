@@ -64,15 +64,14 @@ h1,h2,h3,h4{text-wrap:balance}
 .mast .sections{background:#FFFFFF}
 .mast-link{display:inline-flex;flex-direction:column;align-items:center;color:var(--mast)}
 .mast-link:hover{color:var(--mast)}
-/* The Dispatch tab, part of the logo (Jes, 19 Nov 2026): under "Times", from the T to just past the gold rule, navy on gold.
+/* DISPATCH, part of the logo (Jes, 19 Nov 2026): navy lettering spaced to the width of "Times", under the gold rule;
+   the wordmark is Corporate-Times, with a Maltese-flag hyphen (white and red) baked into ct-masthead-v6-flag.png.
    Placed in proportion to the logo, so it keeps its place at every size. */
 .mast-logo{position:relative;width:min(100%,600px);margin:0 auto;container-type:inline-size}
 .mast-logo .mast-link{display:block}
 .mast .mast-logo .logo{width:100%}
-.mast-dispatch{position:absolute;left:69.06%;top:73.6%;width:34.6%;aspect-ratio:166/38;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:1.9cqw;background:linear-gradient(180deg,#F3D99C 0%,#D6A752 50%,#B8873F 100%);color:#0A1D45;font-family:Jost,system-ui,sans-serif;font-size:2.7cqw;font-weight:700;letter-spacing:.32em;text-transform:uppercase;text-decoration:none}
-.mast-dispatch .md-title{padding-left:.32em}
-.mast-dispatch .md-rule{width:2.5cqw;height:1px;background:#0A1D45}
-.mast-dispatch:hover{filter:brightness(1.06)}
+.mast-dispatch{position:absolute;left:68.04%;top:73.2%;width:30.46%;display:flex;justify-content:space-between;color:#0A1D45;font-family:Jost,system-ui,sans-serif;font-size:2.9cqw;line-height:1.3;font-weight:700;text-decoration:none}
+.mast-dispatch:hover{color:#8E5B29}
 .mast-tagline{margin:12px 0 0;font-family:Jost,system-ui,sans-serif;font-size:12.5px;font-weight:500;letter-spacing:.3em;padding-left:.3em;text-transform:uppercase;color:var(--mast)}
 .mast-tagline span{color:var(--gold-deep)}
 @media (max-width:480px){.mast-tagline{font-size:10.5px;letter-spacing:.22em;padding-left:.22em}}
@@ -648,8 +647,8 @@ a.art:hover img{transform:scale(1.03)}
 </div></div>
 <div class="mastband"><header class="mast wrap">
   <div class="mast-logo">
-    <a class="mast-link" href="#home" aria-label="The Corporate Times, front page"><img class="logo" src="img/ct-masthead-v5-notag.png" width="1102" height="344" alt="The Corporate Times"></a>
-    <a class="mast-dispatch" href="https://daily.corporate-times.com/" title="The Corporate Times Dispatch"><span class="md-rule" aria-hidden="true"></span><span class="md-title">Dispatch</span><span class="md-rule" aria-hidden="true"></span></a>
+    <a class="mast-link" href="#home" aria-label="The Corporate Times, front page"><img class="logo" src="img/ct-masthead-v6-flag.png" width="1067" height="344" alt="The Corporate-Times"></a>
+    <a class="mast-dispatch" href="https://daily.corporate-times.com/" title="The Corporate Times Dispatch" aria-label="Dispatch"><span aria-hidden="true">D</span><span aria-hidden="true">I</span><span aria-hidden="true">S</span><span aria-hidden="true">P</span><span aria-hidden="true">A</span><span aria-hidden="true">T</span><span aria-hidden="true">C</span><span aria-hidden="true">H</span></a>
   </div>
   <p class="mast-tagline">Business <span aria-hidden="true">·</span> Finance <span aria-hidden="true">·</span> Law <span aria-hidden="true">·</span> People</p>
   <nav class="sections" id="nav" aria-label="Sections"></nav>
