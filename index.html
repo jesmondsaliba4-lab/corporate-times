@@ -64,6 +64,14 @@ h1,h2,h3,h4{text-wrap:balance}
 .mast .sections{background:#FFFFFF}
 .mast-link{display:inline-flex;flex-direction:column;align-items:center;color:var(--mast)}
 .mast-link:hover{color:var(--mast)}
+/* The Dispatch nameplate under the masthead (Jes, 19 Nov 2026): gold on CT Navy, the blue of the C */
+.mast-dispatch{--ct-navy:#0A1D45;display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.4vw,16px);width:min(100%,640px);min-height:46px;margin:4px auto 0;padding:0 12px;box-sizing:border-box;background:var(--ct-navy)}
+.mast-dispatch .md-rule{flex:0 1 64px;height:1px;background:var(--gold-deep)}
+.mast-dispatch .md-title{font-family:Jost,system-ui,sans-serif;font-size:14px;font-weight:600;letter-spacing:.5em;padding-left:.5em;text-transform:uppercase;color:var(--ember)}
+.mast-dispatch .md-title:hover{color:var(--on-navy)}
+.mast-dispatch .md-eds{font-family:"EB Garamond",Georgia,serif;font-style:italic;font-size:17px;color:var(--on-navy-2);white-space:nowrap}
+.mast-dispatch .md-eds a{color:inherit}.mast-dispatch .md-eds a:hover{color:var(--ember)}
+@media (max-width:480px){.mast-dispatch{min-height:40px}.mast-dispatch .md-title{font-size:12.5px;letter-spacing:.38em;padding-left:.38em}.mast-dispatch .md-eds{font-size:15px}.mast-dispatch .md-rule{flex-basis:24px}}
 .emblem{width:clamp(120px,12vw,168px);height:auto;overflow:visible}
 .emblem .rg{stroke:var(--mast);stroke-opacity:.38}
 .emblem .ev{stroke:var(--mast);stroke-opacity:.6}
@@ -638,6 +646,7 @@ a.art:hover img{transform:scale(1.03)}
   <a class="mast-link" href="#home" aria-label="The Corporate Times, front page">
     <img class="logo" src="img/ct-masthead-v5.png" width="1102" height="344" alt="The Corporate Times · Business · Finance · Law · People">
   </a>
+  <div class="mast-dispatch"><span class="md-rule" aria-hidden="true"></span><a class="md-title" href="https://daily.corporate-times.com/" title="The Corporate Times Dispatch">Dispatch</a><span class="md-eds"><a href="https://daily.corporate-times.com/">Daily</a> · <a href="https://weekly.corporate-times.com/">Weekly</a></span><span class="md-rule" aria-hidden="true"></span></div>
   <nav class="sections" id="nav" aria-label="Sections"></nav>
 </header></div>
 <div class="ddpanel" id="ddpanel" hidden></div>
