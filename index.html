@@ -571,6 +571,17 @@ a.art:hover img{transform:scale(1.03)}
 .ctp{margin-top:clamp(36px,4vw,52px)}
 .ctp::before{content:"";display:block;height:8px;background:var(--navy);margin-bottom:clamp(18px,2vw,26px)}
 .ctd-foot{margin:14px 0 0;font-size:13px;color:var(--muted)}
+.ctd-sidehead{flex:none;display:block!important;margin:0 0 14px;padding:0 0 14px!important;border-bottom:3px double var(--ink)!important}
+.ctd-sidehead .ctd-info{text-align:left;margin-top:10px}
+.ctd-sidehead .ctd-links{justify-content:flex-start}
+.ctd-lock{position:relative;display:block;width:min(100%,300px);container-type:inline-size;text-decoration:none}
+.ctd-lock img{display:block;width:100%;height:auto}
+.ctd-lock-d{position:absolute;left:70.27%;top:73.2%;width:26%;display:flex;justify-content:space-between;color:#0A1D45;font-family:Jost,system-ui,sans-serif;font-size:2.9cqw;line-height:1.3;font-weight:700}
+.ctd-flags{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px!important}
+.ctd-flags a{display:inline-flex;line-height:0;padding:3px;border:1px solid transparent;border-radius:2px;transition:transform .15s}
+.ctd-flags a:hover,.ctd-flags a:focus-visible{border-color:var(--gold-text);transform:translateY(-1px)}
+.ctd-flags a.edge svg{box-shadow:0 0 0 .5px rgba(13,27,42,.35)}
+.ctd-pub{margin-top:10px!important;font-size:12.5px;line-height:1.45}
 .ctd-foot a{color:var(--gold-text);font-weight:600}
 @media (max-width:860px){.ctd-info{text-align:left}.ctd-links{justify-content:flex-start}}
 
@@ -867,6 +878,30 @@ function adFig(k){ const x=ADS[k]; return `<figure><p class="adlabel">Advertisem
 /* The Dispatch (Daily or Weekly) from /api/live: Sunday shows the Weekly, other days the Daily; either falls back to the other. */
 let EDS = null, FILINGS = null;
 function maltaDay(){ try { return new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Malta',weekday:'short'}).format(new Date()); } catch(e){ return ''; } }
+/* The Dispatch's head, at the top of the side bar (Jes, 20 Nov 2026): the Corporate-Times Dispatch masthead, the edition,
+   its links, the language editions as flags (Arabic under the flag of Libya) and the publishing line. */
+const DSP_LANGS = [
+  ['', 'English', '<svg viewBox="0 0 60 30" width="22" height="11"><clipPath id="ctdukc"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath><rect width="60" height="30" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#ctdukc)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg>'],
+  ['mt', 'Malti', '<svg viewBox="0 0 30 20" width="16.5" height="11"><rect width="15" height="20" fill="#fff"/><rect x="15" width="15" height="20" fill="#CF142B"/><path d="M3.2,1.6h2.6v1.6h1.6v2.6h-1.6v1.6h-2.6v-1.6h-1.6v-2.6h1.6z" fill="#A7A9AC" stroke="#CF142B" stroke-width=".4"/></svg>', 1],
+  ['it', 'Italiano', '<svg viewBox="0 0 3 2" width="16.5" height="11"><rect width="1" height="2" fill="#009246"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#CE2B37"/></svg>', 1],
+  ['el', 'Ελληνικά', '<svg viewBox="0 0 27 18" width="16.5" height="11"><rect width="27" height="18" fill="#0D5EAF"/><path d="M0,3h27M0,7h27M0,11h27M0,15h27" stroke="#fff" stroke-width="2"/><rect width="10" height="10" fill="#0D5EAF"/><path d="M5,0v10M0,5h10" stroke="#fff" stroke-width="2"/></svg>'],
+  ['cy', 'Κυπριακά', '<svg viewBox="0 0 30 20" width="16.5" height="11"><rect width="30" height="20" fill="#fff"/><path d="M6.5,9.6L10.5,8.1L14.8,8.3L18.6,7.1L22.6,5.1L24.6,4.5L21.6,7.2L20.6,9.6L18,11.6L14,12.6L9.8,12.1Z" fill="#D57800"/><path d="M10.5,15.2Q15,17.6 19.5,15.2" fill="none" stroke="#4E5B31" stroke-width="1.3"/></svg>', 1],
+  ['fr', 'Français', '<svg viewBox="0 0 3 2" width="16.5" height="11"><rect width="1" height="2" fill="#002654"/><rect x="1" width="1" height="2" fill="#fff"/><rect x="2" width="1" height="2" fill="#ED2939"/></svg>', 1],
+  ['de', 'Deutsch', '<svg viewBox="0 0 5 3" width="18.3" height="11"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#DD0000"/><rect y="2" width="5" height="1" fill="#FFCE00"/></svg>'],
+  ['ar', 'العربية', '<svg viewBox="0 0 48 24" width="22" height="11"><rect width="48" height="24" fill="#239E46"/><rect width="48" height="18" fill="#000"/><rect width="48" height="6" fill="#E70013"/><circle cx="22.6" cy="12" r="3.3" fill="#fff"/><circle cx="23.5" cy="12" r="2.7" fill="#000"/><path d="M25.45,12.00 L26.43,11.66 L26.45,10.62 L27.08,11.45 L28.07,11.15 L27.48,12.00 L28.07,12.85 L27.08,12.55 L26.45,13.38 L26.43,12.34Z" fill="#fff"/></svg>'],
+];
+function dspHead(E, other, u, W, EV){
+  let base; try { base = new URL(u); } catch { base = null; }
+  const langUrl = l => base ? `${base.origin}${l ? '/' + l : ''}${base.pathname === '/' && l ? '' : base.pathname}` : u;
+  const flags = DSP_LANGS.map(([l, n, svg, edge]) => `<a href="${esc(langUrl(l))}" hreflang="${l === 'cy' ? 'el-CY' : (l || 'en')}" title="${esc(n)}" aria-label="${esc(n)}"${edge ? ' class="edge"' : ''}>${svg}</a>`).join('');
+  return `<div class="ctd-head ctd-sidehead">
+    <a class="ctd-lock" href="${esc(u)}" aria-label="${esc(E.name)}"><img src="img/ct-masthead-v7.png" alt="The Corporate Times"><span class="ctd-lock-d" aria-hidden="true"><span>D</span><span>I</span><span>S</span><span>P</span><span>A</span><span>T</span><span>C</span><span>H</span></span></a>
+    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':EV?'This evening’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
+      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':other.kind==='evening'?'The Evening Dispatch':'The Daily Dispatch'} →</a>`:''}</p>
+      <p class="ctd-flags" aria-label="Read this edition in">${flags}</p>
+      <p class="ctd-pub">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published Monday to Friday at 19:00 by the Corporate Times desk.'} Every item is written in our own words and names its source.</p></div>
+  </div>`;
+}
 function dspBlock(){
   if (!EDS) return '';
   const sun = maltaDay()==='Sun';
@@ -900,16 +935,11 @@ function dspBlock(){
       <ul class="ctd-cards${E.stories.length%4===0?' ctd-4':''}">${E.stories.map(x=>`<li>${x.image?`<a href="${esc(u)}" tabindex="-1" aria-hidden="true"><img src="${esc(x.image)}" alt="" loading="lazy"></a>`:''}${x.credit?`<p class="ctd-credit">${esc(x.credit).replace('martinagius.com','<a href="https://martinagius.com" target="_blank" rel="noopener">martinagius.com</a>')}</p>`:''}<p class="kicker">${esc(x.sector)}</p><h3><a href="${esc(u)}">${esc(x.title)}</a></h3><p class="t">${esc(x.text)}</p></li>`).join('')}</ul>
       ${E.numbers.length?`<div class="ctd-nums">${E.numbers.map(n=>`<div class="ctd-num"><b>${esc(n.value)}</b><span>${esc(n.label)}</span></div>`).join('')}</div>`:''}
     </div>
-    ${side?`<aside class="side side-wnd ctd-side" aria-label="The latest from the Corporate desk"><div class="wnd"><h2 class="ctd-side-h"><a href="${esc(u)}">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</a></h2>
+    ${side?`<aside class="side side-wnd ctd-side" aria-label="The latest from the Corporate desk"><div class="wnd">${dspHead(E, other, u, W, EV)}<h2 class="ctd-side-h"><a href="${esc(u)}">The Latest From The <img class="ct-word" src="img/ct-corporate-word.png" width="498" height="144" alt="Corporate"> Desk</a></h2>
       <div class="wnd-scroll" tabindex="0" aria-label="The latest from the Corporate desk">${side}</div>
       <div class="wnd-fill"></div>
-      <div class="ctd-head ctd-sidefoot">
-    <a class="ctd-mast" href="${esc(u)}"><img src="${esc(E.masthead||'')}" alt="${esc(E.name)}"></a>
-    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':EV?'This evening’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
-      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':other.kind==='evening'?'The Evening Dispatch':'The Daily Dispatch'} →</a>`:''}</p></div>
   </div></div></aside>`:''}
   </div>
-  <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published Monday to Friday at 19:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
 </section>`;
 }
 
