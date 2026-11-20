@@ -521,7 +521,7 @@ a.art:hover img{transform:scale(1.03)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
-/* The Dispatch: the latest Daily (Monday to Saturday) or Weekly (Sunday), first on the front page (15 Nov 2026) */
+/* The Dispatch: the latest Evening (Monday to Friday; one edition a weekday from 20 Nov 2026) or Weekly (Sunday), first on the front page */
 .ctd{padding-top:clamp(20px,2.6vw,30px)}
 .ctd-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 24px;padding-bottom:12px;border-bottom:3px double var(--ink)}
 .ctd-mast img{display:block;height:clamp(54px,6.4vw,84px);width:auto}
@@ -872,7 +872,7 @@ function dspBlock(){
   const sun = maltaDay()==='Sun';
   const E = (sun ? (EDS.weekly||EDS.daily) : (EDS.daily||EDS.weekly)); if (!E) return '';
   const other = E.kind==='weekly' ? EDS.daily : EDS.weekly;
-  const W = E.kind==='weekly';
+  const W = E.kind==='weekly', EV = E.kind==='evening';
   const u = E.url || '#';
   const sl = x => x && x.label ? (x.url ? `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>` : esc(x.label)) : '';
   const L = E.lead;
@@ -885,8 +885,8 @@ function dspBlock(){
     (FILINGS && FILINGS.length)
       ? grp('Latest filings', FILINGS.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)))
       : grp('', E.inbrief.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))),
-    grp(W?'The world this week':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
-    grp(W?'Europe this week':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
+    grp(W?'The world this week':EV?'The world today':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
+    grp(W?'Europe this week':EV?'Europe today':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
   ].join('');
   return `<section class="ctd wrap" aria-label="${esc(E.name)}">
   <div class="front ctd-front">
@@ -905,11 +905,11 @@ function dspBlock(){
       <div class="wnd-fill"></div>
       <div class="ctd-head ctd-sidefoot">
     <a class="ctd-mast" href="${esc(u)}"><img src="${esc(E.masthead||'')}" alt="${esc(E.name)}"></a>
-    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
-      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':'The Daily Dispatch'} →</a>`:''}</p></div>
+    <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':EV?'This evening’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
+      <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':other.kind==='evening'?'The Evening Dispatch':'The Daily Dispatch'} →</a>`:''}</p></div>
   </div></div></aside>`:''}
   </div>
-  <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published on weekday mornings at 07:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
+  <p class="ctd-foot">${W?'Published on Sunday mornings at 08:00 by the Corporate Times desk.':'Published Monday to Friday at 19:00 by the Corporate Times desk.'} Every item is written in our own words and names its source. <a href="${esc(u)}">Read this edition →</a></p>
 </section>`;
 }
 
@@ -925,7 +925,7 @@ function viewEnquire(q){
     <a class="enq-art" href="https://enquire.nexus/" target="_blank" rel="noopener"><img src="https://enquire.nexus/assets/enquire-art-1560.webp" srcset="https://enquire.nexus/assets/enquire-art-960.webp 960w, https://enquire.nexus/assets/enquire-art-1560.webp 1560w" sizes="(max-width: 960px) 100vw, 920px" width="1560" height="880" decoding="async" alt="A human face and an AI face look towards the Vitruvian figure, where the ThinkPeople X meets in a point of light."></a>
     <p class="badge">${ENQ_SPARK}Co-Intelligent Solution powered by ThinkPeople’s Enquire.Nexus</p>
     <h1>Enquire <span>AI-assisted research</span></h1>
-    <p class="intro">Research any topic in your own words. AI reads across Corporate Times reporting, the print editions, the Daily and Weekly Dispatch and cde.news, and writes a short answer, with a numbered link to every source it used.</p>
+    <p class="intro">Research any topic in your own words. AI reads across Corporate Times reporting, the print editions, the Evening and Weekly Dispatch and cde.news, and writes a short answer, with a numbered link to every source it used.</p>
     <form class="enq-form" id="enq-form" role="search"><label for="enq-q" class="skip">Your enquiry</label><input id="enq-q" type="search" maxlength="300" placeholder="Your enquiry" value="${esc(q||'')}" autocomplete="off"><button type="submit">${ENQ_SPARK}Enquire</button></form>
     <p class="enq-try"><b>Try</b>${ENQ_TRY.map(t=>`<a href="#enquire/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</p>
     <div id="enq-out"></div>
@@ -1445,7 +1445,7 @@ const main = document.getElementById('main');
 function navHtml(cur){
   return NAV.map(([h,l])=> h[0]==='@'
     ? `<button type="button" class="dd${cur===h.slice(1)||(DDCUR[h.slice(1)]||[]).includes(cur)?' cur':''}" data-dd="${h.slice(1)}" aria-expanded="false" aria-controls="ddpanel">${esc(l)}<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>`
-    : h.startsWith('https://') ? `<a href="${h}" title="The Corporate Times Daily Dispatch">${esc(l)}</a>`
+    : h.startsWith('https://') ? `<a href="${h}" title="The Corporate Times Dispatch">${esc(l)}</a>`
     : `<a href="#${h}"${cur===h?' aria-current="page"':''}>${esc(l)}</a>`).join('');
 }
 function ddPanel(which){
@@ -1453,7 +1453,7 @@ function ddPanel(which){
   if (which==='sections') return `<div class="wrap"><div class="ddhead"><p>The Corporate Times by subject, across every edition.</p><span><a href="#news">All the news →</a></span></div>
   <ul class="ddgrid g3">${['finance','law','work','tech','maritime','business'].map(k=>cell('s-'+k, SEC[k].l, SEC[k].n)).join('')}</ul></div>`;
   if (which==='dispatch') return `<div class="wrap"><div class="ddhead"><p>The Corporate Times Dispatch · Malta's corporate news from the Exchange, companies and regulators, at their source.</p></div>
-  <ul class="ddgrid">${[['https://daily.corporate-times.com/','The Daily','Every weekday morning at 07:00, with Malta in figures and the markets'],['https://daily.corporate-times.com/evening','The Evening','Every weekday at 19:00: the day\'s business, at the close'],['https://weekly.corporate-times.com/','The Weekly','The week in review, every Sunday at 08:00']].map(([u,b,sp])=>`<li>${ext(u, `<b>${b}</b><span>${sp}</span>`)}</li>`).join('')}</ul></div>`;
+  <ul class="ddgrid">${[['https://daily.corporate-times.com/','The Evening','Monday to Friday at 19:00: the day\'s business, at the close, with Malta in figures and the markets'],['https://weekly.corporate-times.com/','The Weekly','The week in review, every Sunday at 08:00']].map(([u,b,sp])=>`<li>${ext(u, `<b>${b}</b><span>${sp}</span>`)}</li>`).join('')}</ul></div>`;
   if (which==='opinion') return `<div class="wrap"><div class="ddhead"><p>Comment, analysis and ideas.</p></div>
   <ul class="ddgrid">${cell('s-commentary','Corporate Commentary',SEC.commentary.n)}${cell('s-opinion','Opinion',SEC.opinion.n)}${cell('thinking','Thinking','Essays and research from ThinkPeople Nexus and Leonardo 2050.')}</ul></div>`;
   if (which==='europe') return `<div class="wrap"><div class="ddhead"><p>Europe · what Brussels and Strasbourg decide, and what it means for Malta.</p></div>

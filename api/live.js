@@ -171,7 +171,7 @@ function mapEdition(j) {
   const s = x => (x == null ? '' : String(x));
   const src = x => x && x.label ? { label: s(x.label), url: https(x.url) } : null;
   return {
-    kind: j.kind === 'weekly' ? 'weekly' : 'daily', name: s(j.name), date: s(j.date), dateLine: s(j.dateLine), number: +j.number || 0,
+    kind: j.kind === 'weekly' ? 'weekly' : j.kind === 'evening' ? 'evening' : 'daily', name: s(j.name), date: s(j.date), dateLine: s(j.dateLine), number: +j.number || 0,
     url: https(j.url), pdf: https(j.pdf), masthead: https(j.masthead), readingTime: s(j.readingTime),
     lead: { sector: s(j.lead.sector), headline: s(j.lead.headline), standfirst: s(j.lead.standfirst), why: s(j.lead.why), image: https(j.lead.image), caption: s(j.lead.caption), source: src(j.lead.source) },
     stories: (j.stories || []).slice(0, 6).map(x => ({ sector: s(x.sector), title: s(x.title), text: s(x.text), image: https(x.image), credit: x.credit ? s(x.credit) : undefined, source: src(x.source) })),
