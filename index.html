@@ -885,7 +885,7 @@ function dspBlock(){
     (FILINGS && FILINGS.length)
       ? grp('Latest filings', FILINGS.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`)))
       : grp('', E.inbrief.map(x=>hl(x, `${x.company?`<b>${esc(x.company)}</b> `:''}${esc(x.text)}`))),
-    grp(W?'The world this week':EV?'The world today':'The world this morning', E.world.map(x=>hl(x, esc(x.title)))),
+    grp('From the World', E.world.map(x=>hl(x, esc(x.title)))),
     grp(W?'Europe this week':EV?'Europe today':'Europe this morning', E.europe.map(x=>hl(x, esc(x.title))))
   ].join('');
   return `<section class="ctd wrap" aria-label="${esc(E.name)}">
