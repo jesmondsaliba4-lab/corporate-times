@@ -895,7 +895,7 @@ function dspHead(E, other, u, W, EV){
   const langUrl = l => base ? `${base.origin}${l ? '/' + l : ''}${base.pathname === '/' && l ? '' : base.pathname}` : u;
   const flags = DSP_LANGS.map(([l, n, svg, edge]) => `<a href="${esc(langUrl(l))}" hreflang="${l === 'cy' ? 'el-CY' : (l || 'en')}" title="${esc(n)}" aria-label="${esc(n)}"${edge ? ' class="edge"' : ''}>${svg}</a>`).join('');
   return `<div class="ctd-head ctd-sidehead">
-    <a class="ctd-lock" href="${esc(u)}" aria-label="${esc(E.name)}"><img src="img/ct-masthead-v7.png" alt="The Corporate Times"><span class="ctd-lock-d" aria-hidden="true"><span>D</span><span>I</span><span>S</span><span>P</span><span>A</span><span>T</span><span>C</span><span>H</span></span></a>
+    <a class="ctd-lock" href="${esc(u)}" aria-label="${esc(E.name)}"><img src="img/ct-masthead-v7-clear.png" alt="The Corporate Times"><span class="ctd-lock-d" aria-hidden="true"><span>D</span><span>I</span><span>S</span><span>P</span><span>A</span><span>T</span><span>C</span><span>H</span></span></a>
     <div class="ctd-info"><p class="kicker">${W?'This week’s Dispatch':EV?'This evening’s Dispatch':'Today’s Dispatch'}</p><p>${esc(E.dateLine)} · Edition ${String(E.number).padStart(3,'0')}${E.readingTime?' · '+esc(E.readingTime):''}</p>
       <p class="ctd-links"><a href="${esc(u)}">Read the full ${W?'Weekly':'Dispatch'} →</a>${E.pdf?`<a class="ctd-pdf" href="${esc(E.pdf)}">Newspaper PDF</a>`:''}${other&&other.url?`<a href="${esc(other.url)}">${other.kind==='weekly'?'The Weekly Edition':other.kind==='evening'?'The Evening Dispatch':'The Daily Dispatch'} →</a>`:''}</p>
       <p class="ctd-flags" aria-label="Read this edition in">${flags}</p>
