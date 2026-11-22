@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dispatch House · Co-owned media, made to measure</title>
+<meta name="description" content="Dispatch House, the publishing house of Corporate ID Group, designs, writes, translates and publishes newspapers, magazines and digital editions for industries and companies, as titles they co-own.">
+<meta name="theme-color" content="#12234A">
+<link rel="canonical" href="https://dispatch-house.com/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Dispatch House">
+<meta property="og:title" content="Dispatch House · Co-owned media, made to measure">
+<meta property="og:description" content="Newspapers, magazines and digital editions for industries and companies, co-owned with you and produced by our newsroom. A Corporate ID Group news brand.">
+<meta property="og:url" content="https://dispatch-house.com/">
+<meta property="og:image" content="https://dispatch-house.com/assets/img/share.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+@font-face{font-family:"Cormorant Garamond";font-weight:700;font-style:normal;font-display:swap;src:url(/assets/fonts/cormorant-garamond-latin-700-normal.woff) format("woff")}
+@font-face{font-family:"Cormorant Garamond";font-weight:600;font-style:italic;font-display:swap;src:url(/assets/fonts/cormorant-garamond-latin-600-italic.woff) format("woff")}
+@font-face{font-family:Raleway;font-weight:800;font-display:swap;src:url(/assets/fonts/raleway-latin-800-normal.woff) format("woff")}
+@font-face{font-family:Montserrat;font-weight:500;font-display:swap;src:url(/assets/fonts/montserrat-latin-500-normal.woff) format("woff")}
+@font-face{font-family:Montserrat;font-weight:600;font-display:swap;src:url(/assets/fonts/montserrat-latin-600-normal.woff) format("woff")}
+@font-face{font-family:Montserrat;font-weight:700;font-display:swap;src:url(/assets/fonts/montserrat-latin-700-normal.woff) format("woff")}
+:root{
+  --navy:#12234A;--deep:#0B1730;--navy-2:#1A2E5C;--gold:#C9A25A;--gold-2:#E6B95C;--gold-3:#A06A28;
+  --paper:#FBF8F1;--white:#FFFFFF;--ink:#16203A;--muted:#5B6478;--line:#E4DED0;--red:#C8102E;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;--caps:Raleway,"Montserrat",Arial,sans-serif;--sans:Montserrat,"Helvetica Neue",Arial,sans-serif;
+  --wrap:1160px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:500 16px/1.65 var(--sans)}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.eyebrow{font:800 11.5px/1.3 var(--caps);letter-spacing:.26em;text-transform:uppercase;color:var(--gold-3);margin:0 0 14px}
+h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.08;margin:0;color:var(--navy);letter-spacing:-.005em}
+h2{font-size:clamp(32px,4.2vw,48px)}
+h3{font-size:25px}
+p{margin:0 0 14px}
+.lead{font-size:18px;color:var(--muted);max-width:640px}
+.it{font-family:var(--serif);font-style:italic;font-weight:600}
+.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:50;background:#fff;color:var(--navy);padding:8px 12px}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(11,23,48,.96);backdrop-filter:saturate(1.2) blur(6px);border-bottom:1px solid rgba(201,162,90,.35)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.top .brand img{height:38px;width:auto}
+.nav{display:flex;gap:26px;align-items:center}
+.nav a{font:600 13px/1 var(--sans);letter-spacing:.04em;color:#D9DEEA;text-decoration:none}
+.nav a:hover{color:var(--gold-2)}
+.nav .cta{color:var(--deep);background:linear-gradient(135deg,#F2D08C,#D49E48 55%,#B98A2E);padding:11px 16px;border-radius:2px}
+.nav .cta:hover{color:var(--deep);filter:brightness(1.06)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:radial-gradient(1200px 600px at 78% 40%,#1C3264 0%,var(--navy) 45%,var(--deep) 100%);color:#fff}
+.hero::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.015) 0 1px,transparent 1px 120px);pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center;padding-top:88px;padding-bottom:96px}
+.hero .eyebrow{color:var(--gold-2)}
+.hero h1{color:#fff;font-size:clamp(42px,5.6vw,72px)}
+.hero h1 .it{color:var(--gold-2)}
+.hero .lead{color:#C9D0E0;margin-top:22px;font-size:19px}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{display:inline-block;font:700 14px/1 var(--sans);letter-spacing:.03em;text-decoration:none;padding:16px 22px;border-radius:2px;border:1px solid transparent}
+.btn-gold{color:var(--deep);background:linear-gradient(135deg,#F2D08C,#D49E48 55%,#B98A2E)}
+.btn-line{color:#fff;border-color:rgba(230,185,92,.6)}
+.btn-line:hover{border-color:var(--gold-2);color:var(--gold-2)}
+.emblem{position:relative;justify-self:center;width:min(330px,100%)}
+.emblem img{width:100%;filter:drop-shadow(0 10px 28px rgba(0,0,0,.28))}
+.emblem svg{position:absolute;left:15.5%;top:-13%;width:69%;height:auto;aspect-ratio:1;pointer-events:none;opacity:.6}
+.hero-note{margin-top:34px;display:flex;gap:18px;flex-wrap:wrap;font:600 12px/1.4 var(--sans);letter-spacing:.06em;color:#9FAAC2;text-transform:uppercase}
+.hero-note span::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold-2);margin:0 8px 2px 0;vertical-align:middle}
+
+/* sections */
+section{padding:96px 0}
+.head{max-width:760px;margin-bottom:48px}
+.head .lead{margin-top:18px}
+.rule{height:1px;background:var(--line);margin:0}
+.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.card{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--gold);padding:30px 28px 26px}
+.card .n{font:800 11px/1 var(--caps);letter-spacing:.24em;color:var(--gold-3);margin-bottom:16px}
+.card h3{margin-bottom:12px}
+.card p{color:var(--muted);margin:0}
+
+.formats{background:var(--white)}
+.grid6{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.f{padding:30px 28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.f h3{font-size:23px;margin-bottom:10px}
+.f p{color:var(--muted);margin:0;font-size:15px}
+.f .ic{width:34px;height:34px;margin-bottom:16px;color:var(--navy)}
+
+.who{background:var(--navy);color:#fff}
+.who h2{color:#fff}.who .eyebrow{color:var(--gold-2)}.who .lead{color:#C9D0E0}
+.who-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;background:rgba(201,162,90,.35);border:1px solid rgba(201,162,90,.35)}
+.who-list div{background:var(--navy);padding:28px 24px}
+.who-list h3{color:#fff;font-size:23px;margin-bottom:10px}
+.who-list p{color:#AEB7CC;font-size:15px;margin:0}
+
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px}
+.step{position:relative;padding-top:58px}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);position:absolute;top:0;left:0;font:700 44px/1 var(--serif);color:var(--gold)}
+.step::after{content:"";position:absolute;top:22px;left:66px;right:-10px;height:1px;background:var(--line)}
+.step:last-child::after{display:none}
+.step h3{font-size:23px;margin-bottom:10px}
+.step p{color:var(--muted);font-size:15px;margin:0}
+
+.titles{background:var(--white)}
+.tgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.t{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:center;padding:30px 30px 30px 32px;border:1px solid var(--line);background:var(--paper);text-decoration:none;transition:border-color .2s,transform .2s}
+.t:hover{border-color:var(--gold);transform:translateY(-2px)}
+.t .tx{display:flex;flex-direction:column;gap:16px;align-self:stretch}
+.t .logo{height:84px;display:flex;align-items:center}
+.pgthumb img{height:250px;width:auto;display:block;border:1px solid var(--line);box-shadow:0 10px 24px rgba(18,35,74,.16);background:#fff;transition:transform .35s ease}
+.t:hover .pgthumb img{transform:translateY(-3px)}
+.t .logo img{max-height:84px;width:auto}
+.t .what{font:800 11px/1.3 var(--caps);letter-spacing:.2em;text-transform:uppercase;color:var(--gold-3)}
+.t p{color:var(--muted);margin:0}
+.t .go{margin-top:auto;font:700 13px/1 var(--sans);color:var(--navy)}
+.stripe{display:flex;height:4px;margin-top:4px}.stripe i{flex:1}
+
+/* from the Dispatch News Room */
+.presses{background:linear-gradient(180deg,#0B1730 0%,#12234A 100%);color:#fff;padding:84px 0 96px;overflow:hidden}
+.presses .eyebrow{color:var(--gold-2)}.presses h2{color:#fff}.presses .lead{color:#C9D0E0}
+.fan{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;align-items:start;margin-top:8px}
+.pg{margin:0;transition:transform .35s ease}
+.pg .fr{aspect-ratio:3/4;overflow:hidden;background:#fff;box-shadow:0 26px 50px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.08);border-radius:3px}
+.pg img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.pg figcaption{margin-top:14px;font:600 12.5px/1.45 var(--sans);color:#C9D0E0}
+.pg figcaption b{display:block;font:800 10.5px/1.3 var(--caps);letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);margin-bottom:3px}
+.pg:nth-child(1){transform:rotate(-3deg) translateY(28px)}
+.pg:nth-child(2){transform:rotate(-1.2deg) translateY(8px)}
+.pg:nth-child(3){transform:translateY(-6px)}
+.pg:nth-child(4){transform:rotate(1.2deg) translateY(8px)}
+.pg:nth-child(5){transform:rotate(3deg) translateY(28px)}
+.pg:hover{transform:translateY(-10px) rotate(0)}
+
+/* contact */
+.contact{background:linear-gradient(180deg,var(--paper),#F3EEE2)}
+.cgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:56px;align-items:start}
+.cinfo p{color:var(--muted)}
+.cinfo dl{margin:28px 0 0;display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:15px}
+.cinfo dt{font:800 11px/1.9 var(--caps);letter-spacing:.2em;text-transform:uppercase;color:var(--gold-3)}
+.cinfo dd{margin:0}
+.cinfo a{color:var(--navy);font-weight:600}
+form{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--navy);padding:32px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+label{display:block;font:600 13px/1.3 var(--sans);color:var(--navy);margin:0 0 7px}
+input,select,textarea{width:100%;font:500 15px/1.4 var(--sans);color:var(--ink);background:#fff;border:1px solid #CFC8B8;border-radius:2px;padding:12px 13px;margin:0 0 16px}
+textarea{min-height:130px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold)}
+.check{display:flex;gap:10px;align-items:flex-start;font:500 13px/1.5 var(--sans);color:var(--muted);margin:2px 0 20px}
+.check input{width:auto;margin:3px 0 0}
+.hp{position:absolute;left:-9999px}
+form .btn{border:0;cursor:pointer}
+.msg{margin:14px 0 0;font:600 14px/1.5 var(--sans)}
+.msg.ok{color:#1F6B3A}.msg.err{color:var(--red)}
+
+/* footer */
+footer{background:var(--deep);color:#AEB7CC;padding:48px 0 40px;border-top:1px solid rgba(201,162,90,.4)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+footer img{height:40px;width:auto}
+footer p{margin:0;font-size:13px}
+footer a{color:#D9DEEA}
+.dots{display:inline-flex;gap:6px;vertical-align:middle;margin-left:10px}.dots i{width:6px;height:6px;border-radius:50%}
+
+@media (max-width:980px){
+  .fan{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:18px;padding:30px 4px 10px;margin:0 -24px;padding-left:24px;padding-right:24px}
+  .pg{flex:0 0 230px;scroll-snap-align:start;transform:none!important}
+  .hero .wrap{grid-template-columns:1fr;padding-top:56px;padding-bottom:64px}
+  .emblem{width:min(240px,70%);order:-1}
+  .cards3,.grid6{grid-template-columns:1fr 1fr}
+  .who-list,.steps{grid-template-columns:1fr 1fr}
+  .step:nth-child(2)::after{display:none}
+  .cgrid{grid-template-columns:1fr;gap:36px}
+  .tgrid{grid-template-columns:1fr}
+  .nav a:not(.cta){display:none}
+}
+@media (max-width:640px){
+  body{font-size:15.5px}
+  .wrap{padding:0 16px}
+  section{padding:64px 0}
+  .top .wrap{height:62px}.top .brand img{height:30px}
+  .cards3,.grid6,.who-list,.steps,.tgrid,.row2{grid-template-columns:1fr}
+  .step::after{display:none}
+  .t{padding:24px 20px;gap:16px}.pgthumb img{height:150px}.t .logo{height:74px}.t .logo img{max-height:74px}
+  form{padding:22px 18px}
+  .hero .lead{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.t,.pg,.pgthumb img{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Dispatch House, home"><img src="/assets/img/logo-reversed.png" width="545" height="104" alt="Dispatch House"></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#co-owned">Co-owned media</a>
+      <a href="#formats">What we publish</a>
+      <a href="#how">How it works</a>
+      <a href="#titles">Our titles</a>
+      <a class="cta" href="#contact">Plan a publication</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">The publishing house of Corporate ID Group</p>
+        <h1 id="hero-title">Your sector’s own newspaper. <span class="it">Co-owned, and made to measure.</span></h1>
+        <p class="lead">Dispatch House designs, writes, translates and publishes newspapers, magazines and digital editions for industries and companies. Each title is co-owned with the people it serves, and produced by our newsroom.</p>
+        <div class="btns">
+          <a class="btn btn-gold" href="#contact">Plan a publication</a>
+          <a class="btn btn-line" href="#titles">See our titles</a>
+        </div>
+        <div class="hero-note"><span>Print and digital</span><span>Daily, weekly or monthly</span><span>Multilingual</span></div>
+      </div>
+      <div class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 100 100" fill="none" stroke="rgba(230,185,92,.22)" stroke-width=".16"><circle cx="50" cy="50" r="49"/><circle cx="50" cy="50" r="44" stroke-dasharray=".6 1.6"/></svg>
+        <img src="/assets/img/logo-stacked.png" width="720" height="633" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section id="co-owned" aria-labelledby="co-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Co-owned media</p>
+        <h2 id="co-title">A publication that belongs to your world, <span class="it">run by a newsroom that knows how.</span></h2>
+        <p class="lead">An industry, a profession or a company has its own news, its own facts and its own conversations. We give them a title of their own, and the editorial craft to keep it credible, edition after edition.</p>
+      </div>
+      <div class="cards3">
+        <article class="card"><div class="n">01</div><h3>You co-own the title</h3><p>The masthead carries the name your readers know. You share in the title’s ownership and its direction, and you help shape the audience it builds.</p></article>
+        <article class="card"><div class="n">02</div><h3>We run the newsroom</h3><p>Our editors research, write, translate, lay out and publish every edition, in print and online, to the rhythm your readers need.</p></article>
+        <article class="card"><div class="n">03</div><h3>Readers can trust it</h3><p>Every item is written in our own words and names its source. Editorial and advertising are kept apart, and an approvals desk lets your editors sign off what goes out.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="presses" aria-labelledby="pr-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">From the Dispatch News Room</p>
+        <h2 id="pr-title">Real editions, <span class="it">published this month.</span></h2>
+        <p class="lead">Pages from the titles we already publish: a monthly magazine, a daily print bulletin and a European weekly, through to the back cover. Yours would be built the same way.</p>
+      </div>
+      <div class="fan">
+        <figure class="pg"><div class="fr"><img src="/assets/img/pages/dp-cover.jpg" width="720" height="939" alt="Cover of The Dispatch.pro, December 2026: Who will do the work?"></div><figcaption><b>The Dispatch.pro</b>The monthly magazine · cover</figcaption></figure>
+        <figure class="pg"><div class="fr"><img src="/assets/img/pages/cde-page.jpg" width="690" height="920" alt="Front page of The Bulletin, the cde.news daily print edition"></div><figcaption><b>cde.news</b>The Bulletin · daily print edition</figcaption></figure>
+        <figure class="pg"><div class="fr"><img src="/assets/img/pages/cq-nordics.jpg" width="720" height="1017" alt="A Comuniq.EU page on European resilience, with a ranked bar chart"></div><figcaption><b>Comuniq.EU</b>The European weekly · in ten languages</figcaption></figure>
+        <figure class="pg"><div class="fr"><img src="/assets/img/pages/dp-glance.jpg" width="720" height="939" alt="Malta at a glance, a page of key figures from The Dispatch.pro"></div><figcaption><b>The Dispatch.pro</b>Malta at a glance · the month in figures</figcaption></figure>
+        <figure class="pg"><div class="fr"><img src="/assets/img/pages/dp-back.jpg" width="720" height="939" alt="Back cover of The Dispatch.pro, with the Dispatch House imprint"></div><figcaption><b>The Dispatch.pro</b>Back cover · the Dispatch House imprint</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="formats" class="formats" aria-labelledby="fm-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">What we publish</p>
+        <h2 id="fm-title">From a daily briefing to a monthly magazine</h2>
+        <p class="lead">One desk, one identity, every format your readers use. Pick the mix that suits your sector; we build it around you.</p>
+      </div>
+      <div class="grid6">
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="22" height="24" rx="1"/><path d="M9 10h14M9 15h14M9 20h9"/></svg><h3>Daily and weekly dispatches</h3><p>Digital editions of the news that matters to your sector, each with a print-ready version.</p></div>
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7c4-2 8-2 12 1v19c-4-3-8-3-12-1zM28 7c-4-2-8-2-12 1v19c4-3 8-3 12-1z"/></svg><h3>Monthly magazines</h3><p>Designed for print and published as a full PDF: facts of the month, features, interviews and thinking.</p></div>
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="16" cy="16" r="11"/><path d="M5 16h22M16 5c3.5 3.2 3.5 18.8 0 22M16 5c-3.5 3.2-3.5 18.8 0 22"/></svg><h3>Multilingual editions</h3><p>The languages your readers use, from one desk. Our own titles appear in up to ten, Maltese and Arabic among them.</p></div>
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 9l11 8 11-8"/><rect x="5" y="7" width="22" height="18" rx="1"/></svg><h3>Distribution</h3><p>A website for every edition, downloadable PDFs, email and WhatsApp sign-up, and print runs when you want paper.</p></div>
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="14" cy="14" r="8"/><path d="M20 20l7 7M10 14h8M14 10v8"/></svg><h3>A research desk</h3><p>Filings, official statistics, institutions and the press, monitored with AI and checked by editors before anything is published.</p></div>
+        <div class="f"><svg class="ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 24V12l10-6 10 6v12"/><path d="M11 24v-7h10v7M4 24h24"/></svg><h3>Advertising and partners</h3><p>House advertising, launch partners and sponsored sections, always clearly labelled, to help the title pay its way.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="who" aria-labelledby="who-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Who it is for</p>
+        <h2 id="who-title">Built for the people who shape a sector</h2>
+        <p class="lead">If you speak for an industry, or your company has a story bigger than its marketing, a co-owned title gives it a home.</p>
+      </div>
+      <div class="who-list">
+        <div><h3>Associations and chambers</h3><p>A members’ newspaper that is read beyond the membership.</p></div>
+        <div><h3>Regulated sectors</h3><p>Finance, gaming, maritime, health and more: a clear account of rules, filings and figures.</p></div>
+        <div><h3>Companies and groups</h3><p>A credible publication for clients, staff and partners, with an independent editorial voice.</p></div>
+        <div><h3>Institutions</h3><p>Reporting that brings a cause, a programme or a community to a wider public.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">How it works</p>
+        <h2 id="how-title">From first conversation to first edition</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Scope</h3><p>We agree the audience, the languages, the rhythm of publication and how ownership of the title is shared.</p></div>
+        <div class="step"><h3>Identity</h3><p>We design the masthead and a full brand system for your title, like the ones on this page.</p></div>
+        <div class="step"><h3>First issue</h3><p>Our newsroom produces a first edition for your review, in print and online.</p></div>
+        <div class="step"><h3>Publish and grow</h3><p>Regular editions, an approvals desk for your editors, readership reports and advertising.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="titles" class="titles" aria-labelledby="ti-title">
+    <div class="wrap">
+      <div class="head">
+        <p class="eyebrow">Our titles</p>
+        <h2 id="ti-title">Published by Dispatch House</h2>
+        <p class="lead">The titles we already run, in print and online, show what we can build for you.</p>
+      </div>
+      <div class="tgrid">
+        <a class="t" href="https://cde.news/" rel="noopener">
+          <div class="tx">
+          <div class="logo"><img src="/assets/img/cde-news.png" width="720" height="210" alt="cde.news"></div>
+          <div class="what">News · daily</div>
+          <p>The world and Malta, hour by hour, with the Daily and Weekly Dispatch and multilingual print editions.</p>
+          <span class="go">cde.news →</span>
+          </div>
+          <div class="pgthumb"><img src="/assets/img/pages/cde-full.jpg" width="398" height="560" alt="Front page of The Bulletin, the cde.news daily print edition"></div>
+        </a>
+        <a class="t" href="https://www.corporate-times.com/" rel="noopener">
+          <div class="tx">
+          <div class="logo"><img src="/assets/img/the-corporate-times.png" width="720" height="196" alt="The Corporate Times"></div>
+          <div class="what">Business · daily, weekly and monthly</div>
+          <p>Malta’s corporate and business journal: business, finance, law and people, online every weekday and in print every month.</p>
+          <span class="go">corporate-times.com →</span>
+          </div>
+          <div class="pgthumb"><img src="/assets/img/pages/ct-full.jpg" width="392" height="560" alt="Front page of the Weekly Corporate Times Dispatch newspaper"></div>
+        </a>
+        <a class="t" href="https://comuniq.eu/" rel="noopener">
+          <div class="tx">
+          <div class="logo"><img src="/assets/img/comuniq-eu.png" width="720" height="260" alt="Comuniq.EU"></div>
+          <div class="what">Europe · every Saturday</div>
+          <p>Europe, read as one story. A weekly newspaper in ten languages, at comuniq.eu and in print.</p>
+          <span class="go">comuniq.eu →</span>
+          </div>
+          <div class="pgthumb"><img src="/assets/img/pages/cq-full.jpg" width="396" height="560" alt="A page of Comuniq.EU, the European weekly"></div>
+        </a>
+        <a class="t" href="https://thedispatch.pro/" rel="noopener">
+          <div class="tx">
+          <div class="logo"><img src="/assets/img/the-dispatch-pro.png" width="720" height="220" alt="The Dispatch.pro"></div>
+          <div class="what">Magazine · monthly</div>
+          <p>Facts of the month, thinking for the next. The monthly magazine that gathers the best of every title.</p>
+          <span class="go">thedispatch.pro →</span>
+          </div>
+          <div class="pgthumb"><img src="/assets/img/pages/dp-full.jpg" width="429" height="560" alt="Cover of The Dispatch.pro, December 2026"></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact" aria-labelledby="ct-title">
+    <div class="wrap cgrid">
+      <div class="cinfo">
+        <p class="eyebrow">Plan a publication</p>
+        <h2 id="ct-title">Tell us about your readers</h2>
+        <p class="lead" style="margin-top:18px">Who would read your title, in which languages, and how often? Send us a few lines and we will come back to you to talk it through.</p>
+        <dl>
+          <dt>Email</dt><dd><a href="mailto:info@dispatch-house.com?subject=Dispatch%20House%20enquiry">info@dispatch-house.com</a></dd>
+          <dt>Group</dt><dd><a href="https://corporateidgroup.com/" rel="noopener">corporateidgroup.com</a></dd>
+          <dt>Office</dt><dd>Fino Buildings, Birkirkara, Malta</dd>
+        </dl>
+      </div>
+      <form id="enq" novalidate>
+        <div class="row2">
+          <div><label for="f-name">Your name</label><input id="f-name" name="name" autocomplete="name" required maxlength="120"></div>
+          <div><label for="f-org">Organisation</label><input id="f-org" name="org" autocomplete="organization" maxlength="160"></div>
+        </div>
+        <div class="row2">
+          <div><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required maxlength="200"></div>
+          <div><label for="f-kind">You are</label>
+            <select id="f-kind" name="kind">
+              <option value="">Choose one</option>
+              <option>An association or chamber</option>
+              <option>A company or group</option>
+              <option>A regulated-sector body</option>
+              <option>An institution</option>
+              <option>Something else</option>
+            </select></div>
+        </div>
+        <label for="f-msg">What do you have in mind?</label>
+        <textarea id="f-msg" name="message" maxlength="3000" placeholder="Audience, languages, how often, print or digital…"></textarea>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="check"><input type="checkbox" name="consent" id="f-consent" required> <span>I agree that Dispatch House (Corporate ID Group) may use these details to reply to my enquiry. They are not used for anything else.</span></label>
+        <button class="btn btn-gold" type="submit">Send enquiry</button>
+        <p class="msg" id="f-msg-out" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="/assets/img/imprint-reversed.png" width="1400" height="239" alt="Dispatch House · a Corporate ID Group news brand">
+    <p>© 2026 Corporate ID Group · <a href="https://corporateidgroup.com/" rel="noopener">corporateidgroup.com</a><span class="dots" aria-hidden="true"><i style="background:#2E6B3A"></i><i style="background:#C8102E"></i><i style="background:#E2A32B"></i><i style="background:#1F4FA8"></i></span></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var f = document.getElementById('enq'), el = f.elements, out = document.getElementById('f-msg-out');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    out.className = 'msg'; out.textContent = '';
+    var d = { name: el['name'].value.trim(), org: el['org'].value.trim(), email: el['email'].value.trim(), kind: el['kind'].value, message: el['message'].value.trim(), website: el['website'].value, consent: el['consent'].checked };
+    if (!d.name) { out.className = 'msg err'; out.textContent = 'Please tell us your name.'; el['name'].focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) { out.className = 'msg err'; out.textContent = 'Please enter a valid email address.'; el['email'].focus(); return; }
+    if (!d.consent) { out.className = 'msg err'; out.textContent = 'Please tick the box so we can reply to you.'; return; }
+    var b = f.querySelector('button'); b.disabled = true; b.textContent = 'Sending…';
+    fetch('/api/enquire', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(d) })
+      .then(function (r) { return r.json().catch(function () { return { ok: false }; }); })
+      .then(function (r) {
+        if (r.ok) { f.reset(); out.className = 'msg ok'; out.textContent = 'Thank you. Your enquiry has reached us, and we will reply by email.'; }
+        else { out.className = 'msg err'; out.textContent = r.error || 'Something went wrong. Please email info@dispatch-house.com instead.'; }
+      })
+      .catch(function () { out.className = 'msg err'; out.textContent = 'Something went wrong. Please email info@dispatch-house.com instead.'; })
+      .then(function () { b.disabled = false; b.textContent = 'Send enquiry'; });
+  });
+})();
+</script>
+</body>
+</html>
