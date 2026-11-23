@@ -648,12 +648,30 @@ a.art:hover img{transform:scale(1.03)}
 .enq-mini-try a::before{content:"→ ";color:var(--gold-deep)}
 .enq-mini-try a:hover{color:var(--gold-text)}
 /* The Accountant (Malta Institute of Accountants), produced by Corporate Identities */
-.acc-mast{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px 24px;border-bottom:3px double var(--ink);padding-bottom:14px;margin-bottom:8px}
-.acc-mast h1,.acc-mast h2{margin:4px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(38px,4.4vw,64px);line-height:1;letter-spacing:-.01em}
-.acc-mast h2{font-size:clamp(26px,2.4vw,34px)}
-.acc-mast h2 a{color:inherit;text-decoration:none}
-.acc-credit{margin:0;max-width:440px;font-size:13px;line-height:1.5;color:var(--muted);text-align:right}
-.acc-credit a,.acc-dl a,.acc-from a{color:var(--gold-text);font-weight:600}
+.acc-mh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px 28px;margin:0 0 8px;padding:clamp(22px,3vw,34px) clamp(20px,3vw,36px);background:#9E1B32;color:#fff;position:relative;overflow:hidden}
+.acc-mh::before{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.35);pointer-events:none}
+.acc-mh-in{position:relative}
+.acc-mh-top{margin:0;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.82)}
+.acc-mh-t{margin:6px 0 0;font-family:var(--sans);font-weight:800;font-size:clamp(40px,6.4vw,92px);line-height:.92;letter-spacing:-.01em;text-transform:uppercase}
+.acc-mh-t a{color:#fff;text-decoration:none}
+.acc-mh-sub{margin:12px 0 0;padding-top:10px;border-top:2px solid #F0C98A;font-family:var(--serif);font-style:italic;font-size:clamp(17px,1.5vw,21px);color:#FBEFD9}
+.acc-mh-credit{position:relative;margin:0;max-width:380px;font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.86);text-align:right}
+.acc-mh-credit a{color:#fff;font-weight:600}
+.acc-mh-credit span{color:rgba(255,255,255,.7)}
+.acc-mh.sm{padding:14px 22px;align-items:center}
+.acc-mh.sm::before{inset:5px}
+.acc-mh.sm .acc-mh-t{font-size:clamp(26px,3vw,38px)}
+.acc-mh.sm .acc-mh-top{font-size:10.5px}
+.acc-mh.sm .acc-mh-sub{margin-top:6px;padding-top:6px;font-size:15px;border-top-width:1px}
+.acc-mh.sm .acc-mh-credit{font-size:11.5px}
+.acc-top{padding-top:clamp(20px,3vw,32px)}
+.acc-top + .article{padding-top:18px}
+.acc-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:22px 20px;margin-top:16px}
+.acc-tile{display:flex;flex-direction:column;gap:4px;color:inherit;text-decoration:none}
+.acc-tile img{width:100%;height:auto;aspect-ratio:1075/1521;object-fit:cover;border:1px solid var(--rule);box-shadow:0 4px 12px rgba(13,27,42,.1);margin-bottom:6px;transition:transform .15s}
+.acc-tile:hover img{transform:translateY(-3px)}
+.acc-tile b{font-family:var(--serif);font-size:20px;font-weight:600;line-height:1.1}
+.acc-tile .acc-in{font-size:13px;line-height:1.4;color:var(--muted)}
 .acc-band{margin-top:clamp(30px,4vw,48px)}
 .acc-band .sec-head{margin-bottom:6px}
 .acc-new{display:inline-block;vertical-align:middle;margin-left:10px;padding:3px 8px;font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--gold-deep)}
@@ -712,11 +730,12 @@ a.art:hover img{transform:scale(1.03)}
 .acc-notes p{margin:6px 0}
 .acc-note{font-family:var(--sans);font-size:14px;font-style:italic;color:var(--muted)}
 .acc-from{margin-top:2em;padding:12px 14px;background:var(--parchment);font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--ink-2)}
-@media (max-width:900px){.acc-two{grid-template-columns:minmax(0,1fr)}.acc-side{max-width:420px}.acc-credit{text-align:left}}
+@media (max-width:900px){.acc-two{grid-template-columns:minmax(0,1fr)}.acc-side{max-width:420px}.acc-mh-credit{text-align:left}}
 @media (max-width:560px){.acc-gal.n3{grid-template-columns:repeat(2,minmax(0,1fr))}.acc-facts div{grid-template-columns:1fr}}
 @media print{.acc-dl,.acc-cover.sm{display:none}}
 .acc-art .fig.acc-face{max-width:360px}
 .prose.acc-nodrop>p:first-of-type::first-letter{all:unset}
+.prose .acc-q{margin-top:1.5em;color:var(--ink)}
 </style>
 
 </head>
@@ -1544,27 +1563,33 @@ function viewNotFound(){
 }
 
 /* ---------- The Accountant (Jes, 23 Nov 2026) ----------
-   The magazine of the Malta Institute of Accountants, carried as its own section.
-   Content produced by Corporate Identities for the Malta Institute of Accountants. Data: accountant.js (window.ACC). */
+   The magazine of the Malta Institute of Accountants, carried as its own section: every issue on miamalta.org from March 2021.
+   Content produced by Corporate Identities for the Malta Institute of Accountants.
+   Data: accountant.js (window.ACC: issues and the article index); each issue's texts load from accountant/<issue>.json when needed.
+   On the-accountant.com.eu the site opens on The Accountant. */
 const ACC = window.ACC || {issues:[], articles:[], credit:'', site:''};
+const ACC_HOST = /(^|\.)the-accountant\.com\.eu$/i.test(location.hostname);
 const ACCI = Object.fromEntries(ACC.issues.map(i=>[i.k,i]));
 const ACCA = ACC.articles;
 const ACCBY = Object.fromEntries(ACCA.map(a=>[a.id,a]));
 const ACCISS = ACC.issues.slice().sort((a,b)=>b.k.localeCompare(a.k));
+const ACCB = {}, ACCP = {};
+function accLoad(k){
+  if (ACCB[k]) return Promise.resolve(ACCB[k]);
+  if (!ACCP[k]) ACCP[k] = fetch(`accountant/${k}.json`).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); }).then(j=>(ACCB[k]=j)).catch(e=>{ delete ACCP[k]; throw e; });
+  return ACCP[k];
+}
 const ACCK = { president:'President’s Address', ceo:'Message from the MIA CEO', diary:'MIA Diary', sustainability:'Sustainability Corner',
   news:'News Roundup', appointments:'Local Appointments', feature:'Feature', member:'Meet the Member', team:'Meet the Team',
   announcement:'Announcement', 'news-feature':'News' };
-const ACC_REG = ['president','ceo','diary','sustainability','news','appointments','team'];   // the regular pages of every issue
+const ACC_REG = ['president','ceo','diary','sustainability','news','appointments','team'];   // the regular pages of an issue
 const accHref = a => '#t-'+a.id;
 const accByIssue = k => ACCA.filter(a=>a.issue===k).sort((x,y)=>x.page-y.page);
-const accLead = a => (a.img||[]).find(i=>i.r==='lead');
-const accFirst = a => { const b=a.body.find(b=>b[0]==='p'||b[0]==='l'); return b ? (b[0]==='l' ? b[1]+' '+b[2] : b[1]) : ''; };
-const accEx = (a,n) => cut(a.d || accFirst(a).replace(/^•\s*/,''), n);
+const accEx = (a,n) => cut(a.d || a.ex || '', n);
 const accMins = a => Math.max(1, Math.round(a.w/220));
-function accTitle(a){ return a.kind==='team' ? `${a.h}, ${a.position}` : a.h; }
+function accTitle(a){ return a.kind==='team' && a.position ? `${a.h}, ${a.position}` : a.h; }
 function accKicker(a, link=true){
-  const k = `<span class="acc-k">${esc(ACCK[a.kind]||'')}</span>`;
-  return `<p class="kicker">${link?'<a href="#accountant">The Accountant</a>':'The Accountant'} · ${k}</p>`;
+  return `<p class="kicker">${link?'<a href="#accountant">The Accountant</a>':'The Accountant'} · <span class="acc-k">${esc(ACCK[a.kind]||'')}</span></p>`;
 }
 function accMeta(a){
   const bits = [];
@@ -1574,7 +1599,7 @@ function accMeta(a){
   bits.push(accMins(a)+' min read');
   return bits.join(' · ');
 }
-// house illustrations for pieces printed without a photograph, chosen per piece so an issue does not repeat itself
+// house illustrations for 2026 pieces printed without a photograph, chosen per piece so an issue does not repeat itself
 const ACC_ART = {
   '2026-1-upholding-the-public-interest':'opinion-1', '2026-1-managing-finance-departments-in-the-digital-age':'ai-2',
   '2026-1-the-supervisory-review-and-evaluation-process':'banking-2', '2026-1-the-role-of-the-interface':'economy-2',
@@ -1584,51 +1609,73 @@ const ACC_ART = {
   '2026-3-from-documentation-to-defensibility':'general-1', '2026-3-rethinking-retail-deposit-supervision':'banking-1'
 };
 function accPic(a){
-  const im = accLead(a);
-  if (im) return {f:im.f, w:im.w, h:im.h, c:im.c};
+  if (a.lead) return a.lead;
   if (ACC_ART[a.id]) return {f:`img/visuals/${ACC_ART[a.id]}.jpg`, w:1600, h:750, c:'', art:true};
-  return artFor({id:a.id, h:a.h, d:a.d, sec:'finance'});
+  return artFor({id:a.id, h:a.h.replace(/workshop/ig,'seminar'), d:a.d, sec:'finance'});
 }
 function accCard(a){
   const im = accPic(a), por = im.h > im.w*1.05;
   return `<article><a class="ph${por?' acc-por':''}" href="${accHref(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>${accKicker(a,false)}<h3><a href="${accHref(a)}">${esc(accTitle(a))}</a></h3><p>${esc(accEx(a,170))}</p><p class="meta">${accMeta(a)}</p></article>`;
 }
 function accItem(a){
-  const im = accLead(a);
+  const im = a.lead;
   return `<li><div class="t">${accKicker(a,false)}<h3><a href="${accHref(a)}">${esc(accTitle(a))}</a></h3><p>${esc(accEx(a,240))}</p><p class="meta">${accMeta(a)} · Page ${a.page}</p></div>${im?`<a class="th" href="${accHref(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`;
 }
-function accCredit(){
-  return `<p class="acc-credit">${esc(ACC.credit)}. <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a></p>`;
+/* The Accountant's own masthead, inside the Corporate Times frame (Jes, 23 Nov 2026) */
+function accMast(big, issue){
+  const latest = ACCISS[0];
+  const line = issue ? `${esc(issue.label)}` : `${esc(latest.label)} · ${ACC.issues.length} issues since ${esc(ACCISS[ACCISS.length-1].month)}`;
+  const T = big ? 'h1' : 'p';
+  return `<header class="acc-mh${big?'':' sm'}">
+    <div class="acc-mh-in">
+      <p class="acc-mh-top">The magazine of the Malta Institute of Accountants</p>
+      <${T} class="acc-mh-t"><a href="#accountant">The Accountant</a></${T}>
+      <p class="acc-mh-sub">${line}</p>
+    </div>
+    <p class="acc-mh-credit">${esc(ACC.credit)} · <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a><br><span>In The Corporate Times · <a href="https://the-accountant.com.eu/">the-accountant.com.eu</a></span></p>
+  </header>`;
 }
-function accMast(h1){
-  return `<div class="acc-mast"><div><p class="kicker">The magazine of the Malta Institute of Accountants</p>${h1?'<h1>The Accountant</h1>':'<h2><a href="#accountant">The Accountant</a></h2>'}</div>${accCredit()}</div>`;
+function accRead(i){
+  return i.pdf ? `<a href="${esc(i.pdf)}" target="_blank" rel="noopener">Read the magazine (PDF, ${i.mb} MB)</a>`
+               : `<a href="${esc(i.mia)}" target="_blank" rel="noopener">Read the magazine on miamalta.org</a>`;
 }
 function accSide(i){
-  const list = accByIssue(i.k), reg = list.filter(a=>ACC_REG.includes(a.kind));
+  const reg = accByIssue(i.k).filter(a=>ACC_REG.includes(a.kind));
   return `<aside class="acc-side">
     <a class="acc-cover" href="#accountant/${i.k}"><img src="${esc(i.cover)}" width="1075" height="1521" alt="The Accountant, ${esc(i.label)} cover" loading="lazy"></a>
-    <p class="acc-dl"><a href="${esc(i.pdf)}" target="_blank" rel="noopener">Read the magazine (PDF, ${i.mb} MB)</a></p>
-    <p class="kicker">Every issue</p>
-    <ol class="acc-reg">${reg.map(a=>`<li><a href="${accHref(a)}">${esc(a.kind==='team'?'Meet the Team: '+a.h.replace(/^Meet /,''):ACCK[a.kind])}</a><span>p. ${a.page}</span></li>`).join('')}</ol>
+    <p class="acc-dl">${accRead(i)}</p>
+    ${reg.length?`<p class="kicker">Every issue</p>
+    <ol class="acc-reg">${reg.map(a=>`<li><a href="${accHref(a)}">${esc(a.kind==='team'&&/^Meet [A-Z][a-z]+$/.test(a.h)?'Meet the Team: '+a.h.replace(/^Meet /,''):ACCK[a.kind])}</a><span>p. ${a.page}</span></li>`).join('')}</ol>`:''}
   </aside>`;
 }
-function accIssueBand(i, first){
-  const list = accByIssue(i.k), main = list.filter(a=>!ACC_REG.includes(a.kind));
+function accIssueBand(i){
+  const main = accByIssue(i.k).filter(a=>!ACC_REG.includes(a.kind));
   return `<section class="acc-band" aria-labelledby="acc-${i.k}">
-    <div class="sec-head"><h2 id="acc-${i.k}">${esc(i.label)}${first?' <span class="acc-new">Latest issue</span>':''}</h2><a class="all" href="#accountant/${i.k}">The whole issue, in page order →</a></div>
-    <p class="acc-theme">${esc(i.theme)}</p>
+    <div class="sec-head"><h2 id="acc-${i.k}">${esc(i.label)} <span class="acc-new">Latest issue</span></h2><a class="all" href="#accountant/${i.k}">The whole issue, in page order →</a></div>
+    ${i.theme?`<p class="acc-theme">${esc(i.theme)}</p>`:''}
     <div class="acc-two"><div class="acc-cards">${main.map(accCard).join('')}</div>${accSide(i)}</div>
   </section>`;
 }
+function accTile(i){
+  const top = accByIssue(i.k).filter(a=>a.kind==='feature').slice(0,3);
+  return `<a class="acc-tile" href="#accountant/${i.k}"><img src="${esc(i.cover)}" width="1075" height="1521" alt="" loading="lazy">
+    <span class="kicker">${esc(i.month)}</span><b>Issue ${i.n}</b>
+    <span class="acc-in">${top.map(a=>esc(cut(a.h,70))).join(' · ')}</span></a>`;
+}
 function viewAccountant(){
   if (!ACCA.length) return viewNotFound();
-  return `<section class="sec wrap acc">${accMast(true)}${ACCISS.map((i,n)=>accIssueBand(i,n===0)).join('')}</section>`;
+  const [latest, ...rest] = ACCISS;
+  const years = [...new Set(rest.map(i=>i.k.slice(0,4)))];
+  return `<section class="sec wrap acc">${accMast(true)}${accIssueBand(latest)}
+    <section class="acc-band" aria-labelledby="acc-all"><div class="sec-head"><h2 id="acc-all">Every issue</h2><p>${ACC.issues.length} issues and ${ACCA.length} articles since March 2021. Issues 1, 2 and 4 of 2024 are not published on miamalta.org.</p></div>
+    ${years.map(y=>`<h3 class="grp">${y}</h3><div class="acc-tiles">${rest.filter(i=>i.k.startsWith(y)).map(accTile).join('')}</div>`).join('')}
+    </section></section>`;
 }
 function viewAccIssue(k){
   const i = ACCI[k]; if (!i) return viewNotFound();
   const list = accByIssue(k), idx = ACCISS.findIndex(x=>x.k===k), prev = ACCISS[idx+1], next = ACCISS[idx-1];
-  return `<section class="sec wrap acc">${accMast(false)}
-    <div class="sec-head"><h1>${esc(i.label)}</h1><p>${esc(i.theme)} · ${list.length} articles, in page order</p></div>
+  return `<section class="sec wrap acc">${accMast(false, i)}
+    <div class="sec-head"><h1>${esc(i.label)}</h1><p>${i.theme?esc(i.theme)+' · ':''}${list.length} articles, in page order</p></div>
     <div class="acc-two"><ul class="list">${list.map(accItem).join('')}</ul>${accSide(i)}</div>
     <div class="backbar">${prev?`<a href="#accountant/${prev.k}">← ${esc(prev.label)}</a>`:''}${next?`<a href="#accountant/${next.k}">${esc(next.label)} →</a>`:''}<a href="#accountant">The Accountant</a></div></section>`;
 }
@@ -1641,15 +1688,16 @@ function accBody(a){
   const flush = () => { if (ul){ out += `<ul class="acc-ul">${ul}</ul>`; ul=''; } };
   for (const b of a.body){
     const t = b[0];
-    if ((t==='p' && /^•\s*/.test(b[1])) || (t==='l' && /^•\s*/.test(b[1]))){
-      ul += t==='p' ? `<li>${esc(b[1].replace(/^•\s*/,''))}</li>` : `<li><strong>${esc(b[1].replace(/^•\s*/,''))}</strong> ${esc(b[2])}</li>`; continue;
+    if ((t==='p' || t==='l') && /^[•●▪]\s*/.test(b[1])){
+      ul += t==='p' ? `<li>${esc(b[1].replace(/^[•●▪]\s*/,''))}</li>` : `<li><strong>${esc(b[1].replace(/^[•●▪]\s*/,''))}</strong> ${esc(b[2])}</li>`; continue;
     }
     flush();
     if (t==='p') out += `<p>${esc(b[1])}</p>`;
+    else if (t==='b') out += `<p class="acc-q"><strong>${esc(b[1])}</strong></p>`;
     else if (t==='l') out += `<p><strong>${esc(b[1])}</strong> ${esc(b[2])}</p>`;
     else if (t==='h') out += a.kind==='diary' ? `<h2 class="acc-entry">${accDiaryHead(b[1])}</h2>` : `<h2>${esc(b[1])}</h2>`;
-    else if (t==='i') out += accFig(imgs[b[1]]);
-    else if (t==='g') out += `<div class="acc-gal n${Math.min(b[1].length,3)}${a.kind==='appointments'?' faces':''}">${b[1].map(k=>accFig(imgs[k])).join('')}</div>`;
+    else if (t==='i' && imgs[b[1]]) out += accFig(imgs[b[1]]);
+    else if (t==='g') { const g = b[1].filter(k=>imgs[k]); if (g.length) out += `<div class="acc-gal n${Math.min(g.length,3)}${a.kind==='appointments'?' faces':''}">${g.map(k=>accFig(imgs[k])).join('')}</div>`; }
     else if (t==='t') out += `<div class="acc-tbl"><table><thead><tr>${b[1][0].map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${b[1].slice(1).map(r=>`<tr>${r.map((c,j)=>j?`<td>${esc(c)}</td>`:`<th scope="row">${esc(c)}</th>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   }
   flush();
@@ -1662,11 +1710,16 @@ function accDiaryHead(h){
   return m ? `${esc(m[1])}<span>${esc(m[2])}</span>` : esc(h);
 }
 function viewAccArticle(id){
-  const a = ACCBY[id]; if (!a) return viewNotFound();
-  const i = ACCI[a.issue], lead = accLead(a);
+  const s = ACCBY[id]; if (!s) return viewNotFound();
+  const B = (ACCB[s.issue]||{})[id];
+  if (!B){
+    cdeLater('t-'+id, ()=>accLoad(s.issue).then(()=>viewAccArticle(id)));
+    return `<section class="wrap" style="padding:60px 0"><p class="meta">Loading the article…</p></section>`;
+  }
+  const a = Object.assign({}, s, B), i = ACCI[a.issue], lead = (a.img||[]).find(x=>x.r==='lead');
   const by = a.by ? `<span>By <strong>${esc(a.by)}</strong></span>` : a.who ? `<span>With <strong>${esc(a.who)}</strong></span>` : '';
   let body = lead ? accFig(lead, a.kind==='diary'?'':'acc-leadfig'+(['team','member','president','ceo'].includes(a.kind)?' acc-face':'')) : '';
-  if (a.kind==='team') body += `<dl class="acc-facts"><div><dt>Position</dt><dd>${esc(a.position)}</dd></div>${(a.facts||[]).map(([q,v])=>`<div><dt>${esc(q)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+  if (a.kind==='team' && a.facts && a.facts.length) body += `<dl class="acc-facts">${a.position?`<div><dt>Position</dt><dd>${esc(a.position)}</dd></div>`:''}${a.facts.map(([q,v])=>`<div><dt>${esc(q)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
   body += accBody(a);
   if (a.credit) body += `<p class="acc-note">${esc(a.credit)}</p>`;
   if (a.authors && a.authors.length) body += `<div class="acc-authors"><p class="kicker">${a.authors.length>1?'The authors':'The author'}</p>${a.authors.map(u=>{ const im = u.img!=null ? a.img[u.img] : null;
@@ -1674,9 +1727,9 @@ function viewAccArticle(id){
   const notes = (a.notes||[]), refs = (a.refs||[]);
   if (notes.length || refs.length) body += `<div class="acc-notes">${refs.length?`<p class="kicker">References</p><ol>${refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ol>`:''}${notes.length?`<p class="kicker">${refs.length?'Note':'Notes and sources'}</p>${notes.map(n=>`<p>${esc(n)}</p>`).join('')}`:''}</div>`;
   body += `<p class="acc-from">From <a href="#accountant/${a.issue}">The Accountant, ${esc(i.label)}</a>, page ${a.page}, the magazine of the Malta Institute of Accountants. ${esc(ACC.credit)}.</p>`;
-  const same = accByIssue(a.issue).filter(x=>x!==a);
-  const stand = a.d ? `<p class="standfirst">${esc(a.d)}</p>` : a.kind==='team' ? `<p class="standfirst">${esc(a.position)} at the Malta Institute of Accountants</p>` : '';
-  return `<article class="article wrap acc-art">
+  const same = accByIssue(a.issue).filter(x=>x.id!==a.id);
+  const stand = a.d ? `<p class="standfirst">${esc(a.d)}</p>` : a.kind==='team' && a.position ? `<p class="standfirst">${esc(a.position)} at the Malta Institute of Accountants</p>` : '';
+  return `<div class="wrap acc-top">${accMast(false, i)}</div><article class="article wrap acc-art">
     <div class="head">${accKicker(a)}<h1>${esc(a.h)}</h1>${stand}
       <div class="byline">${by}<span><a href="#accountant/${a.issue}">The Accountant · ${esc(i.label)}</a> · page ${a.page}</span><span>${accMins(a)} min read</span></div>
     </div>
@@ -1686,7 +1739,7 @@ function viewAccArticle(id){
       </div>
       <aside class="trail" aria-label="More from this issue">
         <a class="acc-cover sm" href="#accountant/${a.issue}"><img src="${esc(i.cover)}" width="1075" height="1521" alt="The Accountant, ${esc(i.label)} cover" loading="lazy"></a>
-        <p class="acc-dl"><a href="${esc(i.pdf)}" target="_blank" rel="noopener">Read the magazine (PDF, ${i.mb} MB)</a></p>
+        <p class="acc-dl">${accRead(i)}</p>
         <p class="kicker">Also in ${esc(i.label)}</p>
         <ol>${same.map(x=>`<li><a href="${accHref(x)}">${esc(accTitle(x))}</a><p class="meta">${esc(ACCK[x.kind])} · page ${x.page}</p></li>`).join('')}</ol>
       </aside>
@@ -1694,7 +1747,9 @@ function viewAccArticle(id){
   </article>`;
 }
 function accSearch(terms){
-  return ACCA.filter(a=>{ const hay=(a.h+' '+a.d+' '+(a.by||'')+' '+(a.who||'')+' '+a.body.map(b=>typeof b[1]==='string'?b.slice(1).join(' '):'').join(' ')).toLowerCase(); return terms.every(t=>hay.includes(t)); })
+  return ACCA.filter(a=>{ const B=(ACCB[a.issue]||{})[a.id];
+      const hay=(a.h+' '+a.d+' '+(a.by||'')+' '+(a.who||'')+' '+a.ex+' '+(B?B.body.map(b=>typeof b[1]==='string'?b.slice(1).join(' '):'').join(' '):'')).toLowerCase();
+      return terms.every(t=>hay.includes(t)); })
     .sort((x,y)=>y.issue.localeCompare(x.issue)||x.page-y.page);
 }
 
@@ -1736,7 +1791,7 @@ document.addEventListener('click', e=>{
 });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ const b=document.querySelector('.sections button.dd[aria-expanded="true"]'); if(b){ setDD(false); b.focus(); } } });
 function route(){
-  const h = decodeURIComponent((location.hash||'').slice(1)) || 'home';
+  const h = decodeURIComponent((location.hash||'').slice(1)) || (ACC_HOST ? 'accountant' : 'home');
   let html, cur = h, title = 'The Corporate Times';
   if (h==='home' || h==='front') { html = viewHome(); cur='home'; }
   else if (h==='news') { html = viewNews(); title='News · The Corporate Times'; }
@@ -1750,7 +1805,7 @@ function route(){
   else if (h==='partners') { html = viewHome(); cur='home'; }
   else if (h.startsWith('x-') && CDE[h.slice(2).split('/')[0]]) { const [k,cl]=h.slice(2).split('/'); html = viewCdeList(k, cl||''); cur = CDE[k].nav; title = CDE[k].l+' · The Corporate Times'; }
   else if (h.startsWith('c-')) { html = viewCdeArticle(h.slice(2)); cur = cdeCur(h.slice(2)); title = cdeTitle(h.slice(2)); }
-  else if (h==='accountant' || h.startsWith('accountant/')) { const k=h.slice(11); html = k ? viewAccIssue(k) : viewAccountant(); cur='accountant'; title=(k&&ACCI[k]?ACCI[k].label+' · ':'')+'The Accountant · The Corporate Times'; }
+  else if (h==='accountant' || h.startsWith('accountant/')) { const k=h.slice(11); html = k ? viewAccIssue(k) : viewAccountant(); cur='accountant'; title=(k&&ACCI[k]?ACCI[k].label+' · ':'')+(ACC_HOST?'The Accountant · Malta Institute of Accountants':'The Accountant · The Corporate Times'); }
   else if (h.startsWith('t-')) { const a=ACCBY[h.slice(2)]; html = viewAccArticle(h.slice(2)); cur='accountant'; if(a) title = a.h+' · The Accountant · The Corporate Times'; }
   else if (h.startsWith('s-')) { html = viewSection(h.slice(2)); title=(SEC[h.slice(2)]||{l:''}).l+' · The Corporate Times'; }
   else if (h.startsWith('e-')) { html = viewEdition(h.slice(2)); cur='editions'; title=(ISSUE[h.slice(2)]||{label:''}).label+' · The Corporate Times'; }
@@ -1767,6 +1822,7 @@ function route(){
     document.getElementById('sform').addEventListener('submit', e=>{e.preventDefault(); runSearch();});
     runSearch(); q.focus();
     Promise.all(Object.keys(CDE).map(k=>cdeList(k).catch(()=>null))).then(()=>{ if((location.hash||'')==='#search') runSearch(); });
+    Promise.all(ACC.issues.map(i=>accLoad(i.k).catch(()=>null))).then(()=>{ if((location.hash||'')==='#search') runSearch(); });
   }
 }
 document.getElementById('today').textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
