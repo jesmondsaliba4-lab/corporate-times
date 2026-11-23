@@ -656,9 +656,9 @@ a.art:hover img{transform:scale(1.03)}
 .acc-mh-enq:hover{background:var(--mia-deep)}
 .acc-mh-enq .ai-ico{width:16px;height:16px;margin:0}
 .acc-mh-main{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 34px;padding:clamp(18px,2.6vw,30px) clamp(18px,3vw,34px) clamp(20px,2.6vw,28px)}
-.acc-mh-t{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(46px,7vw,104px);line-height:.95;letter-spacing:-.015em}
+.acc-mh-t{margin:0;font-family:"Jost",var(--sans);font-weight:700;font-size:clamp(38px,5.4vw,80px);line-height:.95;letter-spacing:.005em;text-transform:uppercase}
 .acc-mh-t a{color:var(--ink);text-decoration:none}
-.acc-mh-t em{color:var(--mia);font-style:italic;font-weight:500}
+.acc-mh-t em{color:var(--mia);font-style:normal;font-weight:700}
 .acc-mh-sub{margin:12px 0 0;font-family:var(--sans);font-size:clamp(14px,1.2vw,16px);font-weight:500;color:var(--ink-2)}
 .acc-mh-credit{margin:0;max-width:430px;display:grid;gap:8px;font-size:13px;line-height:1.45}
 .acc-mh-credit div{border-left:3px solid var(--mia);padding-left:10px}
@@ -669,7 +669,7 @@ a.art:hover img{transform:scale(1.03)}
 .acc-mh.sm .acc-mh-bar{padding:11px 20px}
 .acc-mh.sm .acc-mh-logo img{height:36px}
 .acc-mh.sm .acc-mh-main{padding:14px 20px 16px;align-items:center}
-.acc-mh.sm .acc-mh-t{font-size:clamp(30px,3.4vw,46px)}
+.acc-mh.sm .acc-mh-t{font-size:clamp(26px,3vw,40px)}
 .acc-mh.sm .acc-mh-sub{margin-top:6px;font-size:14px}
 .acc-mh.sm .acc-mh-credit{grid-template-columns:repeat(3,auto);gap:6px 18px;max-width:none;font-size:12px}
 .acc-mh.sm .acc-mh-credit dt{font-size:9.5px}
@@ -1695,8 +1695,8 @@ function accItem(a){
   const im = a.lead;
   return `<li><div class="t">${accKicker(a,false)}<h3><a href="${accHref(a)}">${esc(accTitle(a))}</a></h3><p>${esc(accEx(a,240))}</p><p class="meta">${accMeta(a)} · Page ${a.page}</p></div>${im?`<a class="th" href="${accHref(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`;
 }
-/* The Accountant's own masthead (Jes, 23 Nov 2026): MIA's logo and the feel of miamalta.org (white, MIA red, serif
-   with a red italic), and the credits: publisher MIA; support, research and production Corporate ID Group;
+/* The Accountant's own masthead (Jes, 23 Nov 2026): MIA's logo and the feel of miamalta.org (white, MIA red); the title
+   keeps the printed cover's lettering, bold uppercase sans (Atten / Freight Sans on the cover, Jost here), and the credits: publisher MIA; support, research and production Corporate ID Group;
    the-accountant.eu.com developed by C-ai.US and Dispatch House. */
 ACC.credit = 'Support, research and production: Corporate ID Group';
 const ACC_SPARK = '<svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>';
