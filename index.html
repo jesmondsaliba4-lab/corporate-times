@@ -1969,7 +1969,7 @@ async function accRunEnquire(q){
     ${r.summary?`<p class="sum">${esc(r.summary)}</p>`:''}
     ${(r.points||[]).length?`<ul>${r.points.map(p=>`<li>${esc(p.text)}${(p.cites||[]).map(cite).join('')}</li>`).join('')}</ul>`:''}
     ${r.gaps?`<p class="gaps">${esc(r.gaps)}</p>`:''}
-    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources. It can make mistakes: check the linked sources.</p>
+    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources. The AI answer does not read The Accountant itself yet: the magazine’s own articles are listed above. It can make mistakes: check the linked sources.</p>
     ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li id="enq-s${s.n}"><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date||'')}${s.via?' · '+esc(s.via):''}</small></li>`).join('')}</ol></div>`:''}
   </article>` + enqMore(q, true); enqMoreWire(q);
 }
