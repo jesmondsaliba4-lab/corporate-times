@@ -13,7 +13,7 @@ Malta’s corporate observatory, within the wider work of Corporate ID Group, de
 
 ## The Accountant (since 23 Nov 2026)
 The magazine of the Malta Institute of Accountants, as its own section with its own masthead: every issue on miamalta.org from March 2021 and Issues 1, 2 and 4 of 2024 supplied by Jes as PDFs (not on miamalta.org; their PDFs are hosted here). Credit: "Content produced by Corporate Identities for the Malta Institute of Accountants".
-- Routes: `#accountant` (latest issue and every issue by year), `#accountant/<year-issue>` (e.g. 2025-4), articles `#t-<id>`. On the-accountant.com.eu the site opens on `#accountant`.
+- Routes: `#accountant` (latest issue and every issue by year), `#accountant/<year-issue>` (e.g. 2025-4), articles `#t-<id>`. On the-accountant.eu.com the site opens on `#accountant`.
 - `accountant.js` — `window.ACC`: issues and the article index (loaded with the page).
 - `accountant/<year-issue>.json` — each issue's texts, pictures, authors and notes (loaded when an article is opened, or all of them on the Search page).
 - `img/accountant/` — covers, portraits, event photos and figures cut from the issues; `accountant/*.pdf` — the 2026 issue PDFs (earlier issues link to miamalta.org).

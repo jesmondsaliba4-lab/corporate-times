@@ -751,6 +751,25 @@ a.art:hover img{transform:scale(1.03)}
 .acc-k.paid{color:#9E1B32}
 .acc-cpe figcaption{margin-top:6px;font-size:13px}
 .acc-cpe figcaption a{color:var(--gold-text);font-weight:600}
+
+/* Inside The Accountant: the Corporate Times frame folds into a slim bar with a drop-down menu */
+.ctbar{display:none}
+body.acc-mode .utility, body.acc-mode .mastband, body.acc-mode .ticker, body.acc-mode #ddpanel{display:none!important}
+body.acc-mode .ctbar{display:block;background:var(--card);border-bottom:1px solid var(--rule);position:sticky;top:0;z-index:40;box-shadow:0 2px 10px rgba(13,27,42,.06)}
+.ctbar-in{display:flex;align-items:center;gap:18px;min-height:52px}
+.ctbar-logo img{display:block;height:40px;width:auto}
+.ctbar-tag{flex:1;font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.ctbar-btn{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border:0;background:var(--navy);color:#fff;font:600 13px/1 var(--sans);letter-spacing:.04em;cursor:pointer}
+.ctbar-btn svg{width:10px;height:10px;transition:transform .15s}
+.ctbar-btn[aria-expanded="true"] svg{transform:rotate(180deg)}
+.ctbar-btn:hover{background:var(--navy-2)}
+.ctmenu{border-top:1px solid var(--rule);background:var(--paper);padding:18px 0 22px;max-height:calc(100vh - 60px);overflow:auto}
+.ctm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px 28px}
+.ctm-col ul{margin:8px 0 0;padding:0;list-style:none}
+.ctm-col li{padding:5px 0;border-bottom:1px solid var(--rule-soft)}
+.ctm-col a{color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:17px;line-height:1.25}
+.ctm-col a:hover{text-decoration:underline;text-decoration-color:var(--gold)}
+@media (max-width:760px){.ctbar-tag{display:none}.ctbar-in{justify-content:space-between}.ctbar-logo img{height:26px}}
 </style>
 
 </head>
@@ -1581,9 +1600,9 @@ function viewNotFound(){
    The magazine of the Malta Institute of Accountants, carried as its own section: every issue on miamalta.org from March 2021.
    Content produced by Corporate Identities for the Malta Institute of Accountants.
    Data: accountant.js (window.ACC: issues and the article index); each issue's texts load from accountant/<issue>.json when needed.
-   On the-accountant.com.eu the site opens on The Accountant. */
+   On the-accountant.eu.com the site opens on The Accountant. */
 const ACC = window.ACC || {issues:[], articles:[], credit:'', site:''};
-const ACC_HOST = /(^|\.)the-accountant\.com\.eu$/i.test(location.hostname);
+const ACC_HOST = /(^|\.)the-accountant\.eu\.com$/i.test(location.hostname);
 const ACCI = Object.fromEntries(ACC.issues.map(i=>[i.k,i]));
 const ACCA = ACC.articles;
 const ACCBY = Object.fromEntries(ACCA.map(a=>[a.id,a]));
@@ -1647,7 +1666,7 @@ function accMast(big, issue){
       <${T} class="acc-mh-t"><a href="#accountant">The Accountant</a></${T}>
       <p class="acc-mh-sub">${line}</p>
     </div>
-    <p class="acc-mh-credit">${esc(ACC.credit)} · <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a><br><span>In The Corporate Times · <a href="https://the-accountant.com.eu/">the-accountant.com.eu</a></span></p>
+    <p class="acc-mh-credit">${esc(ACC.credit)} · <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a><br><span>In The Corporate Times · <a href="https://the-accountant.eu.com/">the-accountant.eu.com</a></span></p>
   </header>`;
 }
 /* The edition's own adverts in the side bars (Jes, 23 Nov 2026): every advert printed in that issue, as printed */
@@ -1794,6 +1813,38 @@ function accSearch(terms){
     .sort((x,y)=>y.issue.localeCompare(x.issue)||x.page-y.page);
 }
 
+/* Inside The Accountant (Jes, 23 Nov 2026): The Accountant's masthead is the main header. The Corporate Times
+   (logo and its whole menu) folds into a slim bar above it, with a drop-down built from the site's own NAV. */
+function accMenuHtml(){
+  const plain = NAV.filter(([h])=>h[0]!=='@' && h!=='accountant');
+  const link = (h,l) => h.startsWith('https://') ? `<li><a href="${h}" target="_blank" rel="noopener">${esc(l)}</a></li>` : `<li><a href="#${h}">${esc(l)}</a></li>`;
+  const groups = NAV.filter(([h])=>h[0]==='@').map(([h,l])=>{
+    const t=document.createElement('div'); t.innerHTML=ddPanel(h.slice(1));
+    const items=[...t.querySelectorAll('a')].map(a=>{ const b=a.querySelector('b'); const txt=(b?b.textContent:a.textContent).replace(/\s*→\s*$/,'').replace(/ here$/,'').trim();
+      return `<li><a href="${esc(a.getAttribute('href'))}"${a.target?' target="_blank" rel="noopener"':''}>${esc(txt)}</a></li>`; });
+    return `<div class="ctm-col"><p class="kicker">${esc(l)}</p><ul>${[...new Set(items)].join('')}</ul></div>`;
+  });
+  return `<div class="wrap ctm-grid"><div class="ctm-col"><p class="kicker">The Corporate Times</p><ul><li><a href="#home">Front page</a></li>${plain.filter(([h])=>h!=='home').map(([h,l])=>link(h,l)).join('')}<li><a href="#search">Search</a></li></ul></div>${groups.join('')}</div>`;
+}
+(function accBar(){
+  const m = document.getElementById('main'); if (!m || document.getElementById('ctbar')) return;
+  const bar = document.createElement('div'); bar.className = 'ctbar'; bar.id = 'ctbar';
+  bar.innerHTML = `<div class="ctbar-in wrap">
+      <a class="ctbar-logo" href="#home" aria-label="The Corporate Times, front page"><img src="img/ct-masthead-v7.png" alt="The Corporate Times"></a>
+      <span class="ctbar-tag">The Accountant is published within The Corporate Times</span>
+      <button type="button" class="ctbar-btn" id="ctbar-btn" aria-expanded="false" aria-controls="ctmenu">The Corporate Times menu <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+    </div><div class="ctmenu" id="ctmenu" hidden></div>`;
+  m.parentNode.insertBefore(bar, m);
+  const btn = bar.querySelector('#ctbar-btn'), menu = bar.querySelector('#ctmenu');
+  const set = open => { if (open && !menu.innerHTML) menu.innerHTML = accMenuHtml(); menu.hidden = !open; btn.setAttribute('aria-expanded', open ? 'true' : 'false'); };
+  btn.addEventListener('click', e => { e.stopPropagation(); set(menu.hidden); });
+  menu.addEventListener('click', e => { if (e.target.closest('a')) set(false); });
+  document.addEventListener('click', e => { if (!e.target.closest('#ctbar')) set(false); });
+  document.addEventListener('keydown', e => { if (e.key==='Escape' && !menu.hidden){ set(false); btn.focus(); } });
+  window.accBarClose = () => set(false);
+})();
+function accMode(on){ document.body.classList.toggle('acc-mode', !!on); if (window.accBarClose) accBarClose(); }
+
 /* ---------- router ---------- */
 const main = document.getElementById('main');
 function navHtml(cur){
@@ -1853,6 +1904,7 @@ function route(){
   else if (h.startsWith('a-')) { const a=BY[h.slice(2)]; html = viewArticle(h.slice(2)); cur = a ? (a.sec==='commentary'?'s-commentary':'s-'+a.sec) : ''; if(a) title = titleOf(a)+' · The Corporate Times'; }
   else { html = viewHome(); cur='home'; }
   main.innerHTML = html;
+  accMode(cur==='accountant');
   document.getElementById('nav').innerHTML = navHtml(cur);
   ddWhich = ''; setDD(false);
   document.title = title;
