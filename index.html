@@ -1667,7 +1667,7 @@ function viewAccountant(){
   const [latest, ...rest] = ACCISS;
   const years = [...new Set(rest.map(i=>i.k.slice(0,4)))];
   return `<section class="sec wrap acc">${accMast(true)}${accIssueBand(latest)}
-    <section class="acc-band" aria-labelledby="acc-all"><div class="sec-head"><h2 id="acc-all">Every issue</h2><p>${ACC.issues.length} issues and ${ACCA.length} articles since March 2021. Issues 1, 2 and 4 of 2024 are not published on miamalta.org.</p></div>
+    <section class="acc-band" aria-labelledby="acc-all"><div class="sec-head"><h2 id="acc-all">Every issue</h2><p>${ACC.issues.length} issues and ${ACCA.length} articles since March 2021.</p></div>
     ${years.map(y=>`<h3 class="grp">${y}</h3><div class="acc-tiles">${rest.filter(i=>i.k.startsWith(y)).map(accTile).join('')}</div>`).join('')}
     </section></section>`;
 }
