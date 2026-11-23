@@ -192,6 +192,22 @@ footer a{color:#D9DEEA}
   form{padding:22px 18px}
   .hero .lead{font-size:17px}
 }
+.nav .latest{position:relative}
+.nav .latest summary{list-style:none;cursor:pointer;font:600 13px/1 var(--sans);letter-spacing:.04em;color:#D9DEEA;display:flex;align-items:center;gap:7px;user-select:none}
+.nav .latest summary::-webkit-details-marker{display:none}
+.nav .latest summary::after{content:"";width:0;height:0;border:4px solid transparent;border-top-color:currentColor;margin-top:4px;transition:transform .2s}
+.nav .latest[open] summary,.nav .latest summary:hover{color:var(--gold-2)}
+.nav .latest[open] summary::after{transform:rotate(180deg) translateY(4px)}
+.nav .latest .menu{position:absolute;right:-12px;top:calc(100% + 24px);width:310px;background:#0B1730;border:1px solid rgba(201,162,90,.4);box-shadow:0 24px 48px rgba(0,0,0,.45);padding:8px;display:flex;flex-direction:column}
+.nav .latest .menu p{margin:6px 12px 8px;font:800 10.5px/1.3 var(--caps);letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2)}
+.nav .latest .menu a{display:flex;flex-direction:column;gap:4px;padding:11px 12px;border-top:1px solid rgba(255,255,255,.07)}
+.nav .latest .menu a b{font:700 14px/1.2 var(--sans);color:#fff;letter-spacing:0}
+.nav .latest .menu a small{font:500 12.5px/1.3 var(--sans);color:#AEB7CC;letter-spacing:0}
+.nav .latest .menu a:hover{background:rgba(255,255,255,.05)}
+.nav .latest .menu a:hover b{color:var(--gold-2)}
+a.fr{display:block}
+.nav .latest .sm{display:none}
+@media (max-width:640px){.nav{gap:16px}.nav .latest .lg{display:none}.nav .latest .sm{display:inline}.nav .latest .menu{position:fixed;left:12px;right:12px;top:68px;width:auto}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.t,.pg,.pgthumb img{transition:none}}
 </style>
 </head>
@@ -206,6 +222,17 @@ footer a{color:#D9DEEA}
       <a href="#formats">What we publish</a>
       <a href="#how">How it works</a>
       <a href="#titles">Our titles</a>
+      <details class="latest">
+        <summary><span class="lg">Read the latest</span><span class="sm">Latest</span></summary>
+        <div class="menu">
+          <p>The latest edition of each title</p>
+          <a href="https://cde.news/" rel="noopener"><b>cde.news</b><small>The Bulletin · today’s daily edition</small></a>
+          <a href="https://www.corporate-times.com/" rel="noopener"><b>The Corporate Times</b><small>The latest Dispatch and Weekly</small></a>
+          <a href="https://comuniq.eu/" rel="noopener"><b>Comuniq.EU</b><small>This Saturday’s European weekly</small></a>
+          <a href="https://thedispatch.pro/" rel="noopener"><b>The Dispatch.pro</b><small>This month’s magazine</small></a>
+          <a href="https://thesportcapital.com/" rel="noopener"><b>The Sport Capital</b><small>This Tuesday’s issue</small></a>
+        </div>
+      </details>
       <a class="cta" href="#contact">Plan a publication</a>
     </nav>
   </div>
@@ -246,7 +273,7 @@ footer a{color:#D9DEEA}
     </div>
   </section>
 
-  <section class="presses" aria-labelledby="pr-title">
+  <section id="latest" class="presses" aria-labelledby="pr-title">
     <div class="wrap">
       <div class="head">
         <p class="eyebrow">From the Dispatch News Room</p>
@@ -254,12 +281,12 @@ footer a{color:#D9DEEA}
         <p class="lead">Pages from the titles we already publish: a monthly magazine, a daily print bulletin, a business weekly, a European weekly and a weekly on the business of sport, through to the back cover. Yours would be built the same way.</p>
       </div>
       <div class="fan">
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/dp-cover.jpg" width="720" height="939" alt="Cover of The Dispatch.pro, December 2026: Who will do the work?"></div><figcaption><b>The Dispatch.pro</b>The monthly magazine · cover</figcaption></figure>
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/cde-page.jpg" width="690" height="920" alt="Front page of The Bulletin, the cde.news daily print edition"></div><figcaption><b>cde.news</b>The Bulletin · daily print edition</figcaption></figure>
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/ct-full.jpg" width="392" height="560" alt="Front page of the Weekly Corporate Times Dispatch newspaper"></div><figcaption><b>The Corporate Times</b>The Weekly · front page</figcaption></figure>
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/cq-front.jpg" width="720" height="1018" alt="Front page of Comuniq.EU, No. 1, 21 November 2026: Britain edges back towards Europe"></div><figcaption><b>Comuniq.EU</b>The European weekly · No. 1 front page</figcaption></figure>
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/tsc-cover.jpg" width="560" height="733" alt="Front page of The Sport Capital, No. 1, 24 November 2026: The biggest gamble"></div><figcaption><b>The Sport Capital</b>The business of world sport · No. 1 front page</figcaption></figure>
-        <figure class="pg"><div class="fr"><img src="/assets/img/pages/dp-back.jpg" width="720" height="939" alt="Back cover of The Dispatch.pro, with the Dispatch House imprint"></div><figcaption><b>The Dispatch.pro</b>Back cover · the Dispatch House imprint</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://thedispatch.pro/" rel="noopener"><img src="/assets/img/pages/dp-cover.jpg" width="720" height="939" alt="Cover of The Dispatch.pro, December 2026: Who will do the work?"></a><figcaption><b>The Dispatch.pro</b>The monthly magazine · cover</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://cde.news/" rel="noopener"><img src="/assets/img/pages/cde-page.jpg" width="690" height="920" alt="Front page of The Bulletin, the cde.news daily print edition"></a><figcaption><b>cde.news</b>The Bulletin · daily print edition</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://www.corporate-times.com/" rel="noopener"><img src="/assets/img/pages/ct-full.jpg" width="392" height="560" alt="Front page of the Weekly Corporate Times Dispatch newspaper"></a><figcaption><b>The Corporate Times</b>The Weekly · front page</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://comuniq.eu/" rel="noopener"><img src="/assets/img/pages/cq-front.jpg" width="720" height="1018" alt="Front page of Comuniq.EU, No. 1, 21 November 2026: Britain edges back towards Europe"></a><figcaption><b>Comuniq.EU</b>The European weekly · No. 1 front page</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://thesportcapital.com/" rel="noopener"><img src="/assets/img/pages/tsc-cover.jpg" width="560" height="733" alt="Front page of The Sport Capital, No. 1, 24 November 2026: The biggest gamble"></a><figcaption><b>The Sport Capital</b>The business of world sport · No. 1 front page</figcaption></figure>
+        <figure class="pg"><a class="fr" href="https://thedispatch.pro/" rel="noopener"><img src="/assets/img/pages/dp-back.jpg" width="720" height="939" alt="Back cover of The Dispatch.pro, with the Dispatch House imprint"></a><figcaption><b>The Dispatch.pro</b>Back cover · the Dispatch House imprint</figcaption></figure>
       </div>
     </div>
   </section>
@@ -417,6 +444,13 @@ footer a{color:#D9DEEA}
   </div>
 </footer>
 
+<script>
+(function () {
+  var d = document.querySelector('.nav .latest'); if (!d) return;
+  document.addEventListener('click', function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && d.open) { d.open = false; d.querySelector('summary').focus(); } });
+})();
+</script>
 <script>
 (function () {
   var f = document.getElementById('enq'), el = f.elements, out = document.getElementById('f-msg-out');
