@@ -17,7 +17,7 @@ The magazine of the Malta Institute of Accountants, as its own section with its 
 - `accountant.js` — `window.ACC`: issues and the article index (loaded with the page).
 - `accountant/<year-issue>.json` — each issue's texts, pictures, authors and notes (loaded when an article is opened, or all of them on the Search page).
 - `img/accountant/` — covers, portraits, event photos and figures cut from the issues; `accountant/*.pdf` — the 2026 issue PDFs (earlier issues link to miamalta.org).
-- Advertising pages, MIA house adverts and paid advertorials are left out. To add an issue, send its PDF.
+- Each edition's own full-page adverts (img/accountant/ads/, listed per issue in accountant.js) show in the side bars: two beside every article (varying by article), all of them on the issue page, two of the latest edition on the section page. Paid advertorials and MIA event listings are left out. To add an issue, send its PDF.
 
 ## Adding a new print edition
 Send the edition folder (Word files + photos); the build script turns it into the embedded data and images.

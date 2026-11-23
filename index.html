@@ -736,6 +736,17 @@ a.art:hover img{transform:scale(1.03)}
 .acc-art .fig.acc-face{max-width:360px}
 .prose.acc-nodrop>p:first-of-type::first-letter{all:unset}
 .prose .acc-q{margin-top:1.5em;color:var(--ink)}
+.acc-ad{margin:22px 0 0}
+.acc-ad .adlabel{margin:0 0 6px;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.acc-ad img{display:block;width:100%;height:auto;border:1px solid var(--rule);background:#fff}
+.acc-ad a{display:block;transition:opacity .15s}
+.acc-ad a:hover{opacity:.9}
+.trail .acc-adcol{max-width:320px}
+.acc-adhead{margin-top:26px}
+.acc-adnote{margin:4px 0 10px;font-size:12.5px;color:var(--muted)}
+.acc-adwall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.acc-adwall img{display:block;width:100%;height:auto;aspect-ratio:210/297;object-fit:cover;border:1px solid var(--rule);background:#fff;transition:transform .15s}
+.acc-adwall a:hover img{transform:scale(1.03)}
 </style>
 
 </head>
@@ -1635,17 +1646,33 @@ function accMast(big, issue){
     <p class="acc-mh-credit">${esc(ACC.credit)} · <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a><br><span>In The Corporate Times · <a href="https://the-accountant.com.eu/">the-accountant.com.eu</a></span></p>
   </header>`;
 }
+/* The edition's own adverts in the side bars (Jes, 23 Nov 2026): every advert printed in that issue, as printed */
+function accAd(i, ad){
+  return `<figure class="acc-ad"><p class="adlabel">Advertisement · The Accountant, ${esc(i.label)}</p><a href="${esc(ad.f)}" target="_blank" rel="noopener" title="Open the advert full size"><img src="${esc(ad.f)}" width="${ad.w}" height="${ad.h}" alt="Advertisement printed on page ${ad.p} of The Accountant, ${esc(i.label)}" loading="lazy"></a></figure>`;
+}
+function accAdsFor(i, seed, n){
+  const A = i.ads||[]; if (!A.length) return '';
+  let h = 0; for (const ch of String(seed)) h = (h*31 + ch.charCodeAt(0)) >>> 0;
+  const out = []; for (let j=0; j<Math.min(n, A.length); j++) out.push(accAd(i, A[(h + j*Math.max(1, Math.floor(A.length/n))) % A.length]));
+  return out.join('');
+}
+function accAdWall(i){
+  const A = i.ads||[]; if (!A.length) return '';
+  return `<p class="kicker acc-adhead">The advertisers in this edition</p><p class="acc-adnote">${A.length} adverts, as printed. Select one to see it full size.</p>
+    <div class="acc-adwall">${A.map(ad=>`<a href="${esc(ad.f)}" target="_blank" rel="noopener"><img src="${esc(ad.f)}" width="${ad.w}" height="${ad.h}" alt="Advertisement, page ${ad.p}" loading="lazy"></a>`).join('')}</div>`;
+}
 function accRead(i){
   return i.pdf ? `<a href="${esc(i.pdf)}" target="_blank" rel="noopener">Read the magazine (PDF, ${i.mb} MB)</a>`
                : `<a href="${esc(i.mia)}" target="_blank" rel="noopener">Read the magazine on miamalta.org</a>`;
 }
-function accSide(i){
+function accSide(i, wall){
   const reg = accByIssue(i.k).filter(a=>ACC_REG.includes(a.kind));
   return `<aside class="acc-side">
     <a class="acc-cover" href="#accountant/${i.k}"><img src="${esc(i.cover)}" width="1075" height="1521" alt="The Accountant, ${esc(i.label)} cover" loading="lazy"></a>
     <p class="acc-dl">${accRead(i)}</p>
     ${reg.length?`<p class="kicker">Every issue</p>
     <ol class="acc-reg">${reg.map(a=>`<li><a href="${accHref(a)}">${esc(a.kind==='team'&&/^Meet [A-Z][a-z]+$/.test(a.h)?'Meet the Team: '+a.h.replace(/^Meet /,''):ACCK[a.kind])}</a><span>p. ${a.page}</span></li>`).join('')}</ol>`:''}
+    ${wall ? accAdWall(i) : accAdsFor(i, Date.now()>>16, 2)}
   </aside>`;
 }
 function accIssueBand(i){
@@ -1676,7 +1703,7 @@ function viewAccIssue(k){
   const list = accByIssue(k), idx = ACCISS.findIndex(x=>x.k===k), prev = ACCISS[idx+1], next = ACCISS[idx-1];
   return `<section class="sec wrap acc">${accMast(false, i)}
     <div class="sec-head"><h1>${esc(i.label)}</h1><p>${i.theme?esc(i.theme)+' · ':''}${list.length} articles, in page order</p></div>
-    <div class="acc-two"><ul class="list">${list.map(accItem).join('')}</ul>${accSide(i)}</div>
+    <div class="acc-two"><ul class="list">${list.map(accItem).join('')}</ul>${accSide(i, true)}</div>
     <div class="backbar">${prev?`<a href="#accountant/${prev.k}">← ${esc(prev.label)}</a>`:''}${next?`<a href="#accountant/${next.k}">${esc(next.label)} →</a>`:''}<a href="#accountant">The Accountant</a></div></section>`;
 }
 function accFig(im, cls=''){
@@ -1742,6 +1769,8 @@ function viewAccArticle(id){
         <p class="acc-dl">${accRead(i)}</p>
         <p class="kicker">Also in ${esc(i.label)}</p>
         <ol>${same.map(x=>`<li><a href="${accHref(x)}">${esc(accTitle(x))}</a><p class="meta">${esc(ACCK[x.kind])} · page ${x.page}</p></li>`).join('')}</ol>
+        <div class="acc-adcol">${accAdsFor(i, a.id, 2)}</div>
+        ${(i.ads||[]).length>2?`<p class="acc-dl"><a href="#accountant/${a.issue}">All ${i.ads.length} adverts in this edition →</a></p>`:''}
       </aside>
     </div>
   </article>`;
