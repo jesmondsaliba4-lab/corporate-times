@@ -756,8 +756,8 @@ a.art:hover img{transform:scale(1.03)}
 .acc-adwall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .acc-adwall img{display:block;width:100%;height:auto;aspect-ratio:210/297;object-fit:cover;border:1px solid var(--rule);background:#fff;transition:transform .15s}
 .acc-adwall a:hover img{transform:scale(1.03)}
-.acc-paid{margin:0 0 1.4em;padding:10px 14px;border-left:4px solid #9E1B32;background:#F6E7EA;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-2)}
-.acc-k.paid{color:#9E1B32}
+.acc-paid{margin:0 0 1.4em;padding:10px 14px;border-left:4px solid #C8191F;background:#FDEDEC;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-2)}
+.acc-k.paid{color:#B5161D}
 .acc-cpe figcaption{margin-top:6px;font-size:13px}
 .acc-cpe figcaption a{color:var(--gold-text);font-weight:600}
 
@@ -800,6 +800,16 @@ body.acc-mode .ctbar{display:block;background:var(--card);border-bottom:1px soli
 @media (max-width:700px){.acc-mh-top{flex-basis:100%;order:3}.acc-mh-enq{margin-left:auto}.acc-mh.sm .acc-mh-credit{display:none}}
 .ctbar-short{display:none}
 @media (max-width:760px){.ctbar-full{display:none}.ctbar-short{display:inline}.ctbar-in{gap:12px}}
+
+/* The Accountant's colour scheme (Jes, 23 Nov 2026): white pages and MIA red inside the section, a deeper red for
+   kickers and links so small text stays legible; the Corporate Times keeps its navy bar and the gold Enquire spark. */
+body.acc-mode{--paper:#ffffff;background:#fff}
+body.acc-mode #main{--gold:#EE2E24;--gold-deep:#C8191F;--gold-text:#B5161D;--ember:#EE2E24;
+  --navy:#282B2E;--navy-2:#3A3E42;--navy-line:#4A4F55;--ink:#1C1F23;--ink-2:#33383E;--prose:#1F2328;
+  --parchment:#F5F5F6;--rule:#E1E1E4;--rule-soft:#EDEDEF;--card:#ffffff}
+body.acc-mode #main .ai-ico{color:#B77A3C}
+body.acc-mode #main .acc-mh-enq .ai-ico, body.acc-mode #main button .ai-ico{color:inherit}
+body.acc-mode .ctbar{border-bottom-color:#E1E1E4}
 </style>
 
 </head>
