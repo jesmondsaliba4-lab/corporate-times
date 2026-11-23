@@ -1,1 +1,1 @@
-{ "name": "corporate-times", "private": true, "type": "module" }
+{"name":"corporate-times","private":true,"type":"module","dependencies":{"@vercel/analytics":"^2.0.1"}}
