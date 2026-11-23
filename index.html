@@ -648,22 +648,31 @@ a.art:hover img{transform:scale(1.03)}
 .enq-mini-try a::before{content:"→ ";color:var(--gold-deep)}
 .enq-mini-try a:hover{color:var(--gold-text)}
 /* The Accountant (Malta Institute of Accountants), produced by Corporate Identities */
-.acc-mh{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px 28px;margin:0 0 8px;padding:clamp(22px,3vw,34px) clamp(20px,3vw,36px);background:#9E1B32;color:#fff;position:relative;overflow:hidden}
-.acc-mh::before{content:"";position:absolute;inset:8px;border:1px solid rgba(255,255,255,.35);pointer-events:none}
-.acc-mh-in{position:relative}
-.acc-mh-top{margin:0;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.82)}
-.acc-mh-t{margin:6px 0 0;font-family:var(--sans);font-weight:800;font-size:clamp(40px,6.4vw,92px);line-height:.92;letter-spacing:-.01em;text-transform:uppercase}
-.acc-mh-t a{color:#fff;text-decoration:none}
-.acc-mh-sub{margin:12px 0 0;padding-top:10px;border-top:2px solid #F0C98A;font-family:var(--serif);font-style:italic;font-size:clamp(17px,1.5vw,21px);color:#FBEFD9}
-.acc-mh-credit{position:relative;margin:0;max-width:380px;font-size:12.5px;line-height:1.55;color:rgba(255,255,255,.86);text-align:right}
-.acc-mh-credit a{color:#fff;font-weight:600}
-.acc-mh-credit span{color:rgba(255,255,255,.7)}
-.acc-mh.sm{padding:14px 22px;align-items:center}
-.acc-mh.sm::before{inset:5px}
-.acc-mh.sm .acc-mh-t{font-size:clamp(26px,3vw,38px)}
-.acc-mh.sm .acc-mh-top{font-size:10.5px}
-.acc-mh.sm .acc-mh-sub{margin-top:6px;padding-top:6px;font-size:15px;border-top-width:1px}
-.acc-mh.sm .acc-mh-credit{font-size:11.5px}
+.acc-mh{--mia:#EE2E24;--mia-deep:#C8191F;margin:0 0 10px;background:#fff;border:1px solid var(--rule);border-top:5px solid var(--mia);color:var(--ink)}
+.acc-mh-bar{display:flex;align-items:center;flex-wrap:wrap;gap:10px 22px;padding:16px clamp(18px,3vw,34px);border-bottom:1px solid var(--rule-soft)}
+.acc-mh-logo img{display:block;height:46px;width:auto}
+.acc-mh-top{flex:1;margin:0;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.acc-mh-enq{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;background:var(--mia);color:#fff!important;font:600 13.5px/1 var(--sans);letter-spacing:.03em;text-decoration:none}
+.acc-mh-enq:hover{background:var(--mia-deep)}
+.acc-mh-enq .ai-ico{width:16px;height:16px;margin:0}
+.acc-mh-main{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 34px;padding:clamp(18px,2.6vw,30px) clamp(18px,3vw,34px) clamp(20px,2.6vw,28px)}
+.acc-mh-t{margin:0;font-family:var(--serif);font-weight:500;font-size:clamp(46px,7vw,104px);line-height:.95;letter-spacing:-.015em}
+.acc-mh-t a{color:var(--ink);text-decoration:none}
+.acc-mh-t em{color:var(--mia);font-style:italic;font-weight:500}
+.acc-mh-sub{margin:12px 0 0;font-family:var(--sans);font-size:clamp(14px,1.2vw,16px);font-weight:500;color:var(--ink-2)}
+.acc-mh-credit{margin:0;max-width:430px;display:grid;gap:8px;font-size:13px;line-height:1.45}
+.acc-mh-credit div{border-left:3px solid var(--mia);padding-left:10px}
+.acc-mh-credit dt{font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.acc-mh-credit dd{margin:1px 0 0;color:var(--ink)}
+.acc-mh-credit a{color:var(--ink);font-weight:600;text-decoration:underline;text-decoration-color:var(--mia);text-underline-offset:2px}
+.acc-mh-credit a:hover{color:var(--mia-deep)}
+.acc-mh.sm .acc-mh-bar{padding:11px 20px}
+.acc-mh.sm .acc-mh-logo img{height:36px}
+.acc-mh.sm .acc-mh-main{padding:14px 20px 16px;align-items:center}
+.acc-mh.sm .acc-mh-t{font-size:clamp(30px,3.4vw,46px)}
+.acc-mh.sm .acc-mh-sub{margin-top:6px;font-size:14px}
+.acc-mh.sm .acc-mh-credit{grid-template-columns:repeat(3,auto);gap:6px 18px;max-width:none;font-size:12px}
+.acc-mh.sm .acc-mh-credit dt{font-size:9.5px}
 .acc-top{padding-top:clamp(20px,3vw,32px)}
 .acc-top + .article{padding-top:18px}
 .acc-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:22px 20px;margin-top:16px}
@@ -730,7 +739,7 @@ a.art:hover img{transform:scale(1.03)}
 .acc-notes p{margin:6px 0}
 .acc-note{font-family:var(--sans);font-size:14px;font-style:italic;color:var(--muted)}
 .acc-from{margin-top:2em;padding:12px 14px;background:var(--parchment);font-family:var(--sans);font-size:13px;line-height:1.5;color:var(--ink-2)}
-@media (max-width:900px){.acc-two{grid-template-columns:minmax(0,1fr)}.acc-side{max-width:420px}.acc-mh-credit{text-align:left}}
+@media (max-width:900px){.acc-two{grid-template-columns:minmax(0,1fr)}.acc-side{max-width:420px}.acc-mh.sm .acc-mh-credit{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:560px){.acc-gal.n3{grid-template-columns:repeat(2,minmax(0,1fr))}.acc-facts div{grid-template-columns:1fr}}
 @media print{.acc-dl,.acc-cover.sm{display:none}}
 .acc-art .fig.acc-face{max-width:360px}
@@ -770,6 +779,27 @@ body.acc-mode .ctbar{display:block;background:var(--card);border-bottom:1px soli
 .ctm-col a{color:var(--ink);text-decoration:none;font-family:var(--serif);font-size:17px;line-height:1.25}
 .ctm-col a:hover{text-decoration:underline;text-decoration-color:var(--gold)}
 @media (max-width:760px){.ctbar-tag{display:none}.ctbar-in{justify-content:space-between}.ctbar-logo img{height:26px}}
+
+/* Enquire inside The Accountant */
+.ctbar-enq{display:inline-flex;align-items:center;gap:6px;color:var(--gold-text);font-weight:600;font-size:14px;text-decoration:none}
+.ctbar-enq .ai-ico{width:16px;height:16px;margin:0}
+.ctbar-enq:hover{text-decoration:underline}
+.acc-enq-side{margin:0 0 26px;padding:16px 16px 14px;background:var(--card);border:1px solid var(--rule);border-top:4px solid #EE2E24}
+.acc-enq-side .kicker{line-height:1.5;font-size:10.5px}
+.acc-enq-side .kicker .ai-ico{color:#EE2E24}
+.acc-enq-side h2{margin:6px 0 0;font-family:var(--serif);font-weight:600;font-size:26px}
+.acc-enq-side h2 a{color:var(--ink);text-decoration:none}
+.acc-enq-side .x{margin:6px 0 0;font-size:14px;line-height:1.45;color:var(--ink-2)}
+.acc-enq-side .enq-mini{border-top-color:#EE2E24}
+.acc-enq-side .enq-mini button{background:#EE2E24;color:#fff}
+.acc-enq-side .enq-mini-try li{padding:6px 0;border-bottom:1px solid var(--rule-soft);font-size:14px}
+.acc-enq-side .enq-mini-try a{color:var(--ink-2)}
+.acc-enq h1 span{color:#EE2E24;font-style:italic}
+.acc-enq-mag{margin:26px 0 10px}
+.acc-enq-mag h2{margin:0 0 4px;font-family:var(--serif);font-weight:600;font-size:28px;border-bottom:2px solid #EE2E24;padding-bottom:6px}
+@media (max-width:700px){.acc-mh-top{flex-basis:100%;order:3}.acc-mh-enq{margin-left:auto}.acc-mh.sm .acc-mh-credit{display:none}}
+.ctbar-short{display:none}
+@media (max-width:760px){.ctbar-full{display:none}.ctbar-short{display:inline}.ctbar-in{gap:12px}}
 </style>
 
 </head>
@@ -1598,7 +1628,7 @@ function viewNotFound(){
 
 /* ---------- The Accountant (Jes, 23 Nov 2026) ----------
    The magazine of the Malta Institute of Accountants, carried as its own section: every issue on miamalta.org from March 2021.
-   Content produced by Corporate Identities for the Malta Institute of Accountants.
+   Content produced by Corporate ID Group for the Malta Institute of Accountants.
    Data: accountant.js (window.ACC: issues and the article index); each issue's texts load from accountant/<issue>.json when needed.
    On the-accountant.eu.com the site opens on The Accountant. */
 const ACC = window.ACC || {issues:[], articles:[], credit:'', site:''};
@@ -1655,18 +1685,36 @@ function accItem(a){
   const im = a.lead;
   return `<li><div class="t">${accKicker(a,false)}<h3><a href="${accHref(a)}">${esc(accTitle(a))}</a></h3><p>${esc(accEx(a,240))}</p><p class="meta">${accMeta(a)} · Page ${a.page}</p></div>${im?`<a class="th" href="${accHref(a)}" tabindex="-1" aria-hidden="true">${imgTag(im)}</a>`:''}</li>`;
 }
-/* The Accountant's own masthead, inside the Corporate Times frame (Jes, 23 Nov 2026) */
+/* The Accountant's own masthead (Jes, 23 Nov 2026): MIA's logo and the feel of miamalta.org (white, MIA red, serif
+   with a red italic), and the credits: publisher MIA; support, research and production Corporate ID Group;
+   the-accountant.eu.com developed by C-ai.US and Dispatch House. */
+ACC.credit = 'Support, research and production: Corporate ID Group';
+const ACC_SPARK = '<svg class="ai-ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M10 3.5c.7 4.9 2.6 7.8 7.5 8.5-4.9.7-6.8 3.6-7.5 8.5-.7-4.9-2.6-7.8-7.5-8.5 4.9-.7 6.8-3.6 7.5-8.5z"/><path fill="currentColor" opacity=".75" d="M19 1.5c.3 1.9 1 3 2.9 3.3-1.9.3-2.6 1.4-2.9 3.3-.3-1.9-1-3-2.9-3.3 1.9-.3 2.6-1.4 2.9-3.3z"/><path fill="currentColor" opacity=".55" d="M19.5 15.5c.2 1.2.7 1.9 1.9 2.1-1.2.2-1.7.9-1.9 2.1-.2-1.2-.7-1.9-1.9-2.1 1.2-.2 1.7-.9 1.9-2.1z"/></svg>';
+function accCredits(){
+  const x = (u,t) => `<a href="${u}" target="_blank" rel="noopener">${t}</a>`;
+  return `<dl class="acc-mh-credit">
+      <div><dt>Publisher</dt><dd>Malta Institute of Accountants · ${x('https://www.miamalta.org/','miamalta.org')}</dd></div>
+      <div><dt>Support, research and production</dt><dd>${x('https://corporateidgroup.com/','Corporate ID Group')}</dd></div>
+      <div><dt>Website</dt><dd><a href="https://the-accountant.eu.com/">the-accountant.eu.com</a> is developed by ${x('https://www.c-ai.us/','C-ai.US')} and ${x('https://dispatch-house.com/','Dispatch-house.com')}</dd></div>
+    </dl>`;
+}
 function accMast(big, issue){
   const latest = ACCISS[0];
   const line = issue ? `${esc(issue.label)}` : `${esc(latest.label)} · ${ACC.issues.length} issues since ${esc(ACCISS[ACCISS.length-1].month)}`;
   const T = big ? 'h1' : 'p';
   return `<header class="acc-mh${big?'':' sm'}">
-    <div class="acc-mh-in">
-      <p class="acc-mh-top">The magazine of the Malta Institute of Accountants</p>
-      <${T} class="acc-mh-t"><a href="#accountant">The Accountant</a></${T}>
-      <p class="acc-mh-sub">${line}</p>
+    <div class="acc-mh-bar">
+      <a class="acc-mh-logo" href="https://www.miamalta.org/" target="_blank" rel="noopener"><img src="img/mia-logo.svg" width="172" height="48" alt="Malta Institute of Accountants"></a>
+      <span class="acc-mh-top">The magazine of the Malta Institute of Accountants</span>
+      <a class="acc-mh-enq" href="#accountant/enquire">${ACC_SPARK}Enquire The Accountant</a>
     </div>
-    <p class="acc-mh-credit">${esc(ACC.credit)} · <a href="${esc(ACC.site)}" target="_blank" rel="noopener">miamalta.org</a><br><span>In The Corporate Times · <a href="https://the-accountant.eu.com/">the-accountant.eu.com</a></span></p>
+    <div class="acc-mh-main">
+      <div class="acc-mh-in">
+        <${T} class="acc-mh-t"><a href="#accountant">The <em>Accountant</em></a></${T}>
+        <p class="acc-mh-sub">${line}</p>
+      </div>
+      ${accCredits()}
+    </div>
   </header>`;
 }
 /* The edition's own adverts in the side bars (Jes, 23 Nov 2026): every advert printed in that issue, as printed */
@@ -1697,7 +1745,7 @@ function accRead(i){
 }
 function accSide(i, wall){
   const reg = accByIssue(i.k).filter(a=>ACC_REG.includes(a.kind));
-  return `<aside class="acc-side">
+  return `<aside class="acc-side">${accEnqSide()}
     <a class="acc-cover" href="#accountant/${i.k}"><img src="${esc(i.cover)}" width="1075" height="1521" alt="The Accountant, ${esc(i.label)} cover" loading="lazy"></a>
     <p class="acc-dl">${accRead(i)}</p>
     ${reg.length?`<p class="kicker">Every issue</p>
@@ -1729,6 +1777,7 @@ function viewAccountant(){
     </section></section>`;
 }
 function viewAccIssue(k){
+  if (k==='enquire' || k.startsWith('enquire/')) return viewAccEnquire(k.slice(8));
   const i = ACCI[k]; if (!i) return viewNotFound();
   const list = accByIssue(k), idx = ACCISS.findIndex(x=>x.k===k), prev = ACCISS[idx+1], next = ACCISS[idx-1];
   return `<section class="sec wrap acc">${accMast(false, i)}
@@ -1784,7 +1833,7 @@ function viewAccArticle(id){
     return `<div class="acc-au">${im?`<img src="${esc(im.f)}" width="${im.w}" height="${im.h}" alt="${esc(u.n)}" loading="lazy">`:''}<p>${esc(u.bio)}</p></div>`; }).join('')}</div>`;
   const notes = (a.notes||[]), refs = (a.refs||[]);
   if (notes.length || refs.length) body += `<div class="acc-notes">${refs.length?`<p class="kicker">References</p><ol>${refs.map(r=>`<li>${esc(r)}</li>`).join('')}</ol>`:''}${notes.length?`<p class="kicker">${refs.length?'Note':'Notes and sources'}</p>${notes.map(n=>`<p>${esc(n)}</p>`).join('')}`:''}</div>`;
-  body += `<p class="acc-from">From <a href="#accountant/${a.issue}">The Accountant, ${esc(i.label)}</a>, page ${a.page}, the magazine of the Malta Institute of Accountants. ${esc(ACC.credit)}.</p>`;
+  body += `<p class="acc-from">From <a href="#accountant/${a.issue}">The Accountant, ${esc(i.label)}</a>, page ${a.page}, the magazine of the Malta Institute of Accountants (publisher). ${esc(ACC.credit)}.</p>`;
   const same = accByIssue(a.issue).filter(x=>x.id!==a.id);
   const stand = a.d ? `<p class="standfirst">${esc(a.d)}</p>` : a.kind==='team' && a.position ? `<p class="standfirst">${esc(a.position)} at the Malta Institute of Accountants</p>` : '';
   return `<div class="wrap acc-top">${accMast(false, i)}</div><article class="article wrap acc-art">
@@ -1800,7 +1849,7 @@ function viewAccArticle(id){
         <p class="acc-dl">${accRead(i)}</p>
         <p class="kicker">Also in ${esc(i.label)}</p>
         <ol>${same.map(x=>`<li><a href="${accHref(x)}">${esc(accTitle(x))}</a><p class="meta">${esc(ACCK[x.kind])} · page ${x.page}</p></li>`).join('')}</ol>
-        <div class="acc-adcol">${accCpe(i)}${accAdsFor(i, a.id, 2)}</div>
+        ${accEnqSide()}<div class="acc-adcol">${accCpe(i)}${accAdsFor(i, a.id, 2)}</div>
         ${(i.ads||[]).length>2?`<p class="acc-dl"><a href="#accountant/${a.issue}">All ${i.ads.length} adverts in this edition →</a></p>`:''}
       </aside>
     </div>
@@ -1824,7 +1873,7 @@ function accMenuHtml(){
       return `<li><a href="${esc(a.getAttribute('href'))}"${a.target?' target="_blank" rel="noopener"':''}>${esc(txt)}</a></li>`; });
     return `<div class="ctm-col"><p class="kicker">${esc(l)}</p><ul>${[...new Set(items)].join('')}</ul></div>`;
   });
-  return `<div class="wrap ctm-grid"><div class="ctm-col"><p class="kicker">The Corporate Times</p><ul><li><a href="#home">Front page</a></li>${plain.filter(([h])=>h!=='home').map(([h,l])=>link(h,l)).join('')}<li><a href="#search">Search</a></li></ul></div>${groups.join('')}</div>`;
+  return `<div class="wrap ctm-grid"><div class="ctm-col"><p class="kicker">The Corporate Times</p><ul><li><a href="#home">Front page</a></li>${plain.filter(([h])=>h!=='home').map(([h,l])=>link(h,l)).join('')}<li><a href="#enquire">Enquire</a></li><li><a href="#search">Search</a></li></ul></div>${groups.join('')}</div>`;
 }
 (function accBar(){
   const m = document.getElementById('main'); if (!m || document.getElementById('ctbar')) return;
@@ -1832,7 +1881,8 @@ function accMenuHtml(){
   bar.innerHTML = `<div class="ctbar-in wrap">
       <a class="ctbar-logo" href="#home" aria-label="The Corporate Times, front page"><img src="img/ct-masthead-v7.png" alt="The Corporate Times"></a>
       <span class="ctbar-tag">The Accountant is published within The Corporate Times</span>
-      <button type="button" class="ctbar-btn" id="ctbar-btn" aria-expanded="false" aria-controls="ctmenu">The Corporate Times menu <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
+      <a class="ctbar-enq" href="#accountant/enquire">${typeof ENQ_SPARK!=='undefined'?ENQ_SPARK:''}Enquire</a>
+      <button type="button" class="ctbar-btn" id="ctbar-btn" aria-expanded="false" aria-controls="ctmenu"><span class="ctbar-full">The Corporate Times menu</span><span class="ctbar-short">Menu</span> <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
     </div><div class="ctmenu" id="ctmenu" hidden></div>`;
   m.parentNode.insertBefore(bar, m);
   const btn = bar.querySelector('#ctbar-btn'), menu = bar.querySelector('#ctmenu');
@@ -1844,6 +1894,85 @@ function accMenuHtml(){
   window.accBarClose = () => set(false);
 })();
 function accMode(on){ document.body.classList.toggle('acc-mode', !!on); if (window.accBarClose) accBarClose(); }
+
+/* Enquire inside The Accountant (Jes, 23 Nov 2026: "the inclusion that makes us special"). The reader's question is
+   answered from The Accountant's own articles at once, then by Enquire's AI research answer across Corporate Times. */
+const ACC_TRY = ['What is changing in transfer pricing rules?','How is AI changing the accountancy profession?','What does CSRD mean for Maltese companies?','What did the MIA President say about the profession?'];
+const ACC_STOP = new Set('the a an and or of to in on for with what which who whom how is are was were be been do does did about this that these those from by at as it its into than then there their they them can could should would will has have had not any all more most much many when where why your our you we me my say said tell does done new also'.split(' '));
+const accHay = new Map();
+function accTok(q){ return [...new Set(String(q).toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9\s-]/g,' ').split(/[\s-]+/).filter(t=>t.length>2 && !ACC_STOP.has(t)).map(t=>t.length>4?t.replace(/(ies|es|s)$/,m=>m==='ies'?'y':''):t))]; }
+function accFind(q, n=8){
+  const toks = accTok(q); if (!toks.length) return [];
+  const need = toks.length<=2 ? toks.length : Math.ceil(toks.length*0.6);
+  const cnt = (s,t) => { let c=0,i=0; while((i=s.indexOf(t,i))>-1 && c<6){ c++; i+=t.length; } return c; };
+  return ACCA.map(a=>{
+    let H = accHay.get(a.id); const B = (ACCB[a.issue]||{})[a.id];
+    if (!H || (B && !H.b)){ H = { t:(a.h+' '+(a.d||'')).toLowerCase(), m:((a.by||'')+' '+(a.who||'')+' '+(a.ex||'')).toLowerCase(),
+      b: B ? B.body.map(x=>typeof x[1]==='string'?x.slice(1).join(' '):'').join(' ').toLowerCase() : '' }; accHay.set(a.id, H); }
+    let s = 0, hit = 0;
+    for (const t of toks){ const v = cnt(H.t,t)*6 + cnt(H.m,t)*2 + cnt(H.b,t); if (v){ hit++; s += v; } }
+    if (a.kind==='advertorial') s *= .6;
+    return { a, s: hit>=need ? s + hit*4 : 0 };
+  }).filter(x=>x.s>0).sort((x,y)=>y.s-x.s || y.a.issue.localeCompare(x.a.issue)).slice(0,n).map(x=>x.a);
+}
+function accEnqForm(id, big, q=''){
+  return `<form class="${big?'enq-form':'enq-mini'}" id="${id}" role="search"><label for="${id}-q" class="skip">Your enquiry about The Accountant</label><input id="${id}-q" type="search" maxlength="300" placeholder="${big?'Your enquiry':'Ask about The Accountant'}" value="${esc(q)}" autocomplete="off"><button type="submit"${big?'':' aria-label="Enquire"'}>${ACC_SPARK}${big?'Enquire':''}</button></form>`;
+}
+function accEnqWire(id){
+  setTimeout(()=>{ const f=document.getElementById(id); if(!f||f.dataset.on) return; f.dataset.on='1';
+    f.addEventListener('submit', e=>{ e.preventDefault(); const v=f.querySelector('input').value.trim(); location.hash = v ? '#accountant/enquire/'+encodeURIComponent(v) : '#accountant/enquire'; }); }, 0);
+}
+function accEnqSide(){
+  accEnqWire('acc-enq-side');
+  return `<div class="acc-enq-side">
+    <p class="kicker">${ACC_SPARK}Co-Intelligent Solution powered by ThinkPeople’s Enquire.Nexus</p>
+    <h2><a href="#accountant/enquire">Enquire</a></h2>
+    <p class="x">Ask in your own words. AI reads across every issue of The Accountant and Corporate Times reporting, and answers with a link to every source.</p>
+    ${accEnqForm('acc-enq-side', false)}
+    <ul class="enq-mini-try">${ACC_TRY.slice(0,2).map(t=>`<li><a href="#accountant/enquire/${encodeURIComponent(t)}">${esc(t)}</a></li>`).join('')}</ul>
+  </div>`;
+}
+function viewAccEnquire(raw){
+  const q = raw ? decodeURIComponent(raw.replace(/^\//,'')) : '';
+  accEnqWire('acc-enq');
+  if (q) setTimeout(()=>accRunEnquire(q), 0); else setTimeout(()=>{ const i=document.getElementById('acc-enq-q'); if(i) i.focus(); }, 0);
+  return `<section class="sec wrap acc">${accMast(false)}<div class="enq acc-enq">
+    <p class="badge">${ACC_SPARK}Co-Intelligent Solution powered by ThinkPeople’s Enquire.Nexus</p>
+    <h1>Enquire <span>The Accountant</span></h1>
+    <p class="intro">Research any topic in your own words. Enquire looks through ${ACC.issues.length} issues and ${ACCA.length} articles of The Accountant, then AI reads across Corporate Times reporting, the Dispatch and cde.news and writes a short answer, with a numbered link to every source it used.</p>
+    ${accEnqForm('acc-enq', true, q)}
+    <p class="enq-try"><b>Try</b>${ACC_TRY.map(t=>`<a href="#accountant/enquire/${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</p>
+    <div id="acc-enq-out"></div>
+  </div></section>`;
+}
+async function accRunEnquire(q){
+  const out = document.getElementById('acc-enq-out'); if (!out) return;
+  const still = () => decodeURIComponent((location.hash||'').replace(/^#accountant\/enquire\/?/,'')) === q;
+  out.innerHTML = `<section class="acc-enq-mag"><h2>In The Accountant</h2><p class="enq-wait"><i></i>Reading every issue of The Accountant…</p></section><div id="acc-enq-ai"><p class="enq-wait"><i></i>Reading across Corporate Times reporting…</p></div>`;
+  const mag = () => { const hits = accFind(q); const box = out.querySelector('.acc-enq-mag'); if (!box) return;
+    box.innerHTML = `<h2>In The Accountant</h2>` + (hits.length ? `<p class="meta">${hits.length===8?'The eight closest':hits.length+(hits.length===1?' article':' articles')} in the magazine, best match first.</p><ul class="list">${hits.map(accItem).join('')}</ul>` : `<p class="meta">Nothing in The Accountant matches that closely. Try other words, or see the answer below.</p>`); };
+  mag();
+  Promise.all(ACCISS.map(i=>accLoad(i.k).catch(()=>null))).then(()=>{ if (still()) mag(); });
+  let r;
+  try { r = await fetch(ENQ_API+'?q='+encodeURIComponent(q)).then(x=>x.json()); }
+  catch(e){ r = { error:'Enquire could not be reached just now. Please try again in a minute.' }; }
+  if (!still()) return;
+  const ai = document.getElementById('acc-enq-ai'); if (!ai) return;
+  if (r.error && !r.summary){ ai.innerHTML = `<p class="enq-err">${esc(r.error)}</p>` + enqMore(q, false); enqMoreWire(q); return; }
+  const local = u => String(u||'').replace(/^https:\/\/(www\.)?corporate-times\.com\/(?=#)/,'');
+  const link = (s, t) => { const u = local(s.url); if (!u) return t; return u.startsWith('#') ? `<a href="${esc(u)}">${t}</a>` : `<a href="${esc(u)}" target="_blank" rel="noopener">${t}</a>`; };
+  const byN = Object.fromEntries((r.sources||[]).map(s=>[s.n,s]));
+  const cite = n => byN[n] ? `<sup>${byN[n].url?link(byN[n], String(n)):`<a href="#enq-s${n}">${n}</a>`}</sup>` : '';
+  ai.innerHTML = `<article class="enq-ans">
+    <p class="badge">${ACC_SPARK}AI research answer · across The Corporate Times</p>
+    <p class="q">${esc(r.q||q)}</p>
+    ${r.summary?`<p class="sum">${esc(r.summary)}</p>`:''}
+    ${(r.points||[]).length?`<ul>${r.points.map(p=>`<li>${esc(p.text)}${(p.cites||[]).map(cite).join('')}</li>`).join('')}</ul>`:''}
+    ${r.gaps?`<p class="gaps">${esc(r.gaps)}</p>`:''}
+    <p class="fine">Written by AI from Corporate Times reporting, cde.news and ThinkPeople Nexus research sources. It can make mistakes: check the linked sources.</p>
+    ${(r.sources||[]).length?`<div class="enq-src"><h3>Sources</h3><ol>${r.sources.map(s=>`<li id="enq-s${s.n}"><span>${s.n}</span>${link(s, esc(s.title))}<small>${esc(s.date||'')}${s.via?' · '+esc(s.via):''}</small></li>`).join('')}</ol></div>`:''}
+  </article>` + enqMore(q, true); enqMoreWire(q);
+}
 
 /* ---------- router ---------- */
 const main = document.getElementById('main');
