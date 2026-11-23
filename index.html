@@ -827,6 +827,22 @@ body.acc-mode .accfoot{display:block;margin-top:56px;background:#fff;border-top:
 .accfoot .ct-enq:hover{border-color:#B77A3C}
 .accfoot .ct-enq-s{color:#B8B3A8}
 @media (max-width:900px){.accfoot-in{grid-template-columns:minmax(0,1fr)}}
+
+/* The cover illustration of each edition */
+.acc-hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:stretch;margin:0 0 26px;border:1px solid var(--rule);background:#fff}
+.acc-hero.no-art{grid-template-columns:minmax(0,1fr)}
+.acc-hero-t{display:flex;flex-direction:column;justify-content:center;padding:clamp(22px,3vw,40px)}
+.acc-hero-t .kicker{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.acc-hero-t h1,.acc-hero-t h2{margin:10px 0 0;font-family:var(--serif);font-weight:600;font-size:clamp(32px,3.4vw,50px);line-height:1.05}
+.acc-hero-theme{margin:14px 0 0;font-family:var(--serif);font-style:italic;font-size:clamp(19px,1.6vw,24px);line-height:1.35;color:var(--ink-2)}
+.acc-hero-n{margin:14px 0 0;font-size:14px;color:var(--muted)}
+.acc-hero-go{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin:20px 0 0}
+.acc-btn{display:inline-block;padding:11px 16px;background:#EE2E24;color:#fff!important;font-weight:600;font-size:14px;text-decoration:none}
+.acc-btn:hover{background:#C8191F}
+.acc-hero-go .acc-dl{margin:0;font-size:14px}
+.acc-hero-art{display:flex;align-items:center;justify-content:center;background:var(--hbg,#f3f3f3);min-height:320px;overflow:hidden}
+.acc-hero-art img{display:block;width:100%;height:100%;max-height:560px;object-fit:cover}
+@media (max-width:860px){.acc-hero{grid-template-columns:minmax(0,1fr)}.acc-hero-art{order:-1;min-height:0}.acc-hero-art img{max-height:420px}}
 </style>
 
 </head>
@@ -1780,11 +1796,28 @@ function accSide(i, wall){
     ${accCpe(i)}${wall ? accAdWall(i) : accAdsFor(i, Date.now()>>16, 2)}
   </aside>`;
 }
+/* Every edition's cover illustration (Jes, 23 Nov 2026): it leads the front of The Accountant and changes with
+   each new issue, and heads that issue's own page. Cut from page 1 of the PDF without its text (tools/hero.py). */
+const ACC_HERO = {"2021-1": {"w": 1100, "h": 1071, "bg": "#f4cdb5"}, "2021-2": {"w": 1100, "h": 1098, "bg": "#d3b8a4"}, "2021-3": {"w": 1100, "h": 1009, "bg": "#ffffff"}, "2021-4": {"w": 1100, "h": 622, "bg": "#f1f0f0"}, "2022-1": {"w": 1100, "h": 1098, "bg": "#ffffff"}, "2022-2": {"w": 1100, "h": 994, "bg": "#1d3a64"}, "2022-3": {"w": 1100, "h": 1095, "bg": "#94c1e8"}, "2022-4": {"w": 1100, "h": 1095, "bg": "#efd7a1"}, "2023-1": {"w": 1100, "h": 1068, "bg": "#e7b85c"}, "2023-2": {"w": 1100, "h": 1068, "bg": "#eeba1c"}, "2023-3": {"w": 1100, "h": 1068, "bg": "#9cd9e5"}, "2023-4": {"w": 1100, "h": 1068, "bg": "#ef692b"}, "2024-1": {"w": 1100, "h": 1068, "bg": "#fde9ce"}, "2024-2": {"w": 1100, "h": 1068, "bg": "#f1f0f0"}, "2024-3": {"w": 1100, "h": 1068, "bg": "#1f3e70"}, "2024-4": {"w": 1100, "h": 1068, "bg": "#011c34"}, "2025-1": {"w": 1100, "h": 1068, "bg": "#f89f3d"}, "2025-2": {"w": 1100, "h": 1057, "bg": "#bafff4"}, "2025-3": {"w": 1100, "h": 1057, "bg": "#deffde"}, "2025-4": {"w": 1100, "h": 1057, "bg": "#f19862"}, "2026-1": {"w": 1100, "h": 1070, "bg": "#57bcb1"}, "2026-2": {"w": 1100, "h": 989, "bg": "#ff291e"}, "2026-3": {"w": 1100, "h": 958, "bg": "#f6a700"}};
+function accHero(i, latest, n){
+  const h = ACC_HERO[i.k], T = latest ? 'h2' : 'h1';
+  const count = n || accByIssue(i.k).length;
+  const text = `<div class="acc-hero-t">
+      <p class="kicker">${latest?'<span class="acc-new">Latest issue</span> ':''}The Accountant · ${esc(i.month)}</p>
+      <${T} id="acc-${i.k}">${esc(i.label)}</${T}>
+      ${i.theme?`<p class="acc-hero-theme">${esc(i.theme)}</p>`:''}
+      <p class="acc-hero-n">${count} articles${latest?'':', in page order'}</p>
+      <p class="acc-hero-go">${latest?`<a class="acc-btn" href="#accountant/${i.k}">The whole issue, in page order →</a>`:''}<span class="acc-dl">${accRead(i)}</span></p>
+    </div>`;
+  if (!h) return `<div class="acc-hero no-art">${text}</div>`;
+  return `<div class="acc-hero" style="--hbg:${h.bg}">${text}
+    <a class="acc-hero-art" href="#accountant/${i.k}" aria-label="${esc(i.label)}"><img src="img/accountant-hero/${i.k}.jpg" width="${h.w}" height="${h.h}" alt="The cover illustration of The Accountant, ${esc(i.label)}"${latest?' fetchpriority="high"':' loading="lazy"'}></a>
+  </div>`;
+}
 function accIssueBand(i){
   const main = accByIssue(i.k).filter(a=>!ACC_REG.includes(a.kind) && a.kind!=='advertorial');
   return `<section class="acc-band" aria-labelledby="acc-${i.k}">
-    <div class="sec-head"><h2 id="acc-${i.k}">${esc(i.label)} <span class="acc-new">Latest issue</span></h2><a class="all" href="#accountant/${i.k}">The whole issue, in page order →</a></div>
-    ${i.theme?`<p class="acc-theme">${esc(i.theme)}</p>`:''}
+    ${accHero(i, true)}
     <div class="acc-two"><div class="acc-cards">${main.map(accCard).join('')}</div>${accSide(i)}</div>
   </section>`;
 }
@@ -1808,7 +1841,7 @@ function viewAccIssue(k){
   const i = ACCI[k]; if (!i) return viewNotFound();
   const list = accByIssue(k), idx = ACCISS.findIndex(x=>x.k===k), prev = ACCISS[idx+1], next = ACCISS[idx-1];
   return `<section class="sec wrap acc">${accMast(false, i)}
-    <div class="sec-head"><h1>${esc(i.label)}</h1><p>${i.theme?esc(i.theme)+' · ':''}${list.length} articles, in page order</p></div>
+    ${accHero(i, false, list.length)}
     <div class="acc-two"><ul class="list">${list.map(accItem).join('')}</ul>${accSide(i, true)}</div>
     <div class="backbar">${prev?`<a href="#accountant/${prev.k}">← ${esc(prev.label)}</a>`:''}${next?`<a href="#accountant/${next.k}">${esc(next.label)} →</a>`:''}<a href="#accountant">The Accountant</a></div></section>`;
 }
