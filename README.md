@@ -11,6 +11,12 @@ Malta’s corporate observatory, within the wider work of Corporate ID Group, de
   - Thinking listings: `thinkpeoplenexus.com/thinking/` and `leonardo2050.com/thinking.html`
   The page loads with a built-in copy and swaps in the live content when `/api/live` answers.
 
+## The Accountant (since 23 Nov 2026)
+The magazine of the Malta Institute of Accountants, as its own section (`#accountant`, issues at `#accountant/2026-3`, articles at `#t-<id>`), with the credit "Content produced by Corporate Identities for the Malta Institute of Accountants".
+- `accountant.js` — the articles (`window.ACC`), built from the issue PDFs: text, bylines and author notes, photos, references.
+- `img/accountant/` — covers, portraits, event photos and figures cut from the issues; `accountant/` — the issue PDFs.
+- Advertising pages and paid advertorials in the magazine are left out. To add an issue, send its PDF.
+
 ## Adding a new print edition
 Send the edition folder (Word files + photos); the build script turns it into the embedded data and images.
 
