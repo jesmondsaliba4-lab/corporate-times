@@ -810,6 +810,23 @@ body.acc-mode #main{--gold:#EE2E24;--gold-deep:#C8191F;--gold-text:#B5161D;--emb
 body.acc-mode #main .ai-ico{color:#B77A3C}
 body.acc-mode #main .acc-mh-enq .ai-ico, body.acc-mode #main button .ai-ico{color:inherit}
 body.acc-mode .ctbar{border-bottom-color:#E1E1E4}
+
+/* The Accountant's footer: the magazine's credits replace the Corporate Times plate inside the section */
+.accfoot{display:none}
+body.acc-mode footer.foot{display:none}
+body.acc-mode .accfoot{display:block;margin-top:56px;background:#fff;border-top:5px solid #EE2E24}
+.accfoot-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) auto;gap:28px 40px;align-items:start;padding-block:32px 40px}
+.accfoot-logo img{display:block;height:46px;width:auto}
+.accfoot-t{margin:14px 0 0;font-family:"Jost",var(--sans);font-weight:700;font-size:28px;line-height:1;text-transform:uppercase}
+.accfoot-t a{color:#1C1F23;text-decoration:none}
+.accfoot-t em{font-style:normal;color:#EE2E24}
+.accfoot-s{margin:8px 0 0;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.accfoot-s a{color:#B5161D;font-weight:600}
+.accfoot .acc-mh-credit{--mia:#EE2E24;--mia-deep:#C8191F;max-width:none}
+.accfoot .ct-enq{margin:0;background:#0D1B2A;border-color:#0D1B2A;color:#F8F5EE;max-width:340px}
+.accfoot .ct-enq:hover{border-color:#B77A3C}
+.accfoot .ct-enq-s{color:#B8B3A8}
+@media (max-width:900px){.accfoot-in{grid-template-columns:minmax(0,1fr)}}
 </style>
 
 </head>
@@ -1902,6 +1919,23 @@ function accMenuHtml(){
   document.addEventListener('click', e => { if (!e.target.closest('#ctbar')) set(false); });
   document.addEventListener('keydown', e => { if (e.key==='Escape' && !menu.hidden){ set(false); btn.focus(); } });
   window.accBarClose = () => set(false);
+})();
+/* Inside The Accountant the footer carries the magazine's own credits (Jes, 23 Nov 2026) instead of the Corporate Times plate;
+   Enquire keeps its place, as everywhere on the site. */
+(function accFoot(){
+  const ct = document.querySelector('footer.foot'); if (!ct || document.getElementById('accfoot')) return;
+  const enq = ct.querySelector('.ct-enq');
+  const f = document.createElement('footer'); f.className = 'accfoot'; f.id = 'accfoot';
+  f.innerHTML = `<div class="wrap accfoot-in">
+      <div class="accfoot-id">
+        <a class="accfoot-logo" href="https://www.miamalta.org/" target="_blank" rel="noopener"><img src="img/mia-logo.svg" width="172" height="48" alt="Malta Institute of Accountants" loading="lazy"></a>
+        <p class="accfoot-t"><a href="#accountant">The <em>Accountant</em></a></p>
+        <p class="accfoot-s">The magazine of the Malta Institute of Accountants · published within <a href="#home">The Corporate Times</a></p>
+      </div>
+      ${accCredits()}
+      ${enq ? enq.outerHTML : ''}
+    </div>`;
+  ct.parentNode.insertBefore(f, ct.nextSibling);
 })();
 function accMode(on){ document.body.classList.toggle('acc-mode', !!on); if (window.accBarClose) accBarClose(); }
 
