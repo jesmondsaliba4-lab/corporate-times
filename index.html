@@ -747,6 +747,10 @@ a.art:hover img{transform:scale(1.03)}
 .acc-adwall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .acc-adwall img{display:block;width:100%;height:auto;aspect-ratio:210/297;object-fit:cover;border:1px solid var(--rule);background:#fff;transition:transform .15s}
 .acc-adwall a:hover img{transform:scale(1.03)}
+.acc-paid{margin:0 0 1.4em;padding:10px 14px;border-left:4px solid #9E1B32;background:#F6E7EA;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink-2)}
+.acc-k.paid{color:#9E1B32}
+.acc-cpe figcaption{margin-top:6px;font-size:13px}
+.acc-cpe figcaption a{color:var(--gold-text);font-weight:600}
 </style>
 
 </head>
@@ -1592,7 +1596,7 @@ function accLoad(k){
 }
 const ACCK = { president:'President’s Address', ceo:'Message from the MIA CEO', diary:'MIA Diary', sustainability:'Sustainability Corner',
   news:'News Roundup', appointments:'Local Appointments', feature:'Feature', member:'Meet the Member', team:'Meet the Team',
-  announcement:'Announcement', 'news-feature':'News' };
+  announcement:'Announcement', 'news-feature':'News', advertorial:'Paid advertorial' };
 const ACC_REG = ['president','ceo','diary','sustainability','news','appointments','team'];   // the regular pages of an issue
 const accHref = a => '#t-'+a.id;
 const accByIssue = k => ACCA.filter(a=>a.issue===k).sort((x,y)=>x.page-y.page);
@@ -1656,6 +1660,13 @@ function accAdsFor(i, seed, n){
   const out = []; for (let j=0; j<Math.min(n, A.length); j++) out.push(accAd(i, A[(h + j*Math.max(1, Math.floor(A.length/n))) % A.length]));
   return out.join('');
 }
+/* the edition's CPE calendar: past events, so it leads to MIA's current event brochure */
+function accCpe(i){
+  const C = i.cpe||[]; if (!C.length) return '';
+  const c = C[0];
+  return `<figure class="acc-ad acc-cpe"><p class="adlabel">MIA CPE events · as listed in ${esc(i.label)}</p><a href="${esc(c.url)}" target="_blank" rel="noopener" title="MIA's current CPE event brochure"><img src="${esc(c.f)}" width="${c.w}" height="${c.h}" alt="MIA CPE events calendar printed on page ${c.p} of The Accountant, ${esc(i.label)}" loading="lazy"></a>
+    <figcaption><a href="${esc(c.url)}" target="_blank" rel="noopener">See MIA's upcoming CPE events →</a></figcaption></figure>`;
+}
 function accAdWall(i){
   const A = i.ads||[]; if (!A.length) return '';
   return `<p class="kicker acc-adhead">The advertisers in this edition</p><p class="acc-adnote">${A.length} adverts, as printed. Select one to see it full size.</p>
@@ -1672,11 +1683,11 @@ function accSide(i, wall){
     <p class="acc-dl">${accRead(i)}</p>
     ${reg.length?`<p class="kicker">Every issue</p>
     <ol class="acc-reg">${reg.map(a=>`<li><a href="${accHref(a)}">${esc(a.kind==='team'&&/^Meet [A-Z][a-z]+$/.test(a.h)?'Meet the Team: '+a.h.replace(/^Meet /,''):ACCK[a.kind])}</a><span>p. ${a.page}</span></li>`).join('')}</ol>`:''}
-    ${wall ? accAdWall(i) : accAdsFor(i, Date.now()>>16, 2)}
+    ${accCpe(i)}${wall ? accAdWall(i) : accAdsFor(i, Date.now()>>16, 2)}
   </aside>`;
 }
 function accIssueBand(i){
-  const main = accByIssue(i.k).filter(a=>!ACC_REG.includes(a.kind));
+  const main = accByIssue(i.k).filter(a=>!ACC_REG.includes(a.kind) && a.kind!=='advertorial');
   return `<section class="acc-band" aria-labelledby="acc-${i.k}">
     <div class="sec-head"><h2 id="acc-${i.k}">${esc(i.label)} <span class="acc-new">Latest issue</span></h2><a class="all" href="#accountant/${i.k}">The whole issue, in page order →</a></div>
     ${i.theme?`<p class="acc-theme">${esc(i.theme)}</p>`:''}
@@ -1745,7 +1756,8 @@ function viewAccArticle(id){
   }
   const a = Object.assign({}, s, B), i = ACCI[a.issue], lead = (a.img||[]).find(x=>x.r==='lead');
   const by = a.by ? `<span>By <strong>${esc(a.by)}</strong></span>` : a.who ? `<span>With <strong>${esc(a.who)}</strong></span>` : '';
-  let body = lead ? accFig(lead, a.kind==='diary'?'':'acc-leadfig'+(['team','member','president','ceo'].includes(a.kind)?' acc-face':'')) : '';
+  let body = a.kind==='advertorial' ? `<p class="acc-paid"><strong>Paid advertorial.</strong> This content was paid for by an advertiser and was published in The Accountant, ${esc(i.label)}, as advertising.</p>` : '';
+  body += lead ? accFig(lead, a.kind==='diary'?'':'acc-leadfig'+(['team','member','president','ceo'].includes(a.kind)?' acc-face':'')) : '';
   if (a.kind==='team' && a.facts && a.facts.length) body += `<dl class="acc-facts">${a.position?`<div><dt>Position</dt><dd>${esc(a.position)}</dd></div>`:''}${a.facts.map(([q,v])=>`<div><dt>${esc(q)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
   body += accBody(a);
   if (a.credit) body += `<p class="acc-note">${esc(a.credit)}</p>`;
@@ -1761,7 +1773,7 @@ function viewAccArticle(id){
       <div class="byline">${by}<span><a href="#accountant/${a.issue}">The Accountant · ${esc(i.label)}</a> · page ${a.page}</span><span>${accMins(a)} min read</span></div>
     </div>
     <div class="cols">
-      <div class="prose${['diary','appointments','news','sustainability','team'].includes(a.kind)?' acc-nodrop':''}">${body}
+      <div class="prose${['diary','appointments','news','sustainability','team','advertorial'].includes(a.kind)?' acc-nodrop':''}">${body}
         <div class="backbar"><a href="#accountant/${a.issue}">${esc(i.label)} →</a><a href="#accountant">The Accountant →</a><a href="#home">Front page</a></div>
       </div>
       <aside class="trail" aria-label="More from this issue">
@@ -1769,7 +1781,7 @@ function viewAccArticle(id){
         <p class="acc-dl">${accRead(i)}</p>
         <p class="kicker">Also in ${esc(i.label)}</p>
         <ol>${same.map(x=>`<li><a href="${accHref(x)}">${esc(accTitle(x))}</a><p class="meta">${esc(ACCK[x.kind])} · page ${x.page}</p></li>`).join('')}</ol>
-        <div class="acc-adcol">${accAdsFor(i, a.id, 2)}</div>
+        <div class="acc-adcol">${accCpe(i)}${accAdsFor(i, a.id, 2)}</div>
         ${(i.ads||[]).length>2?`<p class="acc-dl"><a href="#accountant/${a.issue}">All ${i.ads.length} adverts in this edition →</a></p>`:''}
       </aside>
     </div>
